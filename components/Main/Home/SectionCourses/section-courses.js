@@ -63,7 +63,7 @@ const SectionCourses = (props) => {
 const styles = StyleSheet.create({
     view:{
         marginTop: 15,
-        marginLeft: 10
+        marginLeft: 5
     },
     text: {
         fontSize: 17,
