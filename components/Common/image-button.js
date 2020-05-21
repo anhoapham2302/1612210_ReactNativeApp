@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
     button:{
         height:100,
         marginLeft: 5,
-        marginRight:5
+        marginRight:5,
+
     },
     touch:{
         flex:1,

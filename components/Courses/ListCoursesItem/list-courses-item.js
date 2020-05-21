@@ -1,35 +1,30 @@
-import React from 'react';
-import {View, StyleSheet, Image, Text,TouchableOpacity} from 'react-native';
+import React from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 import Star from 'react-native-star-view';
-
-const SectionCoursesItem = (props) => {
-    return( <TouchableOpacity style = {styles.item}>
+const ListCoursesItem = (props) => {
+return (
+    <TouchableOpacity style = {styles.item}>
         <Image source={props.item.image} style = {styles.image} />
+        <View >
         <Text style = {styles.title}>{props.item.title}</Text>
         <Text style = {{fontSize:14}}>{props.item.author}</Text>
         <Text style ={{color: 'darkgrey'}}>{`${props.item.level} . ${props.item.release} . ${props.item.duration}`}</Text>
         <Star score={props.item.rating} style={styles.starStyle}/>
-    </TouchableOpacity>
-    )
-};
+        </View>
+    </TouchableOpacity>)
+}
+
 const styles = StyleSheet.create({
-    item:{
-        margin: 5,
-        width: 250,
-        height: 220,
-        backgroundColor: 'ghostwhite',
-        shadowColor: "#000",
-        shadowOffset: {
-	        width: 0,
-        	height: 1,
-        },
-        shadowOpacity: 0.20,
-        shadowRadius: 1.41,
-        elevation: 2,
+    item: {
+        flexDirection: 'row',
+        
     },
+    
     image:{
-        height: 135, 
-        width: 250
+        margin: 5,
+        marginRight:0,
+        height: 105, 
+        width: 140
     },
     title:{
         fontSize: 17,
@@ -41,4 +36,5 @@ const styles = StyleSheet.create({
     }
 })
 
-export default SectionCoursesItem;
+export default ListCoursesItem
+
