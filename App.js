@@ -8,6 +8,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SectionCourses from './components/Main/Home/SectionCourses/section-courses';
+import VideoPlayer from './components/CourseDetail/VideoPlayer/video-player';
+import CourseDetail from './components/CourseDetail/course-detail';
 
 const Stack = createStackNavigator();
 
@@ -15,6 +17,7 @@ const HomeStack = () =>{
   return(
     <Stack.Navigator initialRouteName = "Home">
     <Stack.Screen name="Home" component={Home} options={{cardStyle:{backgroundColor:'#fff'}}}/>
+    <Stack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     </Stack.Navigator>);
 }
 
@@ -37,7 +40,7 @@ export default function App() {
     <NavigationContainer>
       <Tab.Navigator>
       <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Downloads" component={HomeStack} />
+      {/* <Tab.Screen name="Downloads" component={CourseDetail}/> */}
       <Tab.Screen name="Browse" component={BrowseStack}/>
       <Tab.Screen name="Search" component={SearchStack}/>
       </Tab.Navigator>

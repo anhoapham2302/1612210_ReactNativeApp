@@ -6,7 +6,7 @@ import Colors from '../../../../global/color'
 
 const SectionCoursesItem = (props) => {
     const onPressListItem =()=>{
-        props.navigation.navigate("Search")
+        props.navigation.navigate("CourseDetail", {item: props.item})
     }
     return( <TouchableOpacity style = {styles.item} onPress={onPressListItem}>
         <Image source={props.item.image} style = {styles.image} />
