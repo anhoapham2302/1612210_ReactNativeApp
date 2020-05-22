@@ -3,11 +3,12 @@ import { StyleSheet, Text, View } from 'react-native';
 import Home from './components/Main/Home/home';
 import ListCourses from './components/Courses/ListCourses/list-courses';
 import Browse from './components/Main/Browse/browse';
+import Search from './components/Main/Search/search';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Browse/>
+      <Search/>
     </View>
   );
 }
