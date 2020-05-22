@@ -102,8 +102,8 @@ const ListCourses = (props) => {
           <View
             style={{
               height: 1,
-              width: "100%",
-              backgroundColor: "#CED0CE",
+              width: '100%',
+              backgroundColor: '#CED0CE',
         
             }}
           />
@@ -111,10 +111,10 @@ const ListCourses = (props) => {
       };
 
       const searchView=()=>{
-          return <View style = {{flexDirection:"row", margin:5}}>
+          return <View style = {{flexDirection:'row', margin:5}}>
               <TextInput style = {styles.search} placeholder = 'Search input...'/>           
               <TouchableOpacity style={styles.button}>
-              <Text style={{color:'white', fontWeight:"bold", fontSize:15, paddingTop:5, textAlign:"center"}}>Search</Text>
+              <Text style={{color:'white', fontWeight:'bold', fontSize:15, paddingTop:5, textAlign:'center'}}>Search</Text>
               </TouchableOpacity>
           </View>
       }
@@ -124,7 +124,7 @@ const ListCourses = (props) => {
             <SectionList 
                 sections={courses}
                 renderItem={({item})=><ListCoursesItem item = {item}/>}
-                renderSectionHeader={({section: {title}}) => <View style={{backgroundColor: "white", marginTop:10}}><Text style={{fontSize: 20, fontWeight: "bold", color: 'royalblue'}}>{title}</Text></View>}
+                renderSectionHeader={({section: {title}}) => <View style={{backgroundColor: 'white', marginTop:10}}><Text style={{fontSize: 20, fontWeight: "bold", color: 'royalblue'}}>{title}</Text></View>}
                 ItemSeparatorComponent={renderSeparator}
                 ListHeaderComponent = {searchView}
             />

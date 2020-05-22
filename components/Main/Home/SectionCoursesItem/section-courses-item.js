@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, StyleSheet, Image, Text,TouchableOpacity} from 'react-native';
 import Star from 'react-native-star-view';
+import Colors from '../../../../global/color'
 
 const SectionCoursesItem = (props) => {
     return( <TouchableOpacity style = {styles.item}>
@@ -17,8 +18,8 @@ const styles = StyleSheet.create({
         margin: 5,
         width: 250,
         height: 220,
-        backgroundColor: 'ghostwhite',
-        shadowColor: "#000",
+        backgroundColor: Colors.backgroundItem,
+        shadowColor: '#000',
         shadowOffset: {
 	        width: 0,
         	height: 1,
@@ -33,7 +34,7 @@ const styles = StyleSheet.create({
     },
     title:{
         fontSize: 17,
-        fontWeight: "bold"
+        fontWeight: 'bold'
     },
     starStyle:{
         width: 100,

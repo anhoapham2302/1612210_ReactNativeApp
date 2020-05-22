@@ -3,7 +3,7 @@ import { StyleSheet, View, ImageBackground, TouchableOpacity, Text} from 'react-
 
 
 const ImageButton = (props) => {
-    return <ImageBackground style={styles.button} source={{uri: 'https://i.pinimg.com/564x/aa/ff/80/aaff80b53e415268590d82d67ac5a1a5.jpg'}}>
+    return <ImageBackground style={styles.button} source={{uri: props.image}}>
         <TouchableOpacity style={styles.touch}>
             <Text style = {styles.text}>{props.title}</Text>
         </TouchableOpacity>
@@ -13,8 +13,7 @@ const ImageButton = (props) => {
 const styles = StyleSheet.create({
     button:{
         height:100,
-        marginLeft: 5,
-        marginRight:5,
+        margin: 5
 
     },
     touch:{

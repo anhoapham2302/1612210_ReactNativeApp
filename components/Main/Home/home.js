@@ -6,12 +6,11 @@ import ImageButton from '../../Common/image-button';
 
 const Home = (props) => {
     return <ScrollView>
-        <ImageButton title ="New Release"/>
-        <SectionCourses title = "Learning"/>
-        <SectionCourses title = "Bookmark"/>
-        <SectionCourses title = "Bookmark"/>
-        <SectionCourses title = "Bookmark"/>
-        <SectionCourses title = "Bookmark"/>
+        <ImageButton title ='New Release'/>
+        <SectionCourses title = 'Learning'/>
+        <SectionCourses title = 'Sale Off'/>
+        <SectionCourses title = 'Paths'/>
+        <SectionCourses title = 'Bookmark'/>
     </ScrollView>
 };
 

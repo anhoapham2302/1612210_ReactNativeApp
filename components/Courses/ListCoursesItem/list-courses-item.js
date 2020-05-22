@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     },
     title:{
         fontSize: 17,
-        fontWeight: "bold"
+        fontWeight: 'bold'
     },
     starStyle:{
         width: 100,
