@@ -47,7 +47,7 @@ const SectionCourses = (props) => {
     ]
 
     const renderListItems = (courses) => {
-        return courses.map(item => <SectionCoursesItem item = {item}/>);
+        return courses.map(item => <SectionCoursesItem navigation={props.navigation} item = {item}/>);
     }
 
     return <View style = {styles.view}>

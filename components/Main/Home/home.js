@@ -4,13 +4,13 @@ import SectionCourses from './SectionCourses/section-courses';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImageButton from '../../Common/image-button';
 
+
 const Home = (props) => {
     return <ScrollView>
-        <ImageButton title ='New Release'/>
-        <SectionCourses title = 'Learning'/>
-        <SectionCourses title = 'Sale Off'/>
-        <SectionCourses title = 'Paths'/>
-        <SectionCourses title = 'Bookmark'/>
+        <SectionCourses title = 'Learning' navigation ={props.navigation}/>
+        <SectionCourses title = 'Sale Off' navigation ={props.navigation}/>
+        <SectionCourses title = 'Design' navigation ={props.navigation}/>
+        <SectionCourses title = 'Bookmark' navigation ={props.navigation}/>
     </ScrollView>
 };
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import PopularSkillsItem from '../PopularSkillsItem/popular-skills-item'
+import Styles from '../../../../global/style'
 
 const PopularSkills = (props) => {
     const skills = [
@@ -51,9 +52,9 @@ const PopularSkills = (props) => {
         return skills.map(item => <PopularSkillsItem item = {item}/>);
     }
 
-    return <View>
+    return <View style = {Styles.view}>
         <View>
-            <Text style = {styles.text}>{props.title}</Text>
+            <Text style = {Styles.text}>{props.title}</Text>
         </View>
         <ScrollView horizontal={true}>
             {renderListItems(skills)}
@@ -61,11 +62,5 @@ const PopularSkills = (props) => {
     </View>
 }
 
-const styles = StyleSheet.create({
-    text: {
-        fontSize: 17,
-        fontWeight: 'bold',
-    }
-})
 
 export default PopularSkills

@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, ScrollView} from 'react-native'
 import TopAuthorItem from '../TopAuthorItem/top-author-item'
+import Styles from '../../../../global/style'
 
 const TopAuthor = (props) => {
     const author = [
@@ -43,9 +44,9 @@ const TopAuthor = (props) => {
         return author.map(item => <TopAuthorItem item = {item}/>);
     }
 
-    return <View>
+    return <View style={Styles.view}>
         <View>
-            <Text style = {styles.text}>{props.title}</Text>
+            <Text style = {Styles.text}>{props.title}</Text>
         </View>
         <ScrollView horizontal={true}>
             {renderListItems(author)}

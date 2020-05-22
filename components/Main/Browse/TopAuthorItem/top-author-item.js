@@ -14,10 +14,11 @@ const styles = StyleSheet.create({
         height: 70,
         width: 70,
         borderRadius: 35,
-        margin: 5
+        marginTop: 5,
+        marginRight:10
     },
     text:{
-        textAlign: 'center',
+       paddingLeft:10
     }
 })
 

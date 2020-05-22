@@ -3,8 +3,12 @@ import {View, StyleSheet, Image, Text,TouchableOpacity} from 'react-native';
 import Star from 'react-native-star-view';
 import Colors from '../../../../global/color'
 
+
 const SectionCoursesItem = (props) => {
-    return( <TouchableOpacity style = {styles.item}>
+    const onPressListItem =()=>{
+        props.navigation.navigate("Search")
+    }
+    return( <TouchableOpacity style = {styles.item} onPress={onPressListItem}>
         <Image source={props.item.image} style = {styles.image} />
         <Text style = {styles.title}>{props.item.title}</Text>
         <Text style = {{fontSize:14}}>{props.item.author}</Text>
@@ -15,7 +19,7 @@ const SectionCoursesItem = (props) => {
 };
 const styles = StyleSheet.create({
     item:{
-        margin: 5,
+        marginTop:5, marginRight:10,
         width: 250,
         height: 220,
         backgroundColor: Colors.backgroundItem,
