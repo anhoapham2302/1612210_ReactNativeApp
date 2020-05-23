@@ -10,6 +10,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SectionCourses from './components/Main/Home/SectionCourses/section-courses';
 import VideoPlayer from './components/CourseDetail/VideoPlayer/video-player';
 import CourseDetail from './components/CourseDetail/course-detail';
+import Login from './components/Authentication/Login/login';
+import Register from './components/Authentication/Register/register';
+import ForgotPassword from './components/Authentication/ForgotPassword/forgot-password';
 
 const Stack = createStackNavigator();
 
@@ -40,7 +43,7 @@ export default function App() {
     <NavigationContainer>
       <Tab.Navigator>
       <Tab.Screen name="Home" component={HomeStack} />
-      {/* <Tab.Screen name="Downloads" component={CourseDetail}/> */}
+      <Tab.Screen name="Downloads" component={ForgotPassword}/> 
       <Tab.Screen name="Browse" component={BrowseStack}/>
       <Tab.Screen name="Search" component={SearchStack}/>
       </Tab.Navigator>
