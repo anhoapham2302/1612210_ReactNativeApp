@@ -1,7 +1,10 @@
 import React,{useState} from 'react'
 import {Text, View, TextInput, TouchableOpacity} from 'react-native'
 import Styles from '../../../global/style'
-const ForgotPassword = () => {
+const ForgotPassword = (props) => {
+    const onPress =()=>{
+        props.navigation.navigate("Login")
+    }
     return (
             <View style={{flex: 1, justifyContent:'center', alignItems:'center'}}>
                 <TextInput style={Styles.text_input}  placeholder = 'Email'/>
@@ -11,7 +14,7 @@ const ForgotPassword = () => {
                     <Text style={{textAlign:"center", paddingTop:4, color:'white'}}>Send code</Text>
                 </TouchableOpacity>
                 </View>   
-                <TouchableOpacity style={Styles.button_reg}>
+                <TouchableOpacity style={Styles.button_reg} onPress={onPress}>
                     <Text style={Styles.button_text}>OK</Text>
                 </TouchableOpacity>
             </View>  

@@ -5,7 +5,7 @@ import ListCourses from '../../Courses/ListCourses/list-courses'
 const Downloads = (props) => {
     return (
         <ScrollView>
-           <ListCourses/>
+           <ListCourses navigation={props.navigation}/>
         </ScrollView>
     )
 }

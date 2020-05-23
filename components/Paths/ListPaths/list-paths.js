@@ -43,7 +43,7 @@ const ListPaths = (props) => {
         </View>
             <FlatList
                 data={paths}
-                renderItem={({item})=><ListPathsItem item = {item}/>}
+                renderItem={({item})=><ListPathsItem navigation={props.navigation} item = {item}/>}
                 ItemSeparatorComponent={renderSeparator}
             />
         </View>

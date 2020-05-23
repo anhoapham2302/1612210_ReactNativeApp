@@ -1,11 +1,19 @@
 import React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import TopAuthor from '../../Main/Browse/TopAuthor/top-author'
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-const AccountProfile = () => {
+
+const AccountProfile = (props) => {
+    const onPressSignOut =()=>{
+        props.navigation.navigate("Login")
+    }
+    const onPressChangePassword =()=>{
+        props.navigation.navigate("ChangePassword")
+    }
     return (
-        <View>
+        <View style={{marginTop:20}}>
         <View style={styles.item}>
             <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {styles.image} />
             <View style={styles.text}>
@@ -26,8 +34,22 @@ const AccountProfile = () => {
         </View>
         <View style={{margin:10}}>
             <Text style={styles.profile_text}>Favorite authors:</Text>
-            <TopAuthor/>
+            <TopAuthor navigation={props.navigation}/>
         </View>
+        <TouchableOpacity style={{width:120, margin:10}} onPress={onPressSignOut}>
+            <Icon.Button name="sign-out" style={{backgroundColor:'red'}}>
+            <Text style={{fontSize: 17, color:'white'}}>
+             Sign Out
+             </Text>
+            </Icon.Button>
+        </TouchableOpacity>
+        <TouchableOpacity style={{width:190, margin:10}} onPress={onPressChangePassword}>
+            <Icon.Button name="reply" style={{backgroundColor:'blue'}}>
+            <Text style={{fontSize: 17, color:'white'}}>
+             Change Password
+             </Text>
+            </Icon.Button>
+        </TouchableOpacity>
         </View>
     )
 }
@@ -35,7 +57,7 @@ const AccountProfile = () => {
 const styles = StyleSheet.create({
     item: {
         flexDirection: 'row',
-        marginVertical:10,
+        margin:10,
         borderBottomWidth: 0.5,
     },
     image:{

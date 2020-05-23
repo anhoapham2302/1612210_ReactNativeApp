@@ -2,7 +2,10 @@ import React from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 
 const ListAuthorsItem = (props) => {
-    return( <TouchableOpacity style = {styles.item}>
+    const onPressListItem =()=>{
+        props.navigation.navigate("AuthorProfile", {item: props.item})
+    }
+    return( <TouchableOpacity style = {styles.item} onPress={onPressListItem}>
         <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {styles.image} />
         <View style={styles.text}>
         <Text style={styles.name}>{props.item.name}</Text>

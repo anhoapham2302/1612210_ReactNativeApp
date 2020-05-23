@@ -1,7 +1,8 @@
 import React from 'react'
 const StylesGlobal = {
     view:{
-        margin: 5
+        marginTop:5,
+        marginLeft: 17
     },
     text: {
         fontSize: 17,

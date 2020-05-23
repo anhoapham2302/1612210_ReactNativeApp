@@ -13,7 +13,8 @@ const ImageButton = (props) => {
 const styles = StyleSheet.create({
     button:{
         height:100,
-        margin: 5
+        marginBottom:10,
+        marginHorizontal:17
 
     },
     touch:{

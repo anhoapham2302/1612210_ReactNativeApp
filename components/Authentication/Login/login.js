@@ -1,13 +1,23 @@
 import React,{useState} from 'react'
-import { Image, Text, View, TextInput, TouchableOpacity} from 'react-native'
+import { Image, Text, View, TextInput} from 'react-native'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Styles from '../../../global/style'
-const Login = () => {
+const Login = (props) => {
+    const onPressLogin =()=>{
+        props.navigation.navigate("Main")
+    }
+    const onPressRegister =()=>{
+        props.navigation.navigate("Register")
+    }
+    const onPressForgotPassword =()=>{
+        props.navigation.navigate("ForgotPassword")
+    }
     return (
             <View style={{flex: 1, justifyContent:'center', alignItems:'center'}}>
                 <TextInput style={Styles.text_input}  placeholder = 'Email'/>   
                 <TextInput style={Styles.text_input}  placeholder = 'Password'/>
-                <TouchableOpacity style={Styles.button}>
+                <TouchableOpacity style={Styles.button} onPress={onPressLogin}>
                     <Text style={Styles.button_text}>Login</Text>
                 </TouchableOpacity>
             <TouchableOpacity style={{width:300, marginTop:20}}>
@@ -24,10 +34,10 @@ const Login = () => {
              </Text>
             </Icon.Button>
             </TouchableOpacity>
-            <TouchableOpacity style={Styles.button_reg}>
+            <TouchableOpacity style={Styles.button_reg} onPress={onPressRegister}>
                     <Text style={Styles.button_text}>Sign Up</Text>
                 </TouchableOpacity>
-            <TouchableOpacity  style={{marginTop:10}}>
+            <TouchableOpacity  style={{marginTop:10}} onPress={onPressForgotPassword}>
                 <Text style={{color:'darkgrey'}}>Forgot password?</Text>
             </TouchableOpacity>
             </View>  

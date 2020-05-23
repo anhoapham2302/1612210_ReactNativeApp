@@ -10,8 +10,8 @@ const Search = (props) => {
         <ScrollView>
             <SearchInput/>
             <ListCourses title = 'Courses' navigation={props.navigation}/>
-            <ListPaths title = 'Paths'/>
-            <ListAuthor title = 'Authors'/>
+            <ListPaths title = 'Paths' navigation={props.navigation}/>
+            <ListAuthor title = 'Authors' navigation={props.navigation}/>
         </ScrollView>
     )
 }

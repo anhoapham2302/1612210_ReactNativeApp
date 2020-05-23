@@ -8,7 +8,7 @@ const CourseDetail = (props) => {
     return (
         <ScrollView>
            <VideoPlayer/>
-           <VideoDescription item={item}/>
+           <VideoDescription item={item} navigation={props.navigation}/>
            <ListPartsOfCourse/>
         </ScrollView>
     )

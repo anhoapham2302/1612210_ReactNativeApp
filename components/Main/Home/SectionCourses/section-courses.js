@@ -26,8 +26,8 @@ const SectionCourses = (props) => {
         },
         {
             id : 3,
-            title: 'React Native',
-            author: 'Author 1',
+            title: 'ASP.NET',
+            author: 'Author 3',
             level: 'Beginer',
             release: 'May 6, 2020',
             duration: '40 hours',
@@ -36,8 +36,8 @@ const SectionCourses = (props) => {
         },
         {
             id : 4,
-            title: 'React Native',
-            author: 'Author 1',
+            title: 'AWS',
+            author: 'Author 4',
             level: 'Beginer',
             release: 'May 6, 2020',
             duration: '40 hours',
@@ -62,8 +62,8 @@ const SectionCourses = (props) => {
 
 const styles = StyleSheet.create({
     view:{
-        marginTop: 15,
-        marginLeft: 5
+        marginTop: 5,
+        marginLeft: 17
     },
     text: {
         fontSize: 17,

@@ -6,10 +6,18 @@ import Colors from '../../../global/color'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const VideoDescription = (props) => {
+    const onPressListItem =()=>{
+        props.navigation.navigate("AuthorProfile", {item: [
+            {
+                id: 1,
+                name: props.item.author
+            }
+        ]})
+    }
     return (
-        <View style={{margin:5}}>
+        <View style={{marginHorizontal:17}}>
             <Text style = {styles.title}>{props.item.title}</Text>
-            <TouchableOpacity style={styles.author}>
+            <TouchableOpacity style={styles.author} onPress={onPressListItem}>
             <View style={styles.view}>
             <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {styles.image} />
             <Text style={styles.text}>{props.item.author}</Text>

@@ -2,7 +2,10 @@ import React from 'react'
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 
 const ListPathsItem = (props) => {
-    return( <TouchableOpacity style = {styles.item}>
+    const onPressListItem =()=>{
+        props.navigation.navigate("Paths", {item: props.item})
+    }
+    return( <TouchableOpacity style = {styles.item} onPress={onPressListItem}>
         <Image source={{uri: 'https://cdn.dribbble.com/users/66221/screenshots/1655593/html5.png'}} style = {styles.image} />
         <View style={styles.text}>
         <Text style={styles.name}>{props.item.name}</Text>

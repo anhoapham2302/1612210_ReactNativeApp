@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 import Star from 'react-native-star-view';
 const ListCoursesItem = (props) => {
     const onPressListItem =()=>{
-        props.navigation.navigate("Search")
+        props.navigation.navigate("CourseDetail", {item: props.item})
     }
 return (   
     <TouchableOpacity style = {styles.item}  onPress={onPressListItem}>

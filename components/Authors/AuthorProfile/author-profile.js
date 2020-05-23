@@ -1,7 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView} from 'react-native'
 import ListCourses from '../../Courses/ListCourses/list-courses'
-import TopAuthor from '../../Main/Browse/TopAuthor/top-author'
 
 const AuthorProfile = (props) => {
     return (
@@ -11,13 +10,13 @@ const AuthorProfile = (props) => {
           <Image style={styles.avatar} source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}}/>
           <View style={styles.body}>
             <View style={styles.bodyContent}>
-              <Text style={styles.name}>Author 1</Text>
+              <Text style={styles.name}>{props.route.params.item.name}</Text>
               <Text style={styles.info}>UX Designer / Mobile developer</Text>
               <Text style={styles.description}>Mô tả: ...</Text>
             </View>
         </View>
         </View>
-        <ListCourses title='Courses'/>
+        <ListCourses navigation={props.navigation} title='Courses'/>
       </ScrollView>
     )
 }

@@ -43,7 +43,7 @@ const ListAuthor = (props) => {
         </View>
             <FlatList
                 data={authors}
-                renderItem={({item})=><ListAuthorsItem item = {item}/>}
+                renderItem={({item})=><ListAuthorsItem navigation={props.navigation} item = {item}/>}
                 ItemSeparatorComponent={renderSeparator}
             />
         </View>

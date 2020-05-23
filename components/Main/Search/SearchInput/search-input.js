@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View, TextInput, TouchableOpacity} from 'react-native'
 
 const SearchInput = (props) => {
-    return <View style = {{flexDirection:'row', marginTop:70, marginHorizontal:5}}>
+    return <View style = {{flexDirection:'row', marginTop:70, marginHorizontal:17}}>
     <TextInput style = {styles.search} placeholder = 'Search input...'/>           
     <TouchableOpacity style={styles.button}>
     <Text style={styles.text}>Search</Text>

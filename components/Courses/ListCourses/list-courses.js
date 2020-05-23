@@ -27,8 +27,8 @@ const ListCourses = (props) => {
         },
         {
             id : 3,
-            title: 'React Native',
-            author: 'Author 1',
+            title: 'ASP.NET',
+            author: 'Author 3',
             level: 'Beginer',
             release: 'May 6, 2020',
             duration: '40 hours',
@@ -37,12 +37,12 @@ const ListCourses = (props) => {
         },
         {
             id : 4,
-            title: 'React Native',
-            author: 'Author 1',
+            title: 'AWS',
+            author: 'Author 4',
             level: 'Beginer',
             release: 'May 6, 2020',
             duration: '40 hours',
-            image: require('../../../assets/4.jpg'),
+            image: require('    ../../../assets/4.jpg'),
             rating: 4
         },
     ]
