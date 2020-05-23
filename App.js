@@ -13,6 +13,9 @@ import CourseDetail from './components/CourseDetail/course-detail';
 import Login from './components/Authentication/Login/login';
 import Register from './components/Authentication/Register/register';
 import ForgotPassword from './components/Authentication/ForgotPassword/forgot-password';
+import Downloads from './components/Main/Downloads/downloads';
+import AccountProfile from './components/Account/AccountProfile/account-profile';
+import AuthorProfile from './components/Authors/AuthorProfile/author-profile';
 
 const Stack = createStackNavigator();
 
@@ -43,7 +46,7 @@ export default function App() {
     <NavigationContainer>
       <Tab.Navigator>
       <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Downloads" component={ForgotPassword}/> 
+      <Tab.Screen name="Downloads" component={AuthorProfile}/> 
       <Tab.Screen name="Browse" component={BrowseStack}/>
       <Tab.Screen name="Search" component={SearchStack}/>
       </Tab.Navigator>
