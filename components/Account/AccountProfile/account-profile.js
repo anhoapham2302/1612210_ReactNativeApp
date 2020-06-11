@@ -1,23 +1,28 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import TopAuthor from '../../Main/Browse/TopAuthor/top-author'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { AuthContext } from '../../../provider/auth-provider';
 
 
 const AccountProfile = (props) => {
+    const {auth} = useContext(AuthContext)
     const onPressSignOut =()=>{
         props.navigation.navigate("Login")
     }
     const onPressChangePassword =()=>{
         props.navigation.navigate("ChangePassword")
     }
+
+    
     return (
+        
         <View style={{marginTop:20}}>
         <View style={styles.item}>
-            <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {styles.image} />
+            <Image source={auth.user.avatar} style = {styles.image} />
             <View style={styles.text}>
-            <Text style={styles.name}>Pham An Hoa</Text>
+        <Text style={styles.name}>{auth.user.fullname}</Text>
             </View>
         </View>
         <View style={{margin:10}}>
@@ -39,19 +44,21 @@ const AccountProfile = (props) => {
         <TouchableOpacity style={{width:120, margin:10}} onPress={onPressSignOut}>
             <Icon.Button name="sign-out" style={{backgroundColor:'red'}}>
             <Text style={{fontSize: 17, color:'white'}}>
-             Sign Out
-             </Text>
+                Sign Out
+                </Text>
             </Icon.Button>
         </TouchableOpacity>
         <TouchableOpacity style={{width:190, margin:10}} onPress={onPressChangePassword}>
             <Icon.Button name="reply" style={{backgroundColor:'blue'}}>
             <Text style={{fontSize: 17, color:'white'}}>
-             Change Password
-             </Text>
+                Change Password
+                </Text>
             </Icon.Button>
         </TouchableOpacity>
         </View>
     )
+ 
+   
 }
 
 const styles = StyleSheet.create({

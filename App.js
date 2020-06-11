@@ -19,24 +19,31 @@ import AuthorProfile from './components/Authors/AuthorProfile/author-profile';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Paths from './components/Paths/paths';
 import ChangePassword from './components/Authentication/ChangePassword/change-password';
+import { AuthProvider } from './provider/auth-provider';
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+const MainNavigationStack = createStackNavigator();
+const HomeNavigationStack = createStackNavigator();
+const BrowseNavigationStack = createStackNavigator();
+const DownloadNavigationStack = createStackNavigator();
+const SearchNavigationStack = createStackNavigator();
 
 const HomeStack = (props) =>{
   const onPressListItem =()=>{
     props.navigation.navigate("AccountProfile")
 }
   return(
-    <Stack.Navigator initialRouteName = "Home">
-    <Stack.Screen name="Home" component={Home} options={{cardStyle:{backgroundColor:'#fff'}, headerRight: () => (
+    <HomeNavigationStack.Navigator initialRouteName = "Home">
+    <HomeNavigationStack.Screen name="Home" component={Home} options={{cardStyle:{backgroundColor:'#fff'}, headerRight: () => (
             <TouchableOpacity onPress={onPressListItem}>
               <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {{height:40, width:40, borderRadius:20, marginRight:20}} />
             </TouchableOpacity>
           ),}}/>
-    <Stack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    </Stack.Navigator>);
+    <HomeNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <HomeNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <HomeNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <HomeNavigationStack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    </HomeNavigationStack.Navigator>);
 }
 
 const DownloadsStack = (props) =>{
@@ -44,17 +51,17 @@ const DownloadsStack = (props) =>{
     props.navigation.navigate("AccountProfile")
 }
   return(
-    <Stack.Navigator initialRouteName = "Downloads">
-    <Stack.Screen name="Downloads" component={Downloads} options={{cardStyle:{backgroundColor:'#fff'}, headerRight: () => (
+    <DownloadNavigationStack.Navigator initialRouteName = "Downloads">
+    <DownloadNavigationStack.Screen name="Downloads" component={Downloads} options={{cardStyle:{backgroundColor:'#fff'}, headerRight: () => (
             <TouchableOpacity onPress={onPressListItem}>
               <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {{height:40, width:40, borderRadius:20, marginRight:20}} />
             </TouchableOpacity>
           ),}}/>
-   <Stack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    </Stack.Navigator>);
+   <DownloadNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <DownloadNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <DownloadNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <DownloadNavigationStack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    </DownloadNavigationStack.Navigator>);
 }
 
 const BrowseStack = (props) =>{
@@ -62,28 +69,28 @@ const BrowseStack = (props) =>{
     props.navigation.navigate("AccountProfile")
 }
   return(
-    <Stack.Navigator initialRouteName = "Browse">
-    <Stack.Screen name="Browse" component={Browse} options={{cardStyle:{backgroundColor:'#fff'}, headerRight: () => (
+    <BrowseNavigationStack.Navigator initialRouteName = "Browse">
+    <BrowseNavigationStack.Screen name="Browse" component={Browse} options={{cardStyle:{backgroundColor:'#fff'}, headerRight: () => (
             <TouchableOpacity onPress={onPressListItem}>
               <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {{height:40, width:40, borderRadius:20, marginRight:20}} />
             </TouchableOpacity>
           ),}}/>
-    <Stack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    </Stack.Navigator>);
+    <BrowseNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <BrowseNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <BrowseNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <BrowseNavigationStack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    </BrowseNavigationStack.Navigator>);
 }
 
 const SearchStack = () =>{
   return(
-    <Stack.Navigator initialRouteName = "Search" screenOptions={{headerShown:false}}>
-    <Stack.Screen name="Search" component={Search} options={{cardStyle:{backgroundColor:'#fff'}}}/>
-    <Stack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    </Stack.Navigator>);
+    <SearchNavigationStack.Navigator initialRouteName = "Search" screenOptions={{headerShown:false}}>
+    <SearchNavigationStack.Screen name="Search" component={Search} options={{cardStyle:{backgroundColor:'#fff'}}}/>
+    <SearchNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <SearchNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <SearchNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <SearchNavigationStack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    </SearchNavigationStack.Navigator>);
 }
 const TabNav = () =>{
   return(
@@ -118,26 +125,31 @@ const TabNav = () =>{
       </Tab.Navigator>
   )
 }
-const Tab = createBottomTabNavigator();
+
+const MainNavigation = () => {
+  return <MainNavigationStack.Navigator initialRouteName = "Login" screenOptions={{headerShown:false}}>
+        <MainNavigationStack.Screen name="Login" component={Login} options={{cardStyle:{backgroundColor:'#fff'}}}/>
+        <MainNavigationStack.Screen name="Register" component={Register} options={{cardStyle:{backgroundColor:'#fff'}}}/>
+        <MainNavigationStack.Screen name="ForgotPassword" component={ForgotPassword} options={{cardStyle:{backgroundColor:'#fff'}}}/>
+        <MainNavigationStack.Screen name="ChangePassword" component={ChangePassword} options={{cardStyle:{backgroundColor:'#fff'}}}/>
+        <MainNavigationStack.Screen name="Main" component={TabNav}/>
+  </MainNavigationStack.Navigator>
+}
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName = "Login" screenOptions={{headerShown:false}}>
-        <Stack.Screen name="Login" component={Login} options={{cardStyle:{backgroundColor:'#fff'}}}/>
-        <Stack.Screen name="Register" component={Register} options={{cardStyle:{backgroundColor:'#fff'}}}/>
-        <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{cardStyle:{backgroundColor:'#fff'}}}/>
-        <Stack.Screen name="ChangePassword" component={ChangePassword} options={{cardStyle:{backgroundColor:'#fff'}}}/>
-        <Stack.Screen name="Main" component={TabNav}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AuthProvider>
+      <NavigationContainer>
+          <MainNavigation/>
+      </NavigationContainer>
+    </AuthProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red',
+    backgroundColor: 'red', 
     marginTop: 50,
   },
 });
