@@ -7,7 +7,7 @@ const CourseDetail = (props) => {
     let item = props.route.params.item
     return (
         <ScrollView>
-           <VideoPlayer/>
+           <VideoPlayer item={item} navigation={props.navigation}/>
            <VideoDescription item={item} navigation={props.navigation}/>
            <ListPartsOfCourse/>
         </ScrollView>

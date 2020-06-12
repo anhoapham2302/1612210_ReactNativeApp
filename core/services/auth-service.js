@@ -15,7 +15,6 @@ export const login = (username, password)=>{
     ]
 
     for(let i = 0; i < accounts.length; i++){
-        UpdateAccount()
         console.log(accounts[i].username)
         if(username.toLowerCase() === accounts[i].username){
             if(password === accounts[i].password){

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import SectionCoursesItem from '../SectionCoursesItem/section-courses-item';
+import { renderCourses } from '../../../../core/services/course-service';
 
 const SectionCourses = (props) => {
-    const courses = [
+     const courses = [
         {
             id : 1,
             title: 'React Native',
@@ -45,7 +46,13 @@ const SectionCourses = (props) => {
             rating: 4
         },
     ]
-
+    
+    //const [course, setCourse] = useState([]);
+    // useEffect(() => {
+    //     if(status && status.status === 100){
+    //          co = status.array
+    //     }
+    //  }, [status]) 
     const renderListItems = (courses) => {
         return courses.map(item => <SectionCoursesItem navigation={props.navigation} item = {item}/>);
     }
@@ -55,7 +62,7 @@ const SectionCourses = (props) => {
             <Text style = {styles.text}>{props.title}</Text>
         </View>
         <ScrollView horizontal={true}>
-            {renderListItems(courses)}
+            {renderListItems(renderCourses(props.title).array)}
         </ScrollView>
     </View>
 };
