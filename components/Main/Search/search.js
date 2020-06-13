@@ -11,7 +11,7 @@ const Search = (props) => {
     const renderCourses = (text) => {
         if(status){
             return (
-                <ListCourses title = 'Courses' text = {text} navigation={props.navigation}/>  
+                <ListCourses title = 'Courses' text = {text} com = 'Search' navigation={props.navigation}/>  
             )
         }
     }

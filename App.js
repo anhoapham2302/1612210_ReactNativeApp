@@ -20,6 +20,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Paths from './components/Paths/paths';
 import ChangePassword from './components/Authentication/ChangePassword/change-password';
 import { AuthProvider } from './provider/auth-provider';
+import { FavProvider } from './provider/favorite-provider';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const MainNavigationStack = createStackNavigator();
@@ -139,9 +140,11 @@ const MainNavigation = () => {
 export default function App() {
   return (
     <AuthProvider>
-      <NavigationContainer>
-          <MainNavigation/>
-      </NavigationContainer>
+      <FavProvider>
+        <NavigationContainer>
+            <MainNavigation/>
+        </NavigationContainer>
+      </FavProvider>
     </AuthProvider>
   );
 }

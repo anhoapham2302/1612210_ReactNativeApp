@@ -6,16 +6,20 @@ import Styles from '../../../global/style'
 import { login } from '../../../core/services/auth-service';
 import { AuthContext } from '../../../provider/auth-provider';
 import { set } from 'react-native-reanimated';
+import { FavContext } from '../../../provider/favorite-provider';
 
 const Login = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [status, setStatus] = useState(null);
     const {setAuth} = useContext(AuthContext)
+    const {setFav} = useContext(FavContext)
 
     useEffect(() => {
        if(status && status.status === 200){
             props.navigation.navigate("Main")
+            setFav(status.user.fav_courses)
+            console.log(status.user.fav_courses)
        }
     }, [status]) 
 
@@ -55,6 +59,8 @@ const Login = (props) => {
         <TouchableOpacity style={Styles.button} onPress={()=>{
             setStatus(login(username,password))
             setAuth(login(username,password))
+            
+           
         }}>
             <Text style={Styles.button_text}>Login</Text>
         </TouchableOpacity>

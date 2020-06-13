@@ -4,10 +4,14 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import TopAuthor from '../../Main/Browse/TopAuthor/top-author'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AuthContext } from '../../../provider/auth-provider';
+import ListCourses from '../../Courses/ListCourses/list-courses';
+import { FavContext } from '../../../provider/favorite-provider';
 
 
 const AccountProfile = (props) => {
     const {auth} = useContext(AuthContext)
+    const {fav} = useContext(FavContext)
+    console.log({fav})
     const onPressSignOut =()=>{
         props.navigation.navigate("Login")
     }
@@ -17,7 +21,6 @@ const AccountProfile = (props) => {
 
     
     return (
-        
         <View style={{marginTop:20}}>
         <View style={styles.item}>
             <Image source={auth.user.avatar} style = {styles.image} />
@@ -39,7 +42,7 @@ const AccountProfile = (props) => {
         </View>
         <View style={{margin:10}}>
             <Text style={styles.profile_text}>Favorite authors:</Text>
-            <TopAuthor navigation={props.navigation}/>
+            <ListCourses com = 'Downloads' navigation={props.navigation}/>
         </View>
         <TouchableOpacity style={{width:120, margin:10}} onPress={onPressSignOut}>
             <Icon.Button name="sign-out" style={{backgroundColor:'red'}}>

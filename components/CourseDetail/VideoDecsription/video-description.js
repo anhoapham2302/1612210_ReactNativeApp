@@ -1,11 +1,20 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import Star from 'react-native-star-view';
 import Colors from '../../../global/color'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { AuthContext } from '../../../provider/auth-provider';
+import { FavContext } from '../../../provider/favorite-provider';
 
 const VideoDescription = (props) => {
+    const {auth} = useContext(AuthContext)
+    const {setFav} = useContext(FavContext)
+    const addFavorite = () => {
+        auth.user.fav_courses.push(props.item)
+        setFav(auth.user.fav_courses)
+    }
+    
     const onPressListItem =()=>{
         props.navigation.navigate("AuthorProfile", {item: [
             {
@@ -35,7 +44,7 @@ const VideoDescription = (props) => {
              </Text>
             </Icon.Button>
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress = {addFavorite}>
             <Icon.Button name="download">
             <Text style={{ fontSize: 15,color:'#fff' }}>
              Download
