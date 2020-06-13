@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Image} from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image, Text} from 'react-native';
 import Home from './components/Main/Home/home';
 import Browse from './components/Main/Browse/browse';
 import Search from './components/Main/Search/search';
