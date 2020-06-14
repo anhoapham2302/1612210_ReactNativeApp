@@ -4,6 +4,7 @@ const authors = [
         name: 'Author 1',
         avatar: require('../assets/Author/author1.jpg'),
         count: 10,
+        field: 'Mobile Developer',
         courses_author: []
     },
     {
@@ -11,6 +12,7 @@ const authors = [
         name: 'Author 2',
         avatar: require('../assets/Author/author2.jpg'),
         count: 20,
+        field: 'Web Developer',
         courses_author: []
     },
     {
@@ -18,6 +20,7 @@ const authors = [
         name: 'Author 3',
         avatar: require('../assets/Author/author3.jpg'),
         count: 5,
+        field: 'Game Developer',
         courses_author: []
     },
     {
@@ -25,6 +28,7 @@ const authors = [
         name: 'Author 4',
         avatar: require('../assets/Author/author4.jpg'),
         count: 8,
+        field: 'Database Developer',
         courses_author: []
     }
 ]

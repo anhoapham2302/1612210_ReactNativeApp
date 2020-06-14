@@ -23,6 +23,7 @@ import { AuthProvider } from './provider/auth-provider';
 import { FavProvider } from './provider/favorite-provider';
 import { pushCoursesOfAuthor } from './core/services/author-service';
 import { AuthorProvider } from './provider/author-provider';
+import { BookmarkContext, BookmarkProvider } from './provider/bookmark-provider';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const MainNavigationStack = createStackNavigator();
@@ -143,12 +144,14 @@ export default function App() {
   return (
     <AuthProvider>
       <FavProvider>
-        <AuthorProvider>
-          <NavigationContainer>
-              {pushCoursesOfAuthor()}
-              <MainNavigation/>
-          </NavigationContainer>
-        </AuthorProvider>
+        <BookmarkProvider>
+          <AuthorProvider>
+            <NavigationContainer>
+                {pushCoursesOfAuthor()}
+                <MainNavigation/>
+            </NavigationContainer>
+          </AuthorProvider>
+        </BookmarkProvider>
       </FavProvider>
     </AuthProvider>
   );

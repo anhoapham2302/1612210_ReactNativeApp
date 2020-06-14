@@ -1,6 +1,9 @@
 import courses from "../../global/courses"
+import { useContext } from "react"
+import { BookmarkContext } from "../../provider/bookmark-provider"
 
 export const renderCourses = (title) => {
+    const {bookmark} = useContext(BookmarkContext)
     const null_array = []
     const mobile_course = []
     const web_course = []
@@ -51,6 +54,9 @@ export const renderCourses = (title) => {
 
     if(title === 'Top Courses'){
         return {array: top_course}
+    }
+    if(title === 'Bookmarks'){
+        return {array: bookmark}
     }
     return {array: null_array}
 }

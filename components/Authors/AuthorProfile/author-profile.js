@@ -11,7 +11,7 @@ const AuthorProfile = (props) => {
           <View style={styles.body}>
             <View style={styles.bodyContent}>
               <Text style={styles.name}>{props.route.params.item.name}</Text>
-              <Text style={styles.info}>UX Designer / Mobile developer</Text>
+              <Text style={styles.info}>{props.route.params.item.field}</Text>
               <Text style={styles.description}>Mô tả: ...</Text>
             </View>
         </View>

@@ -15,7 +15,7 @@ const courses = [
     {
         id : 2,
         title: 'Authencation Social With Flutter',
-        author: 'Author 2',
+        author: 'Author 1',
         level: 'Advance',
         release: 'May 6, 2020',
         duration: '50 hours',
@@ -28,7 +28,7 @@ const courses = [
     {
         id : 3,
         title: 'Build The Taxi App With React Native',
-        author: 'Author 3',
+        author: 'Author 1',
         level: 'Advance',
         release: 'May 6, 2020',
         duration: '40 hours',
@@ -41,7 +41,7 @@ const courses = [
     {
         id : 4,
         title: 'iOS 13 & Swift 5: Chat App With Firestore | MVVM',
-        author: 'Author 4',
+        author: 'Author 1',
         level: 'Advance',
         release: 'May 6, 2020',
         duration: '40 hours',
@@ -54,7 +54,7 @@ const courses = [
     {
         id : 5,
         title: "The Web Developer's Bootcamp",
-        author: 'Author 1',
+        author: 'Author 2',
         level: 'Beginer',
         release: 'May 6, 2020',
         duration: '40 hours',
@@ -80,7 +80,7 @@ const courses = [
     {
         id : 7,
         title: 'Web Development Intro',
-        author: 'Author 3',
+        author: 'Author 2',
         level: 'Beginer',
         release: 'May 6, 2020',
         duration: '40 hours',
@@ -93,7 +93,7 @@ const courses = [
     {
         id : 8,
         title: 'Bootstrap Responsive Web Design Tutorial For Beginners',
-        author: 'Author 4',
+        author: 'Author 2',
         level: 'All Levels',
         release: 'May 6, 2020',
         duration: '40 hours',
@@ -106,7 +106,7 @@ const courses = [
     {
         id : 9,
         title: "Complete C# Unity Developer 2D: Learn to Code Making Games",
-        author: 'Author 1',
+        author: 'Author 3',
         level: 'All Levels',
         release: 'May 6, 2020',
         duration: '40 hours',
@@ -119,7 +119,7 @@ const courses = [
     {
         id : 10,
         title: 'Unreal Engine C++ Developer: Learn C++ and Make Video Games',
-        author: 'Author 2',
+        author: 'Author 3',
         level: 'Advance',
         release: 'May 6, 2020',
         duration: '50 hours',
@@ -145,7 +145,7 @@ const courses = [
     {
         id : 12,
         title: 'RPG Core Combat Creator: Learn Intermediate Unity C# Coding',
-        author: 'Author 4',
+        author: 'Author 3',
         level: 'Intermediate',
         release: 'May 6, 2020',
         duration: '40 hours',
@@ -158,7 +158,7 @@ const courses = [
     {
         id : 13,
         title: 'The Ultimate MySQL Bootcamp: Go from SQL Beginner to Expert',
-        author: 'Author 1',
+        author: 'Author 4',
         level: 'Beginer',
         release: 'May 6, 2020',
         duration: '40 hours',
@@ -171,7 +171,7 @@ const courses = [
     {
         id : 14,
         title: 'The Complete Oracle SQL Certification Course',
-        author: 'Author 2',
+        author: 'Author 4',
         level: 'All Levels',
         release: 'May 6, 2020',
         duration: '50 hours',
@@ -184,7 +184,7 @@ const courses = [
     {
         id : 15,
         title: "MongoDB - The Complete Developer's Guide 2020",
-        author: 'Author 3',
+        author: 'Author 4',
         level: 'All Levels',
         release: 'May 6, 2020',
         duration: '40 hours',

@@ -7,16 +7,21 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { AuthContext } from '../../../provider/auth-provider';
 import { FavContext } from '../../../provider/favorite-provider';
 import { AuthorContext } from '../../../provider/author-provider';
+import { BookmarkContext } from '../../../provider/bookmark-provider';
 
 const VideoDescription = (props) => {
     const {auth} = useContext(AuthContext)
     const {setFav} = useContext(FavContext)
+    const {setBookmark} = useContext(BookmarkContext)
     const {author} = useContext(AuthorContext)
     const addFavorite = () => {
         auth.user.fav_courses.push(props.item)
         setFav(auth.user.fav_courses)
     }
-    
+    const addBookmark = () => {
+        auth.user.bookmark_courses.push(props.item)
+        setBookmark(auth.user.bookmark_courses)
+    }
     const onPressListItem =()=>{
         props.navigation.navigate("AuthorProfile", {item: author})
     }
@@ -34,7 +39,7 @@ const VideoDescription = (props) => {
             <Star score={4} style={styles.starStyle}/>
             </View>
             <View style={{justifyContent:'space-around', flexDirection:'row', marginTop:20, marginHorizontal:30}}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress = {addBookmark}>
             <Icon.Button name="bookmark" backgroundColor='red'>
             <Text style={{ fontSize: 15, color:'#fff'}}>
              Bookmark
