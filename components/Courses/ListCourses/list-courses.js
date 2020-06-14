@@ -1,52 +1,15 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { StyleSheet, Text, View, FlatList, } from 'react-native'
 import ListCoursesItem from '../ListCoursesItem/list-courses-item'
 import Styles from '../../../global/style'
+import courses from '../../../global/courses'
+import { searchCourse, searchCourseOfAuthor, searchCourseOfRecommend } from '../../../core/services/search-service'
+import { AuthContext } from '../../../provider/auth-provider'
+import { FavContext } from '../../../provider/favorite-provider'
 
 const ListCourses = (props) => {
-    const courses = [
-        {
-            id : 1,
-            title: 'React Native',
-            author: 'Author 1',
-            level: 'Beginer',
-            release: 'May 6, 2020',
-            duration: '40 hours',
-            image: require('../../../assets/1.jpg'),
-            rating: 4
-        },
-        {
-            id : 2,
-            title: 'UI/UX Design',
-            author: 'Author 2',
-            level: 'Advance',
-            release: 'May 6, 2020',
-            duration: '50 hours',
-            image: require('../../../assets/2.jpg'),
-            rating: 4
-        },
-        {
-            id : 3,
-            title: 'ASP.NET',
-            author: 'Author 3',
-            level: 'Beginer',
-            release: 'May 6, 2020',
-            duration: '40 hours',
-            image: require('../../../assets/3.jpg'),
-            rating: 4
-        },
-        {
-            id : 4,
-            title: 'AWS',
-            author: 'Author 4',
-            level: 'Beginer',
-            release: 'May 6, 2020',
-            duration: '40 hours',
-            image: require('    ../../../assets/4.jpg'),
-            rating: 4
-        },
-    ]
-    
+    const {auth} = useContext(AuthContext)
+    const {fav} = useContext(FavContext)
     const renderSeparator = () => {
         return (
           <View
@@ -54,14 +17,29 @@ const ListCourses = (props) => {
           />
         );
       };
-    
+
+    const checkComponent = (com) => {
+        if(com === 'Search'){
+            return searchCourse(props.text).course
+        }
+        if(com === 'Downloads'){
+            return fav
+        }
+        if(com === 'Author'){
+          return searchCourseOfAuthor(props.author).course
+        }
+        if(com === 'RecommendFromCourseDetail'){
+          return searchCourseOfRecommend(props.item.path, props.item.cat, props.item.author, props.item.id).course
+        }
+    }
+    //console.log(auth)
       return (
         <View style={Styles.view}> 
         <View>
             <Text style = {Styles.text}>{props.title}</Text>
         </View>
             <FlatList
-                data={courses}
+                data={checkComponent(props.com)}
                 renderItem={({item})=><ListCoursesItem navigation ={props.navigation} item = {item}/>}
                 ItemSeparatorComponent={renderSeparator}
             />

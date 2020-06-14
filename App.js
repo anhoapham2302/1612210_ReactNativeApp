@@ -1,10 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Image} from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Image, Text} from 'react-native';
 import Home from './components/Main/Home/home';
 import Browse from './components/Main/Browse/browse';
 import Search from './components/Main/Search/search';
 import ListCourses from './components/Courses/ListCourses/list-courses'
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SectionCourses from './components/Main/Home/SectionCourses/section-courses';
@@ -19,24 +19,37 @@ import AuthorProfile from './components/Authors/AuthorProfile/author-profile';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Paths from './components/Paths/paths';
 import ChangePassword from './components/Authentication/ChangePassword/change-password';
+import { AuthProvider } from './provider/auth-provider';
+import { FavProvider } from './provider/favorite-provider';
+import { pushCoursesOfAuthor } from './core/services/author-service';
+import { AuthorProvider } from './provider/author-provider';
+import { BookmarkContext, BookmarkProvider } from './provider/bookmark-provider';
+import {ThemeProvider} from './provider/theme-provider'
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+const MainNavigationStack = createStackNavigator();
+const HomeNavigationStack = createStackNavigator();
+const BrowseNavigationStack = createStackNavigator();
+const DownloadNavigationStack = createStackNavigator();
+const SearchNavigationStack = createStackNavigator();
 
 const HomeStack = (props) =>{
   const onPressListItem =()=>{
     props.navigation.navigate("AccountProfile")
 }
+  
   return(
-    <Stack.Navigator initialRouteName = "Home">
-    <Stack.Screen name="Home" component={Home} options={{cardStyle:{backgroundColor:'#fff'}, headerRight: () => (
+    <HomeNavigationStack.Navigator initialRouteName = "Home">
+    <HomeNavigationStack.Screen name="Home" component={Home} options={{cardStyle:{backgroundColor:'#fff'}, headerRight: () => (
             <TouchableOpacity onPress={onPressListItem}>
               <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {{height:40, width:40, borderRadius:20, marginRight:20}} />
             </TouchableOpacity>
           ),}}/>
-    <Stack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    </Stack.Navigator>);
+    <HomeNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <HomeNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <HomeNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <HomeNavigationStack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    </HomeNavigationStack.Navigator>);
 }
 
 const DownloadsStack = (props) =>{
@@ -44,17 +57,17 @@ const DownloadsStack = (props) =>{
     props.navigation.navigate("AccountProfile")
 }
   return(
-    <Stack.Navigator initialRouteName = "Downloads">
-    <Stack.Screen name="Downloads" component={Downloads} options={{cardStyle:{backgroundColor:'#fff'}, headerRight: () => (
+    <DownloadNavigationStack.Navigator initialRouteName = "Favorites">
+    <DownloadNavigationStack.Screen name="Favorites" component={Downloads} options={{cardStyle:{backgroundColor:'#fff'}, headerRight: () => (
             <TouchableOpacity onPress={onPressListItem}>
               <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {{height:40, width:40, borderRadius:20, marginRight:20}} />
             </TouchableOpacity>
           ),}}/>
-   <Stack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    </Stack.Navigator>);
+   <DownloadNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <DownloadNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <DownloadNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <DownloadNavigationStack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    </DownloadNavigationStack.Navigator>);
 }
 
 const BrowseStack = (props) =>{
@@ -62,28 +75,28 @@ const BrowseStack = (props) =>{
     props.navigation.navigate("AccountProfile")
 }
   return(
-    <Stack.Navigator initialRouteName = "Browse">
-    <Stack.Screen name="Browse" component={Browse} options={{cardStyle:{backgroundColor:'#fff'}, headerRight: () => (
+    <BrowseNavigationStack.Navigator initialRouteName = "Browse">
+    <BrowseNavigationStack.Screen name="Browse" component={Browse} options={{cardStyle:{backgroundColor:'#fff'}, headerRight: () => (
             <TouchableOpacity onPress={onPressListItem}>
               <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {{height:40, width:40, borderRadius:20, marginRight:20}} />
             </TouchableOpacity>
           ),}}/>
-    <Stack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    </Stack.Navigator>);
+    <BrowseNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <BrowseNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <BrowseNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <BrowseNavigationStack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    </BrowseNavigationStack.Navigator>);
 }
 
 const SearchStack = () =>{
   return(
-    <Stack.Navigator initialRouteName = "Search" screenOptions={{headerShown:false}}>
-    <Stack.Screen name="Search" component={Search} options={{cardStyle:{backgroundColor:'#fff'}}}/>
-    <Stack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <Stack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    </Stack.Navigator>);
+    <SearchNavigationStack.Navigator initialRouteName = "Search" screenOptions={{headerShown:false}}>
+    <SearchNavigationStack.Screen name="Search" component={Search} options={{cardStyle:{backgroundColor:'#fff'}}}/>
+    <SearchNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <SearchNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <SearchNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <SearchNavigationStack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    </SearchNavigationStack.Navigator>);
 }
 const TabNav = () =>{
   return(
@@ -98,8 +111,8 @@ const TabNav = () =>{
             } else if (route.name === 'Browse') {
               iconName = focused ? 'md-list' : 'md-list';
             }
-            else if (route.name === 'Downloads') {
-              iconName = focused ? 'md-arrow-down' : 'md-arrow-down';
+            else if (route.name === 'Favorites') {
+              iconName = focused ? 'md-heart' : 'md-heart';
             }
             else if (route.name === 'Search') {
               iconName = focused ? 'md-search' : 'md-search';
@@ -112,32 +125,46 @@ const TabNav = () =>{
           inactiveTintColor: 'gray',
         }}>
       <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Downloads" component={DownloadsStack}/> 
+      <Tab.Screen name="Favorites" component={DownloadsStack}/> 
       <Tab.Screen name="Browse" component={BrowseStack}/>
       <Tab.Screen name="Search" component={SearchStack}/>
       </Tab.Navigator>
   )
 }
-const Tab = createBottomTabNavigator();
+
+const MainNavigation = () => {
+  return <MainNavigationStack.Navigator initialRouteName = "Login" screenOptions={{headerShown:false}}>
+        <MainNavigationStack.Screen name="Login" component={Login} options={{cardStyle:{backgroundColor:'#fff'}}}/>
+        <MainNavigationStack.Screen name="Register" component={Register} options={{cardStyle:{backgroundColor:'#fff'}}}/>
+        <MainNavigationStack.Screen name="ForgotPassword" component={ForgotPassword} options={{cardStyle:{backgroundColor:'#fff'}}}/>
+        <MainNavigationStack.Screen name="ChangePassword" component={ChangePassword} options={{cardStyle:{backgroundColor:'#fff'}}}/>
+        <MainNavigationStack.Screen name="Main" component={TabNav}/>
+  </MainNavigationStack.Navigator>
+}
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName = "Login" screenOptions={{headerShown:false}}>
-        <Stack.Screen name="Login" component={Login} options={{cardStyle:{backgroundColor:'#fff'}}}/>
-        <Stack.Screen name="Register" component={Register} options={{cardStyle:{backgroundColor:'#fff'}}}/>
-        <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{cardStyle:{backgroundColor:'#fff'}}}/>
-        <Stack.Screen name="ChangePassword" component={ChangePassword} options={{cardStyle:{backgroundColor:'#fff'}}}/>
-        <Stack.Screen name="Main" component={TabNav}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <AuthProvider>
+        <FavProvider>
+          <BookmarkProvider>
+            <AuthorProvider>
+              <NavigationContainer>
+                <ThemeProvider>
+                    {pushCoursesOfAuthor()}
+                    <MainNavigation/>
+                </ThemeProvider>
+              </NavigationContainer>
+            </AuthorProvider>
+          </BookmarkProvider>
+        </FavProvider>
+    </AuthProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red',
+    backgroundColor: 'red', 
     marginTop: 50,
   },
 });

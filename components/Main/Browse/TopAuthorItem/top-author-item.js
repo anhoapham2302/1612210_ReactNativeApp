@@ -6,7 +6,7 @@ const TopAuthorItem = (props) => {
         props.navigation.navigate("AuthorProfile", {item: props.item})
     }
     return( <TouchableOpacity style = {styles.item} onPress={onPressListItem}>
-        <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {styles.image} />
+        <Image source={props.item.avatar} style = {styles.image} />
         <Text style={styles.text}>{props.item.name}</Text>
     </TouchableOpacity>
     )

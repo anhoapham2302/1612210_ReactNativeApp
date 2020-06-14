@@ -1,22 +1,24 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView} from 'react-native'
 import ListCourses from '../../Courses/ListCourses/list-courses'
+import { ThemeContext } from '../../../provider/theme-provider'
 
 const AuthorProfile = (props) => {
+  const {theme} = useContext(ThemeContext)
     return (
-        <ScrollView>
+        <ScrollView style = {{backgroundColor: theme.background}}>
         <View style={styles.container}>
           <View style={styles.header}></View>
-          <Image style={styles.avatar} source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}}/>
+          <Image style={styles.avatar} source={props.route.params.item.avatar}/>
           <View style={styles.body}>
             <View style={styles.bodyContent}>
               <Text style={styles.name}>{props.route.params.item.name}</Text>
-              <Text style={styles.info}>UX Designer / Mobile developer</Text>
+              <Text style={styles.info}>{props.route.params.item.field}</Text>
               <Text style={styles.description}>Mô tả: ...</Text>
             </View>
         </View>
         </View>
-        <ListCourses navigation={props.navigation} title='Courses'/>
+        <ListCourses navigation={props.navigation} com = 'Author' author = {props.route.params.item.name} title='Courses'/>
       </ScrollView>
     )
 }

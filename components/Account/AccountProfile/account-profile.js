@@ -1,26 +1,37 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler'
 import TopAuthor from '../../Main/Browse/TopAuthor/top-author'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { AuthContext } from '../../../provider/auth-provider';
+import ListCourses from '../../Courses/ListCourses/list-courses';
+import { FavContext } from '../../../provider/favorite-provider';
+import { ThemeContext } from '../../../provider/theme-provider';
+import { themes } from '../../../global/theme';
 
 
 const AccountProfile = (props) => {
+    const {theme, setTheme} = useContext(ThemeContext)
+    const {auth} = useContext(AuthContext)
+    const {fav} = useContext(FavContext)
+    console.log({fav})
     const onPressSignOut =()=>{
         props.navigation.navigate("Login")
     }
     const onPressChangePassword =()=>{
         props.navigation.navigate("ChangePassword")
     }
+
+    
     return (
-        <View style={{marginTop:20}}>
+        <ScrollView style={{marginTop:20, backgroundColor: theme.background}}>
         <View style={styles.item}>
-            <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {styles.image} />
+            <Image source={auth.user.avatar} style = {styles.image} />
             <View style={styles.text}>
-            <Text style={styles.name}>Pham An Hoa</Text>
+        <Text style={{ fontSize: 20, fontWeight: 'bold', color: theme.foreground}}>{auth.user.fullname}</Text>
             </View>
         </View>
-        <View style={{margin:10}}>
+        {/* <View style={{margin:10}}>
             <Text style={styles.profile_text}>Type:</Text>
             <Text style={styles.profile_text1}>Premium</Text>
         </View>
@@ -34,24 +45,31 @@ const AccountProfile = (props) => {
         </View>
         <View style={{margin:10}}>
             <Text style={styles.profile_text}>Favorite authors:</Text>
-            <TopAuthor navigation={props.navigation}/>
-        </View>
+            <ListCourses com = 'Downloads' navigation={props.navigation}/>
+        </View> */}
         <TouchableOpacity style={{width:120, margin:10}} onPress={onPressSignOut}>
             <Icon.Button name="sign-out" style={{backgroundColor:'red'}}>
             <Text style={{fontSize: 17, color:'white'}}>
-             Sign Out
-             </Text>
+                Sign Out
+                </Text>
             </Icon.Button>
         </TouchableOpacity>
-        <TouchableOpacity style={{width:190, margin:10}} onPress={onPressChangePassword}>
+        <TouchableOpacity style={{width:190, margin:10}} onPress={()=>{
+            if(theme === themes.light)
+                setTheme(themes.dark)
+            else
+                setTheme(themes.light)
+        }}>
             <Icon.Button name="reply" style={{backgroundColor:'blue'}}>
             <Text style={{fontSize: 17, color:'white'}}>
-             Change Password
-             </Text>
+                Change Theme
+                </Text>
             </Icon.Button>
         </TouchableOpacity>
-        </View>
+        </ScrollView>
     )
+ 
+   
 }
 
 const styles = StyleSheet.create({
