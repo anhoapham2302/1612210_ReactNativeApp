@@ -7,7 +7,10 @@ const courses = [
         release: 'May 6, 2020',
         duration: '40 hours',
         image: require('../assets/MobileCourse/react-native.png'),
-        rating: 4
+        rating: 4,
+        cat: 'Mobile',
+        path: 'React Native',
+        view: 100
     },
     {
         id : 2,
@@ -17,7 +20,10 @@ const courses = [
         release: 'May 6, 2020',
         duration: '50 hours',
         image: require('../assets/MobileCourse/flutter_social_auth.jpeg'),
-        rating: 4
+        rating: 4,
+        cat: 'Mobile',
+        path: 'Flutter',
+        view: 90
     },
     {
         id : 3,
@@ -27,7 +33,10 @@ const courses = [
         release: 'May 6, 2020',
         duration: '40 hours',
         image: require('../assets/MobileCourse/reactnative_taxi.png'),
-        rating: 4
+        rating: 4,
+        cat: 'Mobile',
+        path: 'React Native',
+        view: 95
     },
     {
         id : 4,
@@ -37,7 +46,10 @@ const courses = [
         release: 'May 6, 2020',
         duration: '40 hours',
         image: require('../assets/MobileCourse/swift_chatapp.jpg'),
-        rating: 4
+        rating: 4,
+        cat: 'Mobile',
+        path: 'Swift',
+        view: 100
     },
     {
         id : 5,
@@ -47,7 +59,10 @@ const courses = [
         release: 'May 6, 2020',
         duration: '40 hours',
         image: require('../assets/WebCourse/html5.jpg'),
-        rating: 4
+        rating: 4,
+        cat: 'Web',
+        path: 'HTML',
+        view: 100
     },
     {
         id : 6,
@@ -57,7 +72,10 @@ const courses = [
         release: 'May 6, 2020',
         duration: '50 hours',
         image: require('../assets/WebCourse/soap_rest.jpg'),
-        rating: 4
+        rating: 4,
+        cat: 'Web',
+        path: 'Java',
+        view: 80
     },
     {
         id : 7,
@@ -67,7 +85,10 @@ const courses = [
         release: 'May 6, 2020',
         duration: '40 hours',
         image: require('../assets/WebCourse/webintro.jpg'),
-        rating: 4
+        rating: 4,
+        cat: 'Web',
+        path: '',
+        view: 100
     },
     {
         id : 8,
@@ -77,7 +98,10 @@ const courses = [
         release: 'May 6, 2020',
         duration: '40 hours',
         image: require('../assets/WebCourse/boostrap.jpg'),
-        rating: 4
+        rating: 4,
+        cat: 'Web',
+        path: 'Boostrap',
+        view: 95
     },
     {
         id : 9,
@@ -87,7 +111,10 @@ const courses = [
         release: 'May 6, 2020',
         duration: '40 hours',
         image: require('../assets/GameCourse/unity.jpg'),
-        rating: 4
+        rating: 4,
+        cat: 'Game',
+        path: 'C#',
+        view: 100
     },
     {
         id : 10,
@@ -97,7 +124,10 @@ const courses = [
         release: 'May 6, 2020',
         duration: '50 hours',
         image: require('../assets/GameCourse/unreal.jpg'),
-        rating: 4
+        rating: 4,
+        cat: 'Game',
+        path: 'C++',
+        view: 70
     },
     {
         id : 11,
@@ -107,7 +137,10 @@ const courses = [
         release: 'May 6, 2020',
         duration: '40 hours',
         image: require('../assets/GameCourse/unity3d.jpg'),
-        rating: 4
+        rating: 4,
+        cat: 'Game',
+        path: 'C#',
+        view: 75
     },
     {
         id : 12,
@@ -117,7 +150,10 @@ const courses = [
         release: 'May 6, 2020',
         duration: '40 hours',
         image: require('../assets/GameCourse/rpg.jpg'),
-        rating: 4
+        rating: 4,
+        cat: 'Game',
+        path: 'C#',
+        view: 90
     },
     {
         id : 13,
@@ -127,7 +163,10 @@ const courses = [
         release: 'May 6, 2020',
         duration: '40 hours',
         image: require('../assets/DbCourse/mysql1.jpg'),
-        rating: 4
+        rating: 4,
+        cat: 'Database',
+        path: 'MySQL',
+        view: 100
     },
     {
         id : 14,
@@ -137,7 +176,10 @@ const courses = [
         release: 'May 6, 2020',
         duration: '50 hours',
         image: require('../assets/DbCourse/oracle1.jpg'),
-        rating: 4
+        rating: 4,
+        cat: 'Database',
+        path: 'Oracle',
+        view: 90
     },
     {
         id : 15,
@@ -147,7 +189,10 @@ const courses = [
         release: 'May 6, 2020',
         duration: '40 hours',
         image: require('../assets/DbCourse/mongodb1.jpg'),
-        rating: 4
+        rating: 4,
+        cat: 'Database',
+        path: 'MongoDB',
+        view: 95
     },
     {
         id : 16,
@@ -157,7 +202,10 @@ const courses = [
         release: 'May 6, 2020',
         duration: '40 hours',
         image: require('../assets/DbCourse/mysql2.jpg'),
-        rating: 4
+        rating: 4,
+        cat: 'Database',
+        path: 'MySQL',
+        view: 100
     },
 ]
 

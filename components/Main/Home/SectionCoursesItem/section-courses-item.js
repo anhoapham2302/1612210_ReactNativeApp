@@ -13,7 +13,7 @@ const SectionCoursesItem = (props) => {
                 return( <TouchableOpacity style = {styles.item} onPress={onPressListItem}>
                     <Image source={props.item.image} style = {styles.image} />
                     <Text numberOfLines={1} style = {styles.title}>{props.item.title}</Text>
-                    <Text style = {{fontSize:14}}>{props.item.author}</Text>
+                    <Text style = {{fontSize:14}}>{`${props.item.author} (${props.item.view} views)`}</Text>
                     <Text style ={{color: 'darkgrey'}}>{`${props.item.level} . ${props.item.release} . ${props.item.duration}`}</Text>
                     <Star score={props.item.rating} style={styles.starStyle}/>
                 </TouchableOpacity>
