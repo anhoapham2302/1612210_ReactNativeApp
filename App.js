@@ -22,6 +22,7 @@ import ChangePassword from './components/Authentication/ChangePassword/change-pa
 import { AuthProvider } from './provider/auth-provider';
 import { FavProvider } from './provider/favorite-provider';
 import { pushCoursesOfAuthor } from './core/services/author-service';
+import { AuthorProvider } from './provider/author-provider';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const MainNavigationStack = createStackNavigator();
@@ -142,10 +143,12 @@ export default function App() {
   return (
     <AuthProvider>
       <FavProvider>
-        <NavigationContainer>
-            {pushCoursesOfAuthor()}
-            <MainNavigation/>
-        </NavigationContainer>
+        <AuthorProvider>
+          <NavigationContainer>
+              {pushCoursesOfAuthor()}
+              <MainNavigation/>
+          </NavigationContainer>
+        </AuthorProvider>
       </FavProvider>
     </AuthProvider>
   );

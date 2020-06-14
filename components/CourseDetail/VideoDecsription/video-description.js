@@ -6,29 +6,26 @@ import Colors from '../../../global/color'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AuthContext } from '../../../provider/auth-provider';
 import { FavContext } from '../../../provider/favorite-provider';
+import { AuthorContext } from '../../../provider/author-provider';
 
 const VideoDescription = (props) => {
     const {auth} = useContext(AuthContext)
     const {setFav} = useContext(FavContext)
+    const {author} = useContext(AuthorContext)
     const addFavorite = () => {
         auth.user.fav_courses.push(props.item)
         setFav(auth.user.fav_courses)
     }
     
     const onPressListItem =()=>{
-        props.navigation.navigate("AuthorProfile", {item: [
-            {
-                id: 1,
-                name: props.item.author
-            }
-        ]})
+        props.navigation.navigate("AuthorProfile", {item: author})
     }
     return (
         <View style={{marginHorizontal:17}}>
             <Text style = {styles.title}>{props.item.title}</Text>
             <TouchableOpacity style={styles.author} onPress={onPressListItem}>
             <View style={styles.view}>
-            <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {styles.image} />
+            <Image source={author.avatar} style = {styles.image} />
             <Text style={styles.text}>{props.item.author}</Text>
             </View> 
             </TouchableOpacity>

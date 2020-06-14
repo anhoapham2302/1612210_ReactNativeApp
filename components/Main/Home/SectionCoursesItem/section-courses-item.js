@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {View, StyleSheet, Image, Text,TouchableOpacity} from 'react-native';
 import Star from 'react-native-star-view';
 import Colors from '../../../../global/color'
 import { AuthContext } from '../../../../provider/auth-provider';
+import { AuthorContext } from '../../../../provider/author-provider';
+import { getAuthor } from '../../../../core/services/author-service';
 
 
 const SectionCoursesItem = (props) => {
-    const onPressListItem =()=>{
+    const {setAuthor} = useContext(AuthorContext)
+    const onPressListItem =()=>{   
+        setAuthor(getAuthor(props.item.author))
         props.navigation.navigate("CourseDetail", {item: props.item})
     }
 

@@ -10,3 +10,13 @@ export const pushCoursesOfAuthor = () => {
         }
     }
 }
+
+export const getAuthor = (author) => {
+    for (let i =0; i < authors.length; i++){
+        if(authors[i].name === author)
+        {
+            return authors[i]
+        }
+    }
+    return []
+}
