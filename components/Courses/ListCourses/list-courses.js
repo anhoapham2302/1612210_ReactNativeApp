@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, FlatList, } from 'react-native'
 import ListCoursesItem from '../ListCoursesItem/list-courses-item'
 import Styles from '../../../global/style'
 import courses from '../../../global/courses'
-import { searchCourse } from '../../../core/services/search-service'
+import { searchCourse, searchCourseOfAuthor } from '../../../core/services/search-service'
 import { AuthContext } from '../../../provider/auth-provider'
 import { FavContext } from '../../../provider/favorite-provider'
 
@@ -24,6 +24,9 @@ const ListCourses = (props) => {
         }
         if(com === 'Downloads'){
             return fav
+        }
+        if(com === 'Author'){
+          return searchCourseOfAuthor(props.author).course
         }
     }
     //console.log(auth)

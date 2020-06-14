@@ -7,7 +7,7 @@ const AuthorProfile = (props) => {
         <ScrollView>
         <View style={styles.container}>
           <View style={styles.header}></View>
-          <Image style={styles.avatar} source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}}/>
+          <Image style={styles.avatar} source={props.route.params.item.avatar}/>
           <View style={styles.body}>
             <View style={styles.bodyContent}>
               <Text style={styles.name}>{props.route.params.item.name}</Text>
@@ -16,7 +16,7 @@ const AuthorProfile = (props) => {
             </View>
         </View>
         </View>
-        <ListCourses navigation={props.navigation} title='Courses'/>
+        <ListCourses navigation={props.navigation} com = 'Author' author = {props.route.params.item.name} title='Courses'/>
       </ScrollView>
     )
 }

@@ -21,6 +21,7 @@ import Paths from './components/Paths/paths';
 import ChangePassword from './components/Authentication/ChangePassword/change-password';
 import { AuthProvider } from './provider/auth-provider';
 import { FavProvider } from './provider/favorite-provider';
+import { pushCoursesOfAuthor } from './core/services/author-service';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const MainNavigationStack = createStackNavigator();
@@ -142,6 +143,7 @@ export default function App() {
     <AuthProvider>
       <FavProvider>
         <NavigationContainer>
+            {pushCoursesOfAuthor()}
             <MainNavigation/>
         </NavigationContainer>
       </FavProvider>
