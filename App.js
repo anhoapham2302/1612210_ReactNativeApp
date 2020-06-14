@@ -4,7 +4,7 @@ import Home from './components/Main/Home/home';
 import Browse from './components/Main/Browse/browse';
 import Search from './components/Main/Search/search';
 import ListCourses from './components/Courses/ListCourses/list-courses'
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer} from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import SectionCourses from './components/Main/Home/SectionCourses/section-courses';
@@ -24,6 +24,7 @@ import { FavProvider } from './provider/favorite-provider';
 import { pushCoursesOfAuthor } from './core/services/author-service';
 import { AuthorProvider } from './provider/author-provider';
 import { BookmarkContext, BookmarkProvider } from './provider/bookmark-provider';
+import {ThemeProvider} from './provider/theme-provider'
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const MainNavigationStack = createStackNavigator();
@@ -36,6 +37,7 @@ const HomeStack = (props) =>{
   const onPressListItem =()=>{
     props.navigation.navigate("AccountProfile")
 }
+  
   return(
     <HomeNavigationStack.Navigator initialRouteName = "Home">
     <HomeNavigationStack.Screen name="Home" component={Home} options={{cardStyle:{backgroundColor:'#fff'}, headerRight: () => (
@@ -55,8 +57,8 @@ const DownloadsStack = (props) =>{
     props.navigation.navigate("AccountProfile")
 }
   return(
-    <DownloadNavigationStack.Navigator initialRouteName = "Downloads">
-    <DownloadNavigationStack.Screen name="Downloads" component={Downloads} options={{cardStyle:{backgroundColor:'#fff'}, headerRight: () => (
+    <DownloadNavigationStack.Navigator initialRouteName = "Favorites">
+    <DownloadNavigationStack.Screen name="Favorites" component={Downloads} options={{cardStyle:{backgroundColor:'#fff'}, headerRight: () => (
             <TouchableOpacity onPress={onPressListItem}>
               <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {{height:40, width:40, borderRadius:20, marginRight:20}} />
             </TouchableOpacity>
@@ -109,8 +111,8 @@ const TabNav = () =>{
             } else if (route.name === 'Browse') {
               iconName = focused ? 'md-list' : 'md-list';
             }
-            else if (route.name === 'Downloads') {
-              iconName = focused ? 'md-arrow-down' : 'md-arrow-down';
+            else if (route.name === 'Favorites') {
+              iconName = focused ? 'md-heart' : 'md-heart';
             }
             else if (route.name === 'Search') {
               iconName = focused ? 'md-search' : 'md-search';
@@ -123,7 +125,7 @@ const TabNav = () =>{
           inactiveTintColor: 'gray',
         }}>
       <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Downloads" component={DownloadsStack}/> 
+      <Tab.Screen name="Favorites" component={DownloadsStack}/> 
       <Tab.Screen name="Browse" component={BrowseStack}/>
       <Tab.Screen name="Search" component={SearchStack}/>
       </Tab.Navigator>
@@ -143,16 +145,18 @@ const MainNavigation = () => {
 export default function App() {
   return (
     <AuthProvider>
-      <FavProvider>
-        <BookmarkProvider>
-          <AuthorProvider>
-            <NavigationContainer>
-                {pushCoursesOfAuthor()}
-                <MainNavigation/>
-            </NavigationContainer>
-          </AuthorProvider>
-        </BookmarkProvider>
-      </FavProvider>
+        <FavProvider>
+          <BookmarkProvider>
+            <AuthorProvider>
+              <NavigationContainer>
+                <ThemeProvider>
+                    {pushCoursesOfAuthor()}
+                    <MainNavigation/>
+                </ThemeProvider>
+              </NavigationContainer>
+            </AuthorProvider>
+          </BookmarkProvider>
+        </FavProvider>
     </AuthProvider>
   );
 }

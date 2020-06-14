@@ -26,7 +26,7 @@ const VideoDescription = (props) => {
     }
     const removeFavorite= () => {
         auth.user.fav_courses.splice(auth.user.fav_courses.indexOf(props.item), 1)
-        setBookmark(auth.user.fav_courses)
+        setFav(auth.user.fav_courses)
         setStatusFav(1)
     }
     const addBookmark = () => {
@@ -61,7 +61,7 @@ const VideoDescription = (props) => {
         return false
     }
     const renderFavButton = () => {
-        if(isExistFavorite() === true || statusFav === 0 ){
+        if(isExistFavorite() === true){
             return (
                 <TouchableOpacity onPress = {removeFavorite}>
                 <Icon.Button name="heart" backgroundColor='red'>
@@ -72,7 +72,7 @@ const VideoDescription = (props) => {
                 </TouchableOpacity>
             )
         }
-        if(isExistFavorite() === false || statusFav === 1){
+        if(isExistFavorite() === false){
             return (
                 <TouchableOpacity onPress = {addFavorite}>
                 <Icon.Button name="heart" backgroundColor='red'>
@@ -85,7 +85,7 @@ const VideoDescription = (props) => {
         }
     }
     const renderAddBookmarkButton = () => {
-        if(isExistBookmark() === true || statusBM === 0 ){
+        if(isExistBookmark() === true){
             return (
                 <TouchableOpacity onPress = {removeBookmark}>
                 <Icon.Button name="bookmark" backgroundColor='orange'>
@@ -96,7 +96,7 @@ const VideoDescription = (props) => {
                 </TouchableOpacity>
             )
         }
-        if(isExistBookmark() === false || statusBM === 1){
+        if(isExistBookmark() === false){
             return (
                 <TouchableOpacity onPress = {addBookmark}>
                 <Icon.Button name="bookmark" backgroundColor='orange'>

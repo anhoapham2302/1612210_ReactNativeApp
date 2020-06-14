@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView} from 'react-native'
 import ListCourses from '../../Courses/ListCourses/list-courses'
 import { searchCourse } from '../../../core/services/search-service'
 import { set } from 'react-native-reanimated'
+import { ThemeContext } from '../../../provider/theme-provider'
 
 const Search = (props) => {
+    const {theme} = useContext(ThemeContext)
     const [text, setText] = useState('')
     const [status, setStatus] = useState()
     
@@ -17,7 +19,7 @@ const Search = (props) => {
     }
 
    
-    return(<ScrollView>
+    return(<ScrollView style = {{backgroundColor: theme.background}}>
             <View style = {{flexDirection:'row', marginTop:70, marginHorizontal:17}}>
                 <TextInput  style = {styles.search}
                             onChangeText={text=>setText(text)}

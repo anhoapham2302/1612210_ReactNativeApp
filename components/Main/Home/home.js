@@ -5,8 +5,11 @@ import { ScrollView } from 'react-native-gesture-handler';
 import ImageButton from '../../Common/image-button';
 import { useIsFocused } from '@react-navigation/native';
 import { BookmarkContext } from '../../../provider/bookmark-provider';
+import { ThemeContext } from '../../../provider/theme-provider';
+import { themes } from '../../../global/theme';
 
 const Home = (props) => {
+    const {theme} = useContext(ThemeContext)
     const {bookmark} = useContext(BookmarkContext)
     const renderBookmark = () =>{
         if (bookmark.length === 0){
@@ -16,7 +19,7 @@ const Home = (props) => {
         }
     }
     useIsFocused()
-    return <ScrollView>
+    return <ScrollView style = {{backgroundColor: theme.background}}>
         {/* <SectionCourses title = 'Learning' navigation ={props.navigation}/> */}
         {/* <SectionCourses title = 'Design' navigation ={props.navigation}/> */}
         <SectionCourses title = 'Web Development' navigation ={props.navigation}/>

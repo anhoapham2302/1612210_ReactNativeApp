@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Image, ScrollView} from 'react-native'
 import ListCourses from '../../Courses/ListCourses/list-courses'
+import { ThemeContext } from '../../../provider/theme-provider'
 
 const AuthorProfile = (props) => {
+  const {theme} = useContext(ThemeContext)
     return (
-        <ScrollView>
+        <ScrollView style = {{backgroundColor: theme.background}}>
         <View style={styles.container}>
           <View style={styles.header}></View>
           <Image style={styles.avatar} source={props.route.params.item.avatar}/>
