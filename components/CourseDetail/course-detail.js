@@ -4,6 +4,7 @@ import VideoPlayer from './VideoPlayer/video-player'
 import VideoDescription from './VideoDecsription/video-description'
 import ListPartsOfCourse from './PartsOfCourse/list-parts-of-course'
 import { AuthorContext } from '../../provider/author-provider'
+import ListCourses from '../Courses/ListCourses/list-courses'
 const CourseDetail = (props) => {
     let item = props.route.params.item
     const {author} = useContext(AuthorContext)
@@ -12,7 +13,7 @@ const CourseDetail = (props) => {
         <ScrollView>
            <VideoPlayer item={item} navigation={props.navigation}/>
            <VideoDescription item={item} navigation={props.navigation}/>
-           <ListPartsOfCourse/>
+           <ListCourses title = 'Recommended' item={item} com = 'RecommendFromCourseDetail' navigation={props.navigation}/>
         </ScrollView>
     )
 }

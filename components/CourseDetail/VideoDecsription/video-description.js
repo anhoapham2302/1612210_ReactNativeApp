@@ -124,13 +124,6 @@ const VideoDescription = (props) => {
             <View style={{justifyContent:'space-around', flexDirection:'row', marginTop:20, marginHorizontal:30}}>
             {renderAddBookmarkButton()}
             {renderFavButton()}
-            {/* <TouchableOpacity onPress = {addFavorite}>
-            <Icon.Button name="heart" backgroundColor='red'>
-            <Text style={{ fontSize: 15,color:'#fff' }}>
-             Favorite
-             </Text>
-            </Icon.Button>
-            </TouchableOpacity> */}
             </View>
         </View>
     )
