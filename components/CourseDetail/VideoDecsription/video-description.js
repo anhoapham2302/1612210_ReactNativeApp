@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { View, Text, StyleSheet, Image } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import Star from 'react-native-star-view';
@@ -8,12 +8,15 @@ import { AuthContext } from '../../../provider/auth-provider';
 import { FavContext } from '../../../provider/favorite-provider';
 import { AuthorContext } from '../../../provider/author-provider';
 import { BookmarkContext } from '../../../provider/bookmark-provider';
+import courses from '../../../global/courses';
 
 const VideoDescription = (props) => {
     const {auth} = useContext(AuthContext)
     const {setFav} = useContext(FavContext)
     const {setBookmark} = useContext(BookmarkContext)
+    const {bookmark} = useContext(BookmarkContext)
     const {author} = useContext(AuthorContext)
+    const [status, setStatus] = useState()
     const addFavorite = () => {
         auth.user.fav_courses.push(props.item)
         setFav(auth.user.fav_courses)
@@ -21,9 +24,48 @@ const VideoDescription = (props) => {
     const addBookmark = () => {
         auth.user.bookmark_courses.push(props.item)
         setBookmark(auth.user.bookmark_courses)
+        setStatus(0)
+    }
+    const removeBookmark = () => {
+        auth.user.bookmark_courses.splice(auth.user.bookmark_courses.indexOf(props.item), 1)
+        setBookmark(auth.user.bookmark_courses)
+        setStatus(1)
     }
     const onPressListItem =()=>{
         props.navigation.navigate("AuthorProfile", {item: author})
+    }
+    const isExistBookmark = () => {
+        for(let i = 0; i < bookmark.length; i++)
+        {
+            if(bookmark[i].id === props.item.id){
+                return true
+            }
+        }
+        return false
+    }
+    const renderAddBookmarkButton = () => {
+        if(isExistBookmark() === true || status === 0 ){
+            return (
+                <TouchableOpacity onPress = {removeBookmark}>
+                <Icon.Button name="bookmark" backgroundColor='orange'>
+                <Text style={{ fontSize: 12, color:'#fff'}}>
+                 Remove Bookmark
+                 </Text>
+                </Icon.Button>
+                </TouchableOpacity>
+            )
+        }
+        if(isExistBookmark() === false || status === 1){
+            return (
+                <TouchableOpacity onPress = {addBookmark}>
+                <Icon.Button name="bookmark" backgroundColor='orange'>
+                <Text style={{ fontSize: 15, color:'#fff'}}>
+                 Bookmark
+                 </Text>
+                </Icon.Button>
+                </TouchableOpacity>
+            )
+        }
     }
     return (
         <View style={{marginHorizontal:17}}>
@@ -39,17 +81,11 @@ const VideoDescription = (props) => {
             <Star score={4} style={styles.starStyle}/>
             </View>
             <View style={{justifyContent:'space-around', flexDirection:'row', marginTop:20, marginHorizontal:30}}>
-            <TouchableOpacity onPress = {addBookmark}>
-            <Icon.Button name="bookmark" backgroundColor='red'>
-            <Text style={{ fontSize: 15, color:'#fff'}}>
-             Bookmark
-             </Text>
-            </Icon.Button>
-            </TouchableOpacity>
+            {renderAddBookmarkButton()}
             <TouchableOpacity onPress = {addFavorite}>
-            <Icon.Button name="download">
+            <Icon.Button name="heart" backgroundColor='red'>
             <Text style={{ fontSize: 15,color:'#fff' }}>
-             Download
+             Favorite
              </Text>
             </Icon.Button>
             </TouchableOpacity>
