@@ -13,26 +13,43 @@ import courses from '../../../global/courses';
 const VideoDescription = (props) => {
     const {auth} = useContext(AuthContext)
     const {setFav} = useContext(FavContext)
+    const {fav} = useContext(FavContext)
     const {setBookmark} = useContext(BookmarkContext)
     const {bookmark} = useContext(BookmarkContext)
     const {author} = useContext(AuthorContext)
-    const [status, setStatus] = useState()
+    const [statusBM, setStatusBM] = useState()
+    const [statusFav, setStatusFav] = useState()
     const addFavorite = () => {
         auth.user.fav_courses.push(props.item)
         setFav(auth.user.fav_courses)
+        setStatusFav(0)
+    }
+    const removeFavorite= () => {
+        auth.user.fav_courses.splice(auth.user.fav_courses.indexOf(props.item), 1)
+        setBookmark(auth.user.fav_courses)
+        setStatusFav(1)
     }
     const addBookmark = () => {
         auth.user.bookmark_courses.push(props.item)
         setBookmark(auth.user.bookmark_courses)
-        setStatus(0)
+        setStatusBM(0)
     }
     const removeBookmark = () => {
         auth.user.bookmark_courses.splice(auth.user.bookmark_courses.indexOf(props.item), 1)
         setBookmark(auth.user.bookmark_courses)
-        setStatus(1)
+        setStatusBM(1)
     }
     const onPressListItem =()=>{
         props.navigation.navigate("AuthorProfile", {item: author})
+    }
+    const isExistFavorite = () => {
+        for(let i = 0; i < fav.length; i++)
+        {
+            if(fav[i].id === props.item.id){
+                return true
+            }
+        }
+        return false
     }
     const isExistBookmark = () => {
         for(let i = 0; i < bookmark.length; i++)
@@ -43,8 +60,32 @@ const VideoDescription = (props) => {
         }
         return false
     }
+    const renderFavButton = () => {
+        if(isExistFavorite() === true || statusFav === 0 ){
+            return (
+                <TouchableOpacity onPress = {removeFavorite}>
+                <Icon.Button name="heart" backgroundColor='red'>
+                <Text style={{ fontSize: 12,color:'#fff' }}>
+                Remove Favorite
+                </Text>
+                </Icon.Button>
+                </TouchableOpacity>
+            )
+        }
+        if(isExistFavorite() === false || statusFav === 1){
+            return (
+                <TouchableOpacity onPress = {addFavorite}>
+                <Icon.Button name="heart" backgroundColor='red'>
+                <Text style={{ fontSize: 15, color:'#fff'}}>
+                 Favorite
+                </Text>
+                </Icon.Button>
+                </TouchableOpacity>
+            )
+        }
+    }
     const renderAddBookmarkButton = () => {
-        if(isExistBookmark() === true || status === 0 ){
+        if(isExistBookmark() === true || statusBM === 0 ){
             return (
                 <TouchableOpacity onPress = {removeBookmark}>
                 <Icon.Button name="bookmark" backgroundColor='orange'>
@@ -55,7 +96,7 @@ const VideoDescription = (props) => {
                 </TouchableOpacity>
             )
         }
-        if(isExistBookmark() === false || status === 1){
+        if(isExistBookmark() === false || statusBM === 1){
             return (
                 <TouchableOpacity onPress = {addBookmark}>
                 <Icon.Button name="bookmark" backgroundColor='orange'>
@@ -82,13 +123,14 @@ const VideoDescription = (props) => {
             </View>
             <View style={{justifyContent:'space-around', flexDirection:'row', marginTop:20, marginHorizontal:30}}>
             {renderAddBookmarkButton()}
-            <TouchableOpacity onPress = {addFavorite}>
+            {renderFavButton()}
+            {/* <TouchableOpacity onPress = {addFavorite}>
             <Icon.Button name="heart" backgroundColor='red'>
             <Text style={{ fontSize: 15,color:'#fff' }}>
              Favorite
              </Text>
             </Icon.Button>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             </View>
         </View>
     )
