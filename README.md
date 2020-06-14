@@ -13,6 +13,6 @@ Deadline 1: Mock-up UI/UX cho toàn bộ ứng dụng
   - Commit ID: f5a1c84 (Có tag)
   
   Deadline 2: Xây dựng ứng dụng offline cho toàn bộ ứng dụng
-  - Commit ID: 5a854ec (Em quên add Tag, em sẽ cập nhật ạ)
+  - Commit ID: 5a854ec (Có tag)
   - Video demo: https://youtu.be/65IsY1aDBAg
 ------------------------------------------------
