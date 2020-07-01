@@ -9,8 +9,13 @@ import { FavContext } from '../../../provider/favorite-provider';
 import { AuthorContext } from '../../../provider/author-provider';
 import { BookmarkContext } from '../../../provider/bookmark-provider';
 import courses from '../../../global/courses';
+import { useIsFocused } from '@react-navigation/native';
+
+let clickFavButton = 0
+let clickBMButton = 0
 
 const VideoDescription = (props) => {
+
     const {auth} = useContext(AuthContext)
     const {setFav} = useContext(FavContext)
     const {fav} = useContext(FavContext)
@@ -20,24 +25,32 @@ const VideoDescription = (props) => {
     const [statusBM, setStatusBM] = useState()
     const [statusFav, setStatusFav] = useState()
     const addFavorite = () => {
+        clickFavButton++
         auth.user.fav_courses.push(props.item)
         setFav(auth.user.fav_courses)
-        setStatusFav(0)
+        setStatusFav(clickFavButton)
     }
     const removeFavorite= () => {
+        clickFavButton--
         auth.user.fav_courses.splice(auth.user.fav_courses.indexOf(props.item), 1)
         setFav(auth.user.fav_courses)
-        setStatusFav(1)
+        setStatusFav(clickFavButton)
     }
     const addBookmark = () => {
+        clickBMButton++
         auth.user.bookmark_courses.push(props.item)
         setBookmark(auth.user.bookmark_courses)
-        setStatusBM(0)
+        setStatusBM(clickBMButton)
+
+
     }
     const removeBookmark = () => {
+        clickBMButton--
         auth.user.bookmark_courses.splice(auth.user.bookmark_courses.indexOf(props.item), 1)
         setBookmark(auth.user.bookmark_courses)
-        setStatusBM(1)
+        setStatusBM(clickBMButton)
+ 
+
     }
     const onPressListItem =()=>{
         props.navigation.navigate("AuthorProfile", {item: author})
