@@ -118,7 +118,7 @@ const VideoDescription = (props) => {
             </View> 
             </TouchableOpacity>
             <View style={styles.view}>
-            <Text style ={{color: 'darkgrey'}}>{`${props.item.level} . ${props.item.release} . ${props.item.duration}`}</Text>
+            <Text style ={{color: 'darkgrey'}}>{`${props.item.level} . ${props.item.release.getDate()}/${props.item.release.getMonth()}/${props.item.release.getFullYear()} . ${props.item.duration}`}</Text>
             <Star score={4} style={styles.starStyle}/>
             </View>
             <View style={{justifyContent:'space-around', flexDirection:'row', marginTop:20, marginHorizontal:30}}>
