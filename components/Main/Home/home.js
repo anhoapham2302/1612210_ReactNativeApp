@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import React, { useContext, useState, useEffect} from 'react';
+import {ActivityIndicator, View, StyleSheet, Text} from 'react-native';
 import SectionCourses from './SectionCourses/section-courses';
 import { ScrollView } from 'react-native-gesture-handler';
 import ImageButton from '../../Common/image-button';
@@ -8,7 +8,24 @@ import { BookmarkContext } from '../../../provider/bookmark-provider';
 import { ThemeContext } from '../../../provider/theme-provider';
 import { themes } from '../../../global/theme';
 
+
 const Home = (props) => {
+    const [isLoading, setLoading] = useState(true)
+    const [data, setData] = useState()
+  
+    useEffect(() => {
+       fetch('https://api.itedu.me/category/all', {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        }).then((respone)=>respone.json())
+            .then((json)=>setData(json.payload))
+            .catch((error) => console.error(error))
+            .finally(()=> setLoading(false))
+    },[])
+   
     const {theme} = useContext(ThemeContext)
     const {bookmark} = useContext(BookmarkContext)
     const renderBookmark = () =>{
@@ -18,15 +35,22 @@ const Home = (props) => {
             return <SectionCourses title = 'Bookmarks' navigation ={props.navigation}/>
         }
     }
+    const renderSectionCourse = (courses) => { 
+        return courses.map(item =>  <SectionCourses title = {item.name} course_id = {item.id} navigation ={props.navigation}/>)
+    }
     useIsFocused()
     return <ScrollView style = {{backgroundColor: theme.background}}>
-        {/* <SectionCourses title = 'Learning' navigation ={props.navigation}/> */}
+        {isLoading ? <ActivityIndicator/> : (
+            renderSectionCourse(data)
+         )}
+        
+        {/* <SectionCourses title = 'Learning' course_id = '4eb0c150-8212-44ef-a90b-fcd40130ac01' navigation ={props.navigation}/>  */}
         {/* <SectionCourses title = 'Design' navigation ={props.navigation}/> */}
-        <SectionCourses title = 'Web Development' navigation ={props.navigation}/>
+        {/* <SectionCourses title = 'Web Development' navigation ={props.navigation}/>
         <SectionCourses title = 'Mobile Development' navigation ={props.navigation}/>
         <SectionCourses title = 'Game Development' navigation ={props.navigation}/>
-        <SectionCourses title = 'Databases Development' navigation ={props.navigation}/>
-        {renderBookmark()}    
+        <SectionCourses title = 'Databases Development' navigation ={props.navigation}/> */}
+        {/* {renderBookmark()}     */}
     </ScrollView>
 };
 

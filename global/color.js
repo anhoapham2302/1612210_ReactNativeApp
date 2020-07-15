@@ -1,5 +1,5 @@
 import React from 'react'
 const Colors = {
-        backgroundItem: 'whitesmoke'
+        backgroundItem: '#FFF'
   }
   module.exports = Colors ;
