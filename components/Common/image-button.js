@@ -3,8 +3,11 @@ import { StyleSheet, View, ImageBackground, TouchableOpacity, Text} from 'react-
 
 
 const ImageButton = (props) => {
+    const onPressImageButton =()=>{   
+        props.navigation.navigate("ListCoursesPage", {title: props.title, com: props.com})
+    }
     return <ImageBackground style={styles.button} source={{uri: props.image}}>
-        <TouchableOpacity style={styles.touch}>
+        <TouchableOpacity style={styles.touch} onPress = {onPressImageButton}>
             <Text style = {styles.text}>{props.title}</Text>
         </TouchableOpacity>
     </ImageBackground>

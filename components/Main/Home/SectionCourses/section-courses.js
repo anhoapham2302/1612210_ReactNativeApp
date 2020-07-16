@@ -1,15 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import {View, Text, ScrollView, StyleSheet, Image} from 'react-native';
 import SectionCoursesItem from '../SectionCoursesItem/section-courses-item';
-import { renderCourses } from '../../../../core/services/course-service';
+import { renderCourses, renderTopSell } from '../../../../core/services/course-service';
 
 const SectionCourses = (props) => {
     const [data, setData] = useState([])
  
     useEffect(() => {
+        if(props.title !== 'Top Courses')
+        {
         renderCourses(props.course_id).then((response) => response.json())
         .then((data) => setData(data.payload.rows))
         .catch((error) => console.error(error))
+        }else{
+            renderTopSell().then((response) => response.json())
+            .then((data) => setData(data.payload))
+            .catch((error) => console.error(error))
+        }
     }, [])
   
     const renderListItems = (courses) => {

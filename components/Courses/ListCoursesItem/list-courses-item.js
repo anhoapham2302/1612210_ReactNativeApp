@@ -11,12 +11,12 @@ const ListCoursesItem = (props) => {
     }
 return (   
     <TouchableOpacity style = {styles.item}  onPress={onPressListItem}>
-        <Image source={props.item.image} style = {styles.image} />
+        <Image source={{uri: props.item.imageUrl}} style = {styles.image} />
         <View style={styles.view}>
         <Text numberOfLines = {1} style = {styles.title}>{props.item.title}</Text>
-        <Text style = {{fontSize:14}}>{props.item.author}</Text>
-        <Text style ={{color: 'darkgrey'}}>{`${props.item.level} . ${props.item.release} . ${props.item.duration}`}</Text>
-        <Star score={props.item.rating} style={styles.starStyle}/>
+        <Text style = {{fontSize:14}}>{`${props.item['instructor.user.name']}`}</Text>
+        <Text style ={{color: 'darkgrey'}}>{`${props.item.videoNumber} video(s) . ${props.item.totalHours} hours`}</Text>
+        <Star score={props.item.ratedNumber} style={styles.starStyle}/>
         </View>
     </TouchableOpacity>)
 }

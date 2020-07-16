@@ -25,6 +25,7 @@ import { pushCoursesOfAuthor } from './core/services/author-service';
 import { AuthorProvider } from './provider/author-provider';
 import { BookmarkContext, BookmarkProvider } from './provider/bookmark-provider';
 import {ThemeProvider} from './provider/theme-provider'
+import ListCoursesPage from './components/Courses/ListCoursesPage/list_courses_page'
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const MainNavigationStack = createStackNavigator();
@@ -84,6 +85,7 @@ const BrowseStack = (props) =>{
     <BrowseNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <BrowseNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <BrowseNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <BrowseNavigationStack.Screen name="ListCoursesPage" component={ListCoursesPage} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <BrowseNavigationStack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     </BrowseNavigationStack.Navigator>);
 }

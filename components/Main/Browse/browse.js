@@ -12,7 +12,7 @@ const Browse = (props) => {
     const {theme} = useContext(ThemeContext)
     return (
         <ScrollView style = {{backgroundColor: theme.background}}>
-             <ImageButton title ='New Release' image = 'https://i.pinimg.com/564x/aa/ff/80/aaff80b53e415268590d82d67ac5a1a5.jpg'/>
+             <ImageButton title ='New Release' com = 'NewRelease' image = 'https://i.pinimg.com/564x/aa/ff/80/aaff80b53e415268590d82d67ac5a1a5.jpg'navigation ={props.navigation}/>
              <ImageButton title ='Popular' image = 'https://i.pinimg.com/564x/aa/ff/80/aaff80b53e415268590d82d67ac5a1a5.jpg'/>
              <PopularSkills title = 'Popular Skills'/>
              <TopAuthor title = 'Top Authors' navigation ={props.navigation}/>
