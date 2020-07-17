@@ -15,7 +15,6 @@ const CourseDetail = (props) => {
         <ScrollView style = {{backgroundColor: theme.background}}>
            <VideoPlayer item={item} navigation={props.navigation}/>
            <VideoDescription item={item} navigation={props.navigation}/>
-           <ListCourses title = 'Recommended' item={item} com = 'RecommendFromCourseDetail' navigation={props.navigation}/>
         </ScrollView>
     )
 }

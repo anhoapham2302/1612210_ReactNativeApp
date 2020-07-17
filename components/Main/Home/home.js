@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect} from 'react';
+import React, { useContext, useState, useEffect, useReducer} from 'react';
 import {ActivityIndicator, View, StyleSheet, Text} from 'react-native';
 import SectionCourses from './SectionCourses/section-courses';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -7,12 +7,15 @@ import { useIsFocused } from '@react-navigation/native';
 import { BookmarkContext } from '../../../provider/bookmark-provider';
 import { ThemeContext } from '../../../provider/theme-provider';
 import { themes } from '../../../global/theme';
+import { coursesReducer } from '../../../reducer/courses-reducer';
 
+const initialState = {data: [], isLoading: true, isError: false}
 
 const Home = (props) => {
     const [isLoading, setLoading] = useState(true)
     const [data, setData] = useState()
-  
+    const [state, dispatch] = useReducer(coursesReducer, initialState)
+
     useEffect(() => {
        fetch('https://api.itedu.me/category/all', {
         method: 'GET',

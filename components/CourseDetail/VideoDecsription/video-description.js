@@ -19,6 +19,13 @@ const VideoDescription = (props) => {
     const {author} = useContext(AuthorContext)
     const [statusBM, setStatusBM] = useState()
     const [statusFav, setStatusFav] = useState()
+    const checkName = () => {
+        if(props.item.name){
+            return  <Text style = {styles.text}>{`${props.item.name}`}</Text>
+        }else{
+            return <Text style = {styles.text}>{`${props.item['instructor.user.name']}`}</Text>
+        }
+    }
     const addFavorite = () => {
         auth.user.fav_courses.push(props.item)
         setFav(auth.user.fav_courses)
@@ -114,12 +121,12 @@ const VideoDescription = (props) => {
             <TouchableOpacity style={styles.author} onPress={onPressListItem}>
             <View style={styles.view}>
             <Image source={author.avatar} style = {styles.image} />
-            <Text style={styles.text}>{props.item.author}</Text>
+            {checkName()}
             </View> 
             </TouchableOpacity>
             <View style={styles.view}>
-            <Text style ={{color: 'darkgrey'}}>{`${props.item.level} . ${props.item.release} . ${props.item.duration}`}</Text>
-            <Star score={4} style={styles.starStyle}/>
+            <Text style ={{color: 'darkgrey'}}>{`${props.item.videoNumber} video(s) . ${props.item.totalHours} hours`}</Text>
+            <Star score={props.item.ratedNumber} style={styles.starStyle}/>
             </View>
             <View style={{justifyContent:'space-around', flexDirection:'row', marginTop:20, marginHorizontal:30}}>
             {renderAddBookmarkButton()}

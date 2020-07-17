@@ -4,6 +4,7 @@ import { Video } from 'expo-av';
 
 
 const VideoPlayer = (props) => {
+  console.log(props.item);
 //     return (
 //         <Video
 //   source={{ uri: 'http://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4' }}
@@ -18,7 +19,7 @@ const VideoPlayer = (props) => {
 // />
 //     )
         return(
-            <Image source={props.item.image} style = {styles.image} />
+            <Image source={{uri: props.item.imageUrl}} style = {styles.image} />
         )
 }
 
