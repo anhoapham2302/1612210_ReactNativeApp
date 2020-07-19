@@ -12,9 +12,8 @@ import { themes } from '../../../global/theme';
 
 const AccountProfile = (props) => {
     const {theme, setTheme} = useContext(ThemeContext)
-    const {auth} = useContext(AuthContext)
-    const {fav} = useContext(FavContext)
-    console.log({fav})
+    const {state} = useContext(AuthContext)
+
     const onPressSignOut =()=>{
         props.navigation.navigate("Login")
     }
@@ -22,13 +21,12 @@ const AccountProfile = (props) => {
         props.navigation.navigate("ChangePassword")
     }
 
-    
     return (
         <ScrollView style={{marginTop:20, backgroundColor: theme.background}}>
         <View style={styles.item}>
-            <Image source={auth.user.avatar} style = {styles.image} />
+            <Image source={{uri: state.userInfo.avatar}} style = {styles.image} />
             <View style={styles.text}>
-        <Text style={{ fontSize: 20, fontWeight: 'bold', color: theme.foreground}}>{auth.user.fullname}</Text>
+        <Text style={{ fontSize: 20, fontWeight: 'bold', color: theme.foreground}}>{state.userInfo.name}</Text>
             </View>
         </View>
         {/* <View style={{margin:10}}>

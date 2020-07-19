@@ -11,26 +11,27 @@ import { FavContext } from '../../../provider/favorite-provider';
 const Login = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [status, setStatus] = useState(null);
-    const {setAuth} = useContext(AuthContext)
-    const {setFav} = useContext(FavContext)
+    const authContext = useContext(AuthContext);
+    
 
-    useEffect(() => {
-       if(status && status.status === 200){
+       if(authContext.state.isAuthenticated){
             props.navigation.navigate("Main")
-            setFav(status.user.fav_courses)
-            console.log(status.user.fav_courses)
        }
-    }, [status]) 
+ 
+    const isAuthenticating= authContext.state.isAuthenticating;
 
     const renderLoginstatus = (status)=>{
-        if(!status){
-            return <View/>
-        }else if(status.status === 200){
-            return (<Text>Login</Text>)
+        if(isAuthenticating === true)
+        {
+            return (<Text></Text>)
         }else{
-            return(<Text>{status.errorString}</Text>)
+            if(status === true){
+                return (<Text>Login</Text>)
+            }else{
+            return(<Text>Login failed!</Text>)
+            }
         }
+       
     }
 
     // const onPressRegister =()=>{
@@ -55,12 +56,9 @@ const Login = (props) => {
             secureTextEntry         
             defaultValue={password}
         />
-        {renderLoginstatus(status)}
+        {renderLoginstatus(authContext.state.isAuthenticated)}
         <TouchableOpacity style={Styles.button} onPress={()=>{
-            setStatus(login(username,password))
-            setAuth(login(username,password))
-            
-           
+           authContext.login(username, password)
         }}>
             <Text style={Styles.button_text}>Login</Text>
         </TouchableOpacity>

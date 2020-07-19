@@ -135,8 +135,8 @@ const TabNav = () =>{
 }
 
 const MainNavigation = () => {
-  return <MainNavigationStack.Navigator initialRouteName = "Login" screenOptions={{headerShown:false}}>
-        <MainNavigationStack.Screen name="Login" component={Login} options={{cardStyle:{backgroundColor:'#fff'}}}/>
+  return <MainNavigationStack.Navigator initialRouteName = "Login" screenOptions={{headerShown:false}} >
+        <MainNavigationStack.Screen name="Login" component={Login}  options={{cardStyle:{backgroundColor:'#fff'}}}/>
         <MainNavigationStack.Screen name="Register" component={Register} options={{cardStyle:{backgroundColor:'#fff'}}}/>
         <MainNavigationStack.Screen name="ForgotPassword" component={ForgotPassword} options={{cardStyle:{backgroundColor:'#fff'}}}/>
         <MainNavigationStack.Screen name="ChangePassword" component={ChangePassword} options={{cardStyle:{backgroundColor:'#fff'}}}/>
@@ -147,8 +147,6 @@ const MainNavigation = () => {
 export default function App() {
   return (
     <AuthProvider>
-        <FavProvider>
-          <BookmarkProvider>
             <AuthorProvider>
               <NavigationContainer>
                 <ThemeProvider>
@@ -157,8 +155,6 @@ export default function App() {
                 </ThemeProvider>
               </NavigationContainer>
             </AuthorProvider>
-          </BookmarkProvider>
-        </FavProvider>
     </AuthProvider>
   );
 }

@@ -28,9 +28,9 @@ const ListCourses = (props) => {
         if(com === 'Search'){
             return searchCourse(props.text).course
         }
-        if(com === 'Downloads'){
-            return fav
-        }
+        // if(com === 'Downloads'){
+        //     return fav
+        // }
         if(com === 'Author'){
           return searchCourseOfAuthor(props.author).course
         }
