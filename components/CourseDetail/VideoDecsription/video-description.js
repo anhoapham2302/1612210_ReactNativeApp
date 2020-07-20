@@ -11,10 +11,13 @@ import { BookmarkContext } from '../../../provider/bookmark-provider';
 import courses from '../../../global/courses';
 import { apiCourseDetails } from '../../../core/services/course-service';
 import { CoursesContext } from '../../../provider/course-provider';
+import { apiAddFavoriteCourse } from '../../../core/services/account-service';
 
 const VideoDescription = (props) => {
+    const {state} = useContext(AuthContext)
     const {courses} = useContext(CoursesContext)
     const [data, setData] = useState([])
+    const [fav, setFav] = useState()
     const [status, setStatus] = useState()
 
     useEffect(() => {
@@ -24,6 +27,11 @@ const VideoDescription = (props) => {
         setData(data.payload)})
        .catch((error) => console.log(error))
     }, [])
+
+    const clickFavButton = () => {
+        apiAddFavoriteCourse(state.token, data.id)
+        .catch((error) => console.log(error))
+    }
 
 //     const checkName = () => {
 //         if(props.item.name){
@@ -41,7 +49,7 @@ const VideoDescription = (props) => {
  
     const renderFavButton = () => {
         return (
-            <TouchableOpacity style = {{width:130, borderWidth: 2, borderRadius: 5, borderColor: 'red'}}>
+            <TouchableOpacity style = {{width:130, borderWidth: 2, borderRadius: 5, borderColor: 'red'}} onPress={clickFavButton}>
             <Icon.Button name="heart" backgroundColor='#fff' color = 'red'>
             <Text style={{ fontSize: 17, fontWeight: 'bold',color:'red' }}>
             Favorite
@@ -53,7 +61,7 @@ const VideoDescription = (props) => {
 
     const renderUnFavButton = () => {
         return (
-            <TouchableOpacity style = {{width:130, borderWidth: 0, borderRadius: 5, borderColor: 'red'}}>
+            <TouchableOpacity style = {{width:130, borderWidth: 0, borderRadius: 5, borderColor: 'red'}} onPress={clickFavButton}>
             <Icon.Button name="heart" backgroundColor='red' color = '#fff'>
             <Text style={{ fontSize: 17, fontWeight: 'bold',color:'#fff' }}>
             Favorited
