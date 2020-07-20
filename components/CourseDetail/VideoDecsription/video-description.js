@@ -10,9 +10,12 @@ import { AuthorContext } from '../../../provider/author-provider';
 import { BookmarkContext } from '../../../provider/bookmark-provider';
 import courses from '../../../global/courses';
 import { apiCourseDetails } from '../../../core/services/course-service';
+import { CoursesContext } from '../../../provider/course-provider';
 
 const VideoDescription = (props) => {
+    const {courses} = useContext(CoursesContext)
     const [data, setData] = useState([])
+    const [status, setStatus] = useState()
 
     useEffect(() => {
        apiCourseDetails(props.item.id)
@@ -21,6 +24,17 @@ const VideoDescription = (props) => {
         setData(data.payload)})
        .catch((error) => console.log(error))
     }, [])
+
+    const checkFav = () => {
+        for(let i = 0; i < courses.data.length; i++){
+            if(courses.data[i].id === data.id)
+            {
+                return <Text>True</Text>
+            }
+        }
+        return <Text>False</Text>
+    }
+
 //     const checkName = () => {
 //         if(props.item.name){
 //             return  <Text style = {styles.text}>{`${props.item.name}`}</Text>
@@ -60,6 +74,7 @@ const VideoDescription = (props) => {
     return (
         <View>
              <Image source={{uri: data.imageUrl}} style = {styles.image} />
+             {checkFav()}
              <View style={{marginHorizontal:17}}>
                 <Text style = {styles.title}>{data.title}</Text>
                 <View style={styles.view}>

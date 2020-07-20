@@ -32,7 +32,10 @@ const ListCourses = (props) => {
         if(com === 'Search'){
             return searchCourse(props.text).course
         }
-        if(com === 'Downloads'){    
+        if(com === 'Downloads'){   
+          useEffect(() => {
+            coursesContext.renderFavoriteCourses(state.token)
+        }) 
           return courses.data;
         }
         if(com === 'Author'){

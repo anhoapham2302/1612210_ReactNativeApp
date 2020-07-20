@@ -16,7 +16,6 @@ const Login = (props) => {
     
     useEffect(() => {
         if(authContext.state.isAuthenticated){
-            coursesContext.renderFavoriteCourses(state.token)
             props.navigation.navigate("Main");
         }
     },[authContext.state.isAuthenticated])
