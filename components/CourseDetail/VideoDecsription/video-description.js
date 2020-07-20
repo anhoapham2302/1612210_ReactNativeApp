@@ -25,16 +25,6 @@ const VideoDescription = (props) => {
        .catch((error) => console.log(error))
     }, [])
 
-    const checkFav = () => {
-        for(let i = 0; i < courses.data.length; i++){
-            if(courses.data[i].id === data.id)
-            {
-                return <Text>True</Text>
-            }
-        }
-        return <Text>False</Text>
-    }
-
 //     const checkName = () => {
 //         if(props.item.name){
 //             return  <Text style = {styles.text}>{`${props.item.name}`}</Text>
@@ -49,17 +39,39 @@ const VideoDescription = (props) => {
      
 //     }
  
-//     const renderFavButton = () => {
-//         return (
-//             <TouchableOpacity onPress = {removeFavorite}>
-//             <Icon.Button name="heart" backgroundColor='red'>
-//             <Text style={{ fontSize: 12,color:'#fff' }}>
-//             Remove Favorite
-//             </Text>
-//             </Icon.Button>
-//             </TouchableOpacity>
-//         )
-//     }
+    const renderFavButton = () => {
+        return (
+            <TouchableOpacity style = {{width:130, borderWidth: 2, borderRadius: 5, borderColor: 'red'}}>
+            <Icon.Button name="heart" backgroundColor='#fff' color = 'red'>
+            <Text style={{ fontSize: 17, fontWeight: 'bold',color:'red' }}>
+            Favorite
+            </Text>
+            </Icon.Button>
+            </TouchableOpacity>
+        )
+    }
+
+    const renderUnFavButton = () => {
+        return (
+            <TouchableOpacity style = {{width:130, borderWidth: 0, borderRadius: 5, borderColor: 'red'}}>
+            <Icon.Button name="heart" backgroundColor='red' color = '#fff'>
+            <Text style={{ fontSize: 17, fontWeight: 'bold',color:'#fff' }}>
+            Favorited
+            </Text>
+            </Icon.Button>
+            </TouchableOpacity>
+        )
+    }
+
+    const checkFav = () => {
+        for(let i = 0; i < courses.data.length; i++){
+            if(courses.data[i].id === data.id)
+            {
+                return renderUnFavButton()
+            }
+        }
+        return renderFavButton()
+    }
 // const renderAddBookmarkButton = () => {
 //         return (
 //             <TouchableOpacity onPress = {removeBookmark}>
@@ -74,14 +86,14 @@ const VideoDescription = (props) => {
     return (
         <View>
              <Image source={{uri: data.imageUrl}} style = {styles.image} />
-             {checkFav()}
              <View style={{marginHorizontal:17}}>
                 <Text style = {styles.title}>{data.title}</Text>
                 <View style={styles.view}>
                 <Text style ={{color: 'darkgrey'}}>{`${data.videoNumber} video(s) . ${data.totalHours} hours`}</Text>
                 <Star score={(data.contentPoint + data.formalityPoint + data.presentationPoint)/3} style={styles.starStyle}/>
             </View>
-                <View style={{justifyContent:'space-around', flexDirection:'row', marginTop:20, marginHorizontal:30}}>
+            <View style={{justifyContent:'space-around', flexDirection:'row', marginTop:20, marginHorizontal:30}}>
+                {checkFav()}
             </View>
         </View>
         </View>
