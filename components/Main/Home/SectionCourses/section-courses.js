@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {View, Text, ScrollView, StyleSheet, Image} from 'react-native';
 import SectionCoursesItem from '../SectionCoursesItem/section-courses-item';
-import { renderCourses, renderTopSell } from '../../../../core/services/course-service';
+import { apiCourses, renderTopSell } from '../../../../core/services/course-service';
 
 const SectionCourses = (props) => {
     const [data, setData] = useState([])
@@ -9,7 +9,7 @@ const SectionCourses = (props) => {
     useEffect(() => {
         if(props.title !== 'Top Courses')
         {
-        renderCourses(props.course_id).then((response) => response.json())
+        apiCourses(props.course_id).then((response) => response.json())
         .then((data) => setData(data.payload.rows))
         .catch((error) => console.error(error))
         }else{
@@ -18,7 +18,7 @@ const SectionCourses = (props) => {
             .catch((error) => console.error(error))
         }
     }, [])
-  
+    
     const renderListItems = (courses) => {
         if(courses.length === 0)
         {

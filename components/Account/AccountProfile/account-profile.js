@@ -8,6 +8,7 @@ import ListCourses from '../../Courses/ListCourses/list-courses';
 import { FavContext } from '../../../provider/favorite-provider';
 import { ThemeContext } from '../../../provider/theme-provider';
 import { themes } from '../../../global/theme';
+import { CoursesContext } from '../../../provider/course-provider';
 
 
 const AccountProfile = (props) => {
@@ -26,7 +27,7 @@ const AccountProfile = (props) => {
         <View style={styles.item}>
             <Image source={{uri: state.userInfo.avatar}} style = {styles.image} />
             <View style={styles.text}>
-        <Text style={{ fontSize: 20, fontWeight: 'bold', color: theme.foreground}}>{state.userInfo.name}</Text>
+                <Text style={{ fontSize: 20, fontWeight: 'bold', color: theme.foreground}}>{state.userInfo.name}</Text>
             </View>
         </View>
         {/* <View style={{margin:10}}>
@@ -45,14 +46,14 @@ const AccountProfile = (props) => {
             <Text style={styles.profile_text}>Favorite authors:</Text>
             <ListCourses com = 'Downloads' navigation={props.navigation}/>
         </View> */}
-        <TouchableOpacity style={{width:120, margin:10}} onPress={onPressSignOut}>
+         <TouchableOpacity style={{width:120, margin:10}} onPress={onPressSignOut}>
             <Icon.Button name="sign-out" style={{backgroundColor:'red'}}>
             <Text style={{fontSize: 17, color:'white'}}>
-                Sign Out
-                </Text>
+               Sign Out
+            </Text>
             </Icon.Button>
         </TouchableOpacity>
-        <TouchableOpacity style={{width:190, margin:10}} onPress={()=>{
+        <TouchableOpacity style={{width:190, margin:10}} onPress={()=>{ 
             if(theme === themes.light)
                 setTheme(themes.dark)
             else

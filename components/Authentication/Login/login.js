@@ -3,20 +3,24 @@ import { Image, Text, View, TextInput} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Styles from '../../../global/style'
-import { login } from '../../../core/services/auth-service';
 import { AuthContext } from '../../../provider/auth-provider';
-import { set } from 'react-native-reanimated';
-import { FavContext } from '../../../provider/favorite-provider';
+import { CoursesContext } from '../../../provider/course-provider';
 
 const Login = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const authContext = useContext(AuthContext);
-    
+    const coursesContext = useContext(CoursesContext)
+    const {state} = useContext(AuthContext)
 
-       if(authContext.state.isAuthenticated){
-            props.navigation.navigate("Main")
-       }
+    
+    useEffect(() => {
+        if(authContext.state.isAuthenticated){
+            coursesContext.renderFavoriteCourses(state.token)
+            props.navigation.navigate("Main");
+        }
+    },[authContext.state.isAuthenticated])
+    
  
     const isAuthenticating= authContext.state.isAuthenticating;
 

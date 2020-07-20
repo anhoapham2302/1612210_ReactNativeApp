@@ -26,7 +26,7 @@ const SectionCoursesItem = (props) => {
                     <Text numberOfLines={1} style = {styles.title}>{props.item.title}</Text>
                     {checkName()}
                     <Text style ={{color: 'darkgrey'}}>{`${props.item.videoNumber} video(s) . ${props.item.totalHours} hours`}</Text>
-                    <Star score={props.item.ratedNumber} style={styles.starStyle}/>
+                    <Star score={(props.item.contentPoint + props.item.formalityPoint + props.item.presentationPoint)/3} style={styles.starStyle}/>
                 </TouchableOpacity>
                 )
     
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         marginTop:5, marginRight:10, marginBottom: 5,
         width: 250,
         height: 220,
-        backgroundColor: Colors.backgroundItem,
+        backgroundColor: '#fff',
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     },
     starStyle:{
         width: 100,
-        height: 20
+        height: 20,
     }
 })
 

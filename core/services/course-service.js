@@ -2,7 +2,7 @@ import courses from "../../global/courses"
 import { useContext, useState, useEffect} from "react"
 import { BookmarkContext } from "../../provider/bookmark-provider"
 
-export const renderCourses = (course_id) => {
+export const apiCourses = (course_id) => {
      return fetch('https://api.itedu.me/course/search', {
         method: 'POST',
         headers: {
@@ -22,6 +22,16 @@ export const renderCourses = (course_id) => {
         })
 }
 
+export const apiCourseDetails = (id) => {
+    return fetch('https://api.itedu.me/course/get-course-info?id=' + id, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        })
+}
+
 export const renderTopSell = () => {
     return fetch('https://api.itedu.me/course/top-sell', {
        method: 'POST',
@@ -36,7 +46,7 @@ export const renderTopSell = () => {
        })
 }
 
-export const renderNewRelease = () => {
+export const apiNewRelease = () => {
     return fetch('https://api.itedu.me/course/top-new', {
        method: 'POST',
        headers: {

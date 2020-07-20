@@ -9,7 +9,6 @@ const TopAuthor = (props) => {
     const renderListItems = (author) => {
         return author.map(item => <TopAuthorItem navigation={props.navigation} item = {item}/>);
     }
-    console.log(authors)
     return <View style={Styles.view}>
         <View>
             <Text style = {Styles.text}>{props.title}</Text>

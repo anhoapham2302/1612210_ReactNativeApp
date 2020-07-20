@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useState, useEffect, useReducer} from 'react';
 import { StyleSheet, View, TouchableOpacity, Image, Text} from 'react-native';
 import Home from './components/Main/Home/home';
 import Browse from './components/Main/Browse/browse';
@@ -26,6 +26,8 @@ import { AuthorProvider } from './provider/author-provider';
 import { BookmarkContext, BookmarkProvider } from './provider/bookmark-provider';
 import {ThemeProvider} from './provider/theme-provider'
 import ListCoursesPage from './components/Courses/ListCoursesPage/list_courses_page'
+import { CoursesProvider } from './provider/course-provider';
+import { ThemeContext } from './provider/theme-provider';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const MainNavigationStack = createStackNavigator();
@@ -35,13 +37,19 @@ const DownloadNavigationStack = createStackNavigator();
 const SearchNavigationStack = createStackNavigator();
 
 const HomeStack = (props) =>{
+  const {theme} = useContext(ThemeContext)
   const onPressListItem =()=>{
     props.navigation.navigate("AccountProfile")
 }
   
   return(
     <HomeNavigationStack.Navigator initialRouteName = "Home">
-    <HomeNavigationStack.Screen name="Home" component={Home} options={{cardStyle:{backgroundColor:'#fff'}, headerRight: () => (
+    <HomeNavigationStack.Screen name="Home" component={Home} options={{cardStyle:{backgroundColor: '#fff'}, 
+      headerStyle: {
+        backgroundColor: theme.background,
+      },
+      headerTintColor: theme.foreground,
+      headerRight: () => (
             <TouchableOpacity onPress={onPressListItem}>
               <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {{height:40, width:40, borderRadius:20, marginRight:20}} />
             </TouchableOpacity>
@@ -54,12 +62,18 @@ const HomeStack = (props) =>{
 }
 
 const DownloadsStack = (props) =>{
+  const {theme} = useContext(ThemeContext)
   const onPressListItem =()=>{
     props.navigation.navigate("AccountProfile")
 }
   return(
     <DownloadNavigationStack.Navigator initialRouteName = "Favorites">
-    <DownloadNavigationStack.Screen name="Favorites" component={Downloads} options={{cardStyle:{backgroundColor:'#fff'}, headerRight: () => (
+    <DownloadNavigationStack.Screen name="Favorites" component={Downloads} options={{cardStyle:{backgroundColor:'#fff'}, 
+      headerStyle: {
+        backgroundColor: theme.background,
+      },
+      headerTintColor: theme.foreground,
+      headerRight: () => (
             <TouchableOpacity onPress={onPressListItem}>
               <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {{height:40, width:40, borderRadius:20, marginRight:20}} />
             </TouchableOpacity>
@@ -72,12 +86,18 @@ const DownloadsStack = (props) =>{
 }
 
 const BrowseStack = (props) =>{
+  const {theme} = useContext(ThemeContext)
   const onPressListItem =()=>{
     props.navigation.navigate("AccountProfile")
 }
   return(
     <BrowseNavigationStack.Navigator initialRouteName = "Browse">
-    <BrowseNavigationStack.Screen name="Browse" component={Browse} options={{cardStyle:{backgroundColor:'#fff'}, headerRight: () => (
+    <BrowseNavigationStack.Screen name="Browse" component={Browse} options={{cardStyle:{backgroundColor:'#fff'}, 
+      headerStyle: {
+        backgroundColor: theme.background,
+      },
+      headerTintColor: theme.foreground,
+      headerRight: () => (
             <TouchableOpacity onPress={onPressListItem}>
               <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {{height:40, width:40, borderRadius:20, marginRight:20}} />
             </TouchableOpacity>
@@ -147,6 +167,7 @@ const MainNavigation = () => {
 export default function App() {
   return (
     <AuthProvider>
+      <CoursesProvider>
             <AuthorProvider>
               <NavigationContainer>
                 <ThemeProvider>
@@ -155,6 +176,7 @@ export default function App() {
                 </ThemeProvider>
               </NavigationContainer>
             </AuthorProvider>
+      </CoursesProvider>
     </AuthProvider>
   );
 }
