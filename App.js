@@ -19,7 +19,7 @@ import AuthorProfile from './components/Authors/AuthorProfile/author-profile';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Paths from './components/Paths/paths';
 import ChangePassword from './components/Authentication/ChangePassword/change-password';
-import { AuthProvider } from './provider/auth-provider';
+import { AuthProvider, AuthContext } from './provider/auth-provider';
 import { FavProvider } from './provider/favorite-provider';
 import { pushCoursesOfAuthor } from './core/services/author-service';
 import { AuthorProvider } from './provider/author-provider';
@@ -38,20 +38,21 @@ const SearchNavigationStack = createStackNavigator();
 
 const HomeStack = (props) =>{
   const {theme} = useContext(ThemeContext)
+  const {state} = useContext(AuthContext)
   const onPressListItem =()=>{
     props.navigation.navigate("AccountProfile")
 }
   
   return(
     <HomeNavigationStack.Navigator initialRouteName = "Home">
-    <HomeNavigationStack.Screen name="Home" component={Home} options={{cardStyle:{backgroundColor: '#fff'}, 
+    <HomeNavigationStack.Screen name="Home" component={Home} options={{ 
       headerStyle: {
         backgroundColor: theme.background,
       },
       headerTintColor: theme.foreground,
       headerRight: () => (
-            <TouchableOpacity onPress={onPressListItem}>
-              <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {{height:40, width:40, borderRadius:20, marginRight:20}} />
+            <TouchableOpacity style = {styles.header} onPress={onPressListItem}>
+              <Image source={{uri: state.userInfo.avatar}} style = {styles.image} />
             </TouchableOpacity>
           ),}}/>
     <HomeNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
@@ -63,6 +64,8 @@ const HomeStack = (props) =>{
 
 const DownloadsStack = (props) =>{
   const {theme} = useContext(ThemeContext)
+  const {state} = useContext(AuthContext)
+
   const onPressListItem =()=>{
     props.navigation.navigate("AccountProfile")
 }
@@ -74,10 +77,10 @@ const DownloadsStack = (props) =>{
       },
       headerTintColor: theme.foreground,
       headerRight: () => (
-            <TouchableOpacity onPress={onPressListItem}>
-              <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {{height:40, width:40, borderRadius:20, marginRight:20}} />
-            </TouchableOpacity>
-          ),}}/>
+        <TouchableOpacity style = {styles.header} onPress={onPressListItem}>
+          <Image source={{uri: state.userInfo.avatar}} style = {styles.image} />
+        </TouchableOpacity>
+      ),}}/>
    <DownloadNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <DownloadNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <DownloadNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
@@ -87,6 +90,8 @@ const DownloadsStack = (props) =>{
 
 const BrowseStack = (props) =>{
   const {theme} = useContext(ThemeContext)
+  const {state} = useContext(AuthContext)
+
   const onPressListItem =()=>{
     props.navigation.navigate("AccountProfile")
 }
@@ -98,10 +103,10 @@ const BrowseStack = (props) =>{
       },
       headerTintColor: theme.foreground,
       headerRight: () => (
-            <TouchableOpacity onPress={onPressListItem}>
-              <Image source={{uri: 'https://lucloi.vn/wp-content/uploads/2020/03/90443889_1016737482055036_219143065531580416_n.jpg'}} style = {{height:40, width:40, borderRadius:20, marginRight:20}} />
-            </TouchableOpacity>
-          ),}}/>
+        <TouchableOpacity style = {styles.header} onPress={onPressListItem}>
+          <Image source={{uri: state.userInfo.avatar}} style = {styles.image} />
+        </TouchableOpacity>
+      ),}}/>
     <BrowseNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <BrowseNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <BrowseNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
@@ -143,9 +148,13 @@ const TabNav = () =>{
           },
         })}
         tabBarOptions={{
-          activeTintColor: 'blue',
+          activeTintColor: 'red',
           inactiveTintColor: 'gray',
-        }}>
+          style: {
+            backgroundColor: 'black'
+          }
+        }}
+        >
       <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Favorites" component={DownloadsStack}/> 
       <Tab.Screen name="Browse" component={BrowseStack}/>
@@ -187,4 +196,15 @@ const styles = StyleSheet.create({
     backgroundColor: 'red', 
     marginTop: 50,
   },
+  header: {
+    flex: 1,
+    flexDirection: 'row',
+    marginTop: 0,
+  },
+  image: {
+    height:50, 
+    width:50, 
+    borderRadius:25, 
+    marginRight:20
+  }
 });

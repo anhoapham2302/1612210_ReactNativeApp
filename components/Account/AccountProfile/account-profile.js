@@ -23,7 +23,7 @@ const AccountProfile = (props) => {
     }
 
     return (
-        <ScrollView style={{marginTop:20, backgroundColor: theme.background}}>
+        <ScrollView style={{marginTop:0, backgroundColor: theme.background}}>
         <View style={styles.item}>
             <Image source={{uri: state.userInfo.avatar}} style = {styles.image} />
             <View style={styles.text}>
@@ -74,7 +74,9 @@ const AccountProfile = (props) => {
 const styles = StyleSheet.create({
     item: {
         flexDirection: 'row',
-        margin:10,
+        marginTop: 30,
+        marginBottom: 20,
+        marginLeft: 10,
         borderBottomWidth: 0.5,
     },
     image:{
