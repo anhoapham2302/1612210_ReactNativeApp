@@ -16,7 +16,7 @@ const ListCoursesItem = (props) => {
         if(price === 0){
             return <Text style = {{fontSize: 17, color: 'red', fontWeight: 'bold'}}>Miễn phí</Text>
         }else{
-            return <Text style = {{fontSize: 17, color: 'red', fontWeight: 'bold'}}>{price}</Text>
+            return <Text style = {{fontSize: 17, color: 'red', fontWeight: 'bold'}}>{price} VNĐ</Text>
         }
     }
     const checkType = () => {
@@ -25,7 +25,7 @@ const ListCoursesItem = (props) => {
             return (<TouchableOpacity style = {styles.item}  onPress={onPressListItem}>
                 <Image source={{uri: props.item.courseImage}} style = {styles.image} />
                 <View style={styles.view}>
-                <Text numberOfLines = {1} style = {{fontSize: 17, fontWeight: 'bold', marginBottom: 1}}>{props.item.courseTitle}</Text>
+                <Text numberOfLines = {1} style = {{fontSize: 17, fontWeight: 'bold', marginBottom: 1, color: theme.foreground}}>{props.item.courseTitle}</Text>
                 <Text style = {{fontSize:14, color: 'darkgrey', marginBottom: 1}}>{`${props.item.instructorName}`}</Text>
                 <Star score={props.item.courseAveragePoint} style={styles.starStyle}/>    
                 <Text style = {{fontSize: 17, fontWeight: 'bold', color: '#62DDBD', marginBottom: 1}}>{props.item.courseSoldNumber} Học viên</Text>
@@ -39,7 +39,7 @@ const ListCoursesItem = (props) => {
                 <TouchableOpacity style = {styles.item}  onPress={onPressListItem}>
                     <Image source={{uri: props.item.imageUrl}} style = {styles.image} />
                     <View style={styles.view}>
-                    <Text numberOfLines = {1} style = {{fontSize: 17, fontWeight: 'bold', marginBottom: 1}}>{props.item.title}</Text>
+                    <Text numberOfLines = {1} style = {{fontSize: 17, fontWeight: 'bold', marginBottom: 1, color: theme.foreground}}>{props.item.title}</Text>
                     <Text style = {{fontSize:14, color: 'darkgrey', marginBottom: 1}}>{`${props.item['instructor.user.name']}`}</Text>
                     <Star score={(props.item.contentPoint + props.item.formalityPoint + props.item.presentationPoint)/3} style={styles.starStyle}/>
                     <Text style = {{fontSize: 17, fontWeight: 'bold', color: '#62DDBD', marginBottom: 1}}>{props.item.soldNumber} Học viên</Text>

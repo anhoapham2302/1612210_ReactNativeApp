@@ -28,6 +28,7 @@ import {ThemeProvider} from './provider/theme-provider'
 import ListCoursesPage from './components/Courses/ListCoursesPage/list_courses_page'
 import { CoursesProvider } from './provider/course-provider';
 import { ThemeContext } from './provider/theme-provider';
+import { ImageButtonProvider, ImageButtonContext } from './provider/imageButton-provider';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const MainNavigationStack = createStackNavigator();
@@ -49,7 +50,9 @@ const HomeStack = (props) =>{
       headerStyle: {
         backgroundColor: theme.background,
       },
-      headerTintColor: theme.foreground,
+      headerTitle: () => (
+        <Text style={{fontSize: 20, fontWeight: 'bold', color: theme.foreground}}>Home</Text>
+        ),
       headerRight: () => (
             <TouchableOpacity style = {styles.header} onPress={onPressListItem}>
               <Image source={{uri: state.userInfo.avatar}} style = {styles.image} />
@@ -75,7 +78,9 @@ const DownloadsStack = (props) =>{
       headerStyle: {
         backgroundColor: theme.background,
       },
-      headerTintColor: theme.foreground,
+      headerTitle: () => (
+        <Text style={{fontSize: 20, fontWeight: 'bold', color: theme.foreground}}>Favorited Courses</Text>
+        ),
       headerRight: () => (
         <TouchableOpacity style = {styles.header} onPress={onPressListItem}>
           <Image source={{uri: state.userInfo.avatar}} style = {styles.image} />
@@ -91,6 +96,7 @@ const DownloadsStack = (props) =>{
 const BrowseStack = (props) =>{
   const {theme} = useContext(ThemeContext)
   const {state} = useContext(AuthContext)
+  const {title} = useContext(ImageButtonContext)
 
   const onPressListItem =()=>{
     props.navigation.navigate("AccountProfile")
@@ -101,7 +107,9 @@ const BrowseStack = (props) =>{
       headerStyle: {
         backgroundColor: theme.background,
       },
-      headerTintColor: theme.foreground,
+      headerTitle: () => (
+        <Text style={{fontSize: 20, fontWeight: 'bold', color: theme.foreground}}>Browse</Text>
+        ),
       headerRight: () => (
         <TouchableOpacity style = {styles.header} onPress={onPressListItem}>
           <Image source={{uri: state.userInfo.avatar}} style = {styles.image} />
@@ -110,7 +118,21 @@ const BrowseStack = (props) =>{
     <BrowseNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <BrowseNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <BrowseNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <BrowseNavigationStack.Screen name="ListCoursesPage" component={ListCoursesPage} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <BrowseNavigationStack.Screen name="ListCoursesPage" component={ListCoursesPage} options={{cardStyle:{backgroundColor:theme.background},
+      headerStyle: {
+        backgroundColor: theme.background,
+      },
+      headerTintColor: theme.foreground,
+      headerLeft: null,
+      headerTitle: () => (
+      <Text style={{fontSize: 20, fontWeight: 'bold', color: theme.foreground}}>{title}</Text>
+      ),
+      headerRight: () => (
+            <TouchableOpacity style = {styles.header} onPress={onPressListItem}>
+              <Image source={{uri: state.userInfo.avatar}} style = {styles.image} />
+            </TouchableOpacity>
+          )
+    }}/>
     <BrowseNavigationStack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     </BrowseNavigationStack.Navigator>);
 }
@@ -126,6 +148,7 @@ const SearchStack = () =>{
     </SearchNavigationStack.Navigator>);
 }
 const TabNav = () =>{
+  const {theme} = useContext(ThemeContext)
   return(
       <Tab.Navigator screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -148,10 +171,10 @@ const TabNav = () =>{
           },
         })}
         tabBarOptions={{
-          activeTintColor: 'red',
-          inactiveTintColor: 'gray',
+          activeTintColor: theme.activeTab,
+          inactiveTintColor: theme.inactiveTab,
           style: {
-            backgroundColor: 'black'
+            backgroundColor: theme.background
           }
         }}
         >
@@ -180,9 +203,11 @@ export default function App() {
             <AuthorProvider>
               <NavigationContainer>
                 <ThemeProvider>
+                  <ImageButtonProvider>
                     {pushCoursesOfAuthor()}
                     <MainNavigation/>
-                </ThemeProvider>
+                    </ImageButtonProvider>
+                </ThemeProvider>      
               </NavigationContainer>
             </AuthorProvider>
       </CoursesProvider>

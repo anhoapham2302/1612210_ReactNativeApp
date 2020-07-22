@@ -63,9 +63,9 @@ const ListCourses = (props) => {
       return (
         <View style={Styles.view}> 
         {/* {state.isLoading && <ActivityIndicator/>} */}
-        <View>
+        {/* <View>
             <Text style = {Styles.text}>{props.title}</Text>
-        </View>
+        </View> */}
             <FlatList
                 data={checkComponent(props.com)}
                 renderItem={({item})=><ListCoursesItem navigation ={props.navigation} item = {item}/>}

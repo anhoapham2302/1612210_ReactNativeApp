@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Image} from 'react-native'
+import { ThemeContext } from '../../../../provider/theme-provider'
 
 const TopAuthorItem = (props) => {
+    const {theme} = useContext(ThemeContext)
     const onPressListItem =()=>{
         props.navigation.navigate("AuthorProfile", {item: props.item})
     }
     return( <TouchableOpacity style = {styles.item} onPress={onPressListItem}>
         <Image source={props.item.avatar} style = {styles.image} />
-        <Text style={styles.text}>{props.item.name}</Text>
+        <Text style={{fontSize: 14, color: theme.foreground,  paddingLeft:8}}>{props.item.name}</Text>
     </TouchableOpacity>
     )
 }

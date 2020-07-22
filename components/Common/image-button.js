@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, View, ImageBackground, TouchableOpacity, Text} from 'react-native'
+import { ImageButtonContext } from '../../provider/imageButton-provider'
 
 
 const ImageButton = (props) => {
+    const {setTitle} = useContext(ImageButtonContext)
     const onPressImageButton =()=>{   
+        setTitle(props.title)
         props.navigation.navigate("ListCoursesPage", {title: props.title, com: props.com})
     }
     return <ImageBackground style={styles.button} source={{uri: props.image}}>

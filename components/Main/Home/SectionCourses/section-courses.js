@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import {View, Text, ScrollView, StyleSheet, Image} from 'react-native';
 import SectionCoursesItem from '../SectionCoursesItem/section-courses-item';
 import { apiCourses, renderTopSell } from '../../../../core/services/course-service';
+import { ThemeContext } from '../../../../provider/theme-provider';
 
 const SectionCourses = (props) => {
+    const {theme} = useContext(ThemeContext)
     const [data, setData] = useState([])
  
     useEffect(() => {
@@ -31,7 +33,7 @@ const SectionCourses = (props) => {
 
     return <View style = {styles.view}>
         <View>
-            <Text style = {styles.text}>{props.title}</Text>
+            <Text style = {{fontWeight: 'bold', fontSize: 20, color: theme.foreground}}>{props.title}</Text>
         </View>
         <ScrollView horizontal={true}>
             {renderListItems(data)}
@@ -49,6 +51,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     image:{
+        marginTop: 5,
         height: 220, 
         width: 250
     },
