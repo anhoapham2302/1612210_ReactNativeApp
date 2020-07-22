@@ -13,7 +13,7 @@ const Browse = (props) => {
     return (
         <ScrollView style = {{backgroundColor: theme.background}}>
              <ImageButton title ='New Release' com = 'NewRelease' image = 'https://i.pinimg.com/564x/aa/ff/80/aaff80b53e415268590d82d67ac5a1a5.jpg'navigation ={props.navigation}/>
-             <ImageButton title ='Popular' image = 'https://i.pinimg.com/564x/aa/ff/80/aaff80b53e415268590d82d67ac5a1a5.jpg'/>
+             <ImageButton title ='Recommend For You' com = 'Recommend' image = 'https://i.pinimg.com/564x/aa/ff/80/aaff80b53e415268590d82d67ac5a1a5.jpg' navigation ={props.navigation}/>
              <PopularSkills title = 'Popular Skills'/>
              <TopAuthor title = 'Top Authors' navigation ={props.navigation}/>
              <SectionCourses title = 'Top Courses' navigation ={props.navigation}/>

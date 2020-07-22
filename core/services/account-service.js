@@ -22,3 +22,13 @@ export const apiAddFavoriteCourse = (token, course_id)=>{
             })
     })
 }
+
+export const apiRecommendCourses = (id, limit, offset)=>{
+    return fetch(`https://api.itedu.me/user/recommend-course/${id}/${limit}/${offset}`, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+    })
+}

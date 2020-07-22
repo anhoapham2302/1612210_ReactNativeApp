@@ -10,6 +10,7 @@ import { renderNewRelease, apiNewRelease } from '../../../core/services/course-s
 import { useReducer } from 'react'
 import { coursesReducer } from '../../../reducer/courses-reducer'
 import { CoursesContext } from '../../../provider/course-provider'
+import { apiRecommendCourses } from '../../../core/services/account-service'
 
 const initialState = {data: [], isLoading: true, isError: false}
 
@@ -49,6 +50,14 @@ const ListCourses = (props) => {
         }, [])
           return data;
         }  
+        if(com === 'Recommend'){
+          useEffect(() => {
+            apiRecommendCourses(state.userInfo.id, 10, 1).then((response) => response.json())
+            .then((data) => {setData(data.payload)})
+            .catch((error) => console.error(error))
+      }, [])
+        return data;
+      }  
         
     }
       return (
