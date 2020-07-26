@@ -9,3 +9,7 @@ export const renderFavoriteCourses = (dispatch) => (token) => {
    )
     .catch((error) => console.error(error))
 }
+
+export const requestReload = (dispatch) => () => {
+    dispatch({type: "REQUEST_RELOAD"})
+}
