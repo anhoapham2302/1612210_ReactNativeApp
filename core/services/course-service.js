@@ -60,3 +60,13 @@ export const apiNewRelease = () => {
        })
 }
 
+export const apiGetLessonsOfCourse = (token, id) => {
+    return fetch(`https://api.itedu.me/course/detail-with-lesson/${id}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+}

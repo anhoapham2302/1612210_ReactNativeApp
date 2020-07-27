@@ -29,6 +29,7 @@ import ListCoursesPage from './components/Courses/ListCoursesPage/list_courses_p
 import { CoursesProvider } from './provider/course-provider';
 import { ThemeContext } from './provider/theme-provider';
 import { ImageButtonProvider, ImageButtonContext } from './provider/imageButton-provider';
+import { LessonProvider } from './provider/lesson-provider';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const MainNavigationStack = createStackNavigator();
@@ -200,6 +201,7 @@ export default function App() {
   return (
     <AuthProvider>
       <CoursesProvider>
+        <LessonProvider>
             <AuthorProvider>
               <NavigationContainer>
                 <ThemeProvider>
@@ -210,6 +212,7 @@ export default function App() {
                 </ThemeProvider>      
               </NavigationContainer>
             </AuthorProvider>
+          </LessonProvider>
       </CoursesProvider>
     </AuthProvider>
   );
