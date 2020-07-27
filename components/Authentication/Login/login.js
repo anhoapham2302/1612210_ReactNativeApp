@@ -12,13 +12,14 @@ const Login = (props) => {
     const authContext = useContext(AuthContext);
     const coursesContext = useContext(CoursesContext)
     const {state} = useContext(AuthContext)
+    const {courses} = useContext(CoursesContext)
 
     
     useEffect(() => {
         if(authContext.state.isAuthenticated){
-            coursesContext.renderFavoriteCourses(state.token);;
+            coursesContext.renderFavoriteCourses(state.token);
         }
-    })
+    }, [authContext.state.isAuthenticated])
 
     useEffect(() => {
         if(authContext.state.isAuthenticated){

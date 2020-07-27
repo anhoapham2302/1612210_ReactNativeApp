@@ -15,8 +15,9 @@ const Home = (props) => {
     const [isLoading, setLoading] = useState(true)
     const [data, setData] = useState()
     const [state, dispatch] = useReducer(coursesReducer, initialState)
-
     useEffect(() => {
+       
+
        fetch('https://api.itedu.me/category/all', {
         method: 'GET',
         headers: {
@@ -28,7 +29,6 @@ const Home = (props) => {
             .catch((error) => console.error(error))
             .finally(()=> setLoading(false))
     },[])
-   
     const {theme} = useContext(ThemeContext)
     // const {bookmark} = useContext(BookmarkContext)
     // const renderBookmark = () =>{
@@ -41,7 +41,6 @@ const Home = (props) => {
     const renderSectionCourse = (courses) => { 
         return courses.map(item =>  <SectionCourses title = {item.name} course_id = {item.id} navigation ={props.navigation}/>)
     }
-    useIsFocused()
     return <ScrollView style = {{backgroundColor: theme.background}}>
         {isLoading ? <ActivityIndicator/> : (
             renderSectionCourse(data)

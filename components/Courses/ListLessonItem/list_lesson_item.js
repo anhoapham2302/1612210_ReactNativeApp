@@ -1,35 +1,19 @@
-import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import React, { useContext } from "react";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { ThemeContext } from "../../../provider/theme-provider";
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
 
 export default function ListLessonItem(props) {
-    // console.log(props);
-    return (
-       <TouchableOpacity>
-            {/* <Image source={{uri: props.item.imageUrl}} style = {styles.image} /> */}
-       </TouchableOpacity>
-    )
+  const { theme } = useContext(ThemeContext);
+  return (
+    <TouchableOpacity
+      style={{ flexDirection: "row", margin: 5, marginLeft: 10 }}
+    >
+      <Ionicons name="logo-youtube" color={theme.foreground} style = {{marginTop: 5, marginRight: 5}}/>
+      <Text style={{ color: theme.foreground, fontSize: 15 }}>
+        Bài {props.item.numberOrder}: {props.item.name}
+      </Text>
+    </TouchableOpacity>
+  );
 }
-
-const styles = StyleSheet.create({
-    view:{
-        marginLeft:5
-    },
-    item: {
-        flexDirection: 'row',
-    },
-    
-    image:{
-        height: 105, 
-        width: 140,
-        marginTop:5
-    },
-    title:{
-        fontSize: 17,
-        fontWeight: 'bold'
-    },
-    starStyle:{
-        width: 110,
-        height: 20,
-        marginBottom: 2
-    }
-})

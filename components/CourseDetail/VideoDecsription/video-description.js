@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useMemo } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   Image,
   Dimensions,
   ActivityIndicator,
+  ListView,
 } from "react-native";
 import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
 import Star from "react-native-star-view";
@@ -21,12 +22,15 @@ import { CoursesContext } from "../../../provider/course-provider";
 import {
   apiAddFavoriteCourse,
   apiCheckOwnCourse,
+  apiChecLikeCourse,
 } from "../../../core/services/account-service";
 import { TabView, SceneMap } from "react-native-tab-view";
 import { color } from "react-native-reanimated";
 import { ThemeContext } from "../../../provider/theme-provider";
 import ListLessons from "../../Courses/ListLessons/list_lessons";
 import { LessonContext } from "../../../provider/lesson-provider";
+import ListCourses from "../../Courses/ListCourses/list-courses";
+import { useIsFocused } from "@react-navigation/native";
 
 const initialLayout = { width: Dimensions.get("window").width };
 
@@ -43,7 +47,7 @@ const VideoDescription = (props) => {
   const [index, setIndex] = useState(0);
   const [lesson, setLesson] = useState([]);
   const lessonContext = useContext(LessonContext)
-
+  const [click, setClick] = useState(0)
   useEffect(() => {
     apiCourseDetails(props.item.id)
       .then((response) => response.json())
@@ -65,6 +69,15 @@ const VideoDescription = (props) => {
   useEffect(() => {
     lessonContext.getLesson(state.token, props.item.id)
   }, []);
+  const clickFavButton = () => {
+    apiAddFavoriteCourse(state.token, data.id).catch((error) =>
+      console.log(error))
+      .finally(setClick(click+1))
+  };
+  useEffect(() => {
+    coursesContext.renderFavoriteCourses(state.token);
+  }, [click])
+
   const renderFavButton = () => {
     return (
       <TouchableOpacity
@@ -139,12 +152,11 @@ const VideoDescription = (props) => {
       </Text>
     </ScrollView>
   );
-
   const FirstRoute = () => {
     if(isOwn === true)
     {
       return(<ScrollView>
-        <ListLessons navigation={props.navigation}/>
+         <ListLessons navigation={props.navigation}/>
       </ScrollView>)
       
     }
@@ -180,11 +192,6 @@ const VideoDescription = (props) => {
     evaluate: ThirdRoute,
   });
 
-  const clickFavButton = () => {
-    apiAddFavoriteCourse(state.token, data.id).catch((error) =>
-      console.log(error)
-    );
-  };
 
   return (
     <View>
@@ -213,10 +220,7 @@ const VideoDescription = (props) => {
             </View>
             <View
               style={{
-                justifyContent: "space-around",
-                flexDirection: "row",
                 marginTop: 20,
-                marginHorizontal: 30,
               }}
             >
               {checkFav()}
@@ -269,4 +273,5 @@ const styles = {
     height: 17,
   },
 };
+
 export default VideoDescription;

@@ -46,3 +46,14 @@ export const apiCheckOwnCourse = (token, id) => {
     },
   });
 };
+
+export const apiChecLikeCourse = (token, id) => {
+  return fetch(`https://api.itedu.me/user/get-course-like-status/${id}`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
+};

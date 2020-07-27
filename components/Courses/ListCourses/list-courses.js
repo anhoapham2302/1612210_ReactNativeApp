@@ -19,6 +19,7 @@ import { FavContext } from "../../../provider/favorite-provider";
 import {
   renderNewRelease,
   apiNewRelease,
+  apiSearchCourses,
 } from "../../../core/services/course-service";
 import { useReducer } from "react";
 import { coursesReducer } from "../../../reducer/courses-reducer";
@@ -33,41 +34,11 @@ const ListCourses = (props) => {
   const { state } = useContext(AuthContext);
   const { courses } = useContext(CoursesContext);
   const [data, setData] = useState([]);
+  const [isLoading, setLoading] = useState(true)  //const [state, dispatch] = useReducer(coursesReducer, initialState)
   //const [state, dispatch] = useReducer(coursesReducer, initialState)
 
   const renderSeparator = () => {
     return <View style={Styles.renderseparator} />;
-  };
-  const checkComponent = (com) => {
-    if (com === "Search") {
-      return searchCourse(props.text).course;
-    }
-    if (com === "Downloads") {
-      return courses.data;
-    }
-    if (com === "Author") {
-      return searchCourseOfAuthor(props.author).course;
-    }
-    if (com === "NewRelease") {
-      useEffect(() => {
-        apiNewRelease()
-          .then((response) => response.json())
-          .then((data) => setData(data.payload))
-          .catch((error) => console.error(error));
-      }, []);
-      return data;
-    }
-    if (com === "Recommend") {
-      useEffect(() => {
-        apiRecommendCourses(state.userInfo.id, 10, 1)
-          .then((response) => response.json())
-          .then((data) => {
-            setData(data.payload);
-          })
-          .catch((error) => console.error(error));
-      }, []);
-      return data;
-    }
   };
   return (
     <View style={Styles.view}>
@@ -75,13 +46,16 @@ const ListCourses = (props) => {
       {/* <View>
             <Text style = {Styles.text}>{props.title}</Text>
         </View> */}
-      <FlatList
-        data={checkComponent(props.com)}
+        {/* {isLoading ? <ActivityIndicator/> : (  */}
+        <FlatList
+        data={props.item}
         renderItem={({ item }) => (
           <ListCoursesItem navigation={props.navigation} item={item} />
         )}
         ItemSeparatorComponent={renderSeparator}
       />
+      {/* )} */}
+     
     </View>
   );
 };

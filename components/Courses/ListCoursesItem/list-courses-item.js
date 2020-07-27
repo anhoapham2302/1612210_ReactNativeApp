@@ -19,6 +19,13 @@ const ListCoursesItem = (props) => {
             return <Text style = {{fontSize: 17, color: 'red', fontWeight: 'bold'}}>{price} VNĐ</Text>
         }
     }
+    const checkName = () => {
+        if(props.item.name){
+            return  <Text style = {{fontSize:14, color: 'darkgrey', marginBottom: 1}}>{`${props.item.name}`}</Text>
+        }else{
+            return <Text style = {{fontSize:14, color: 'darkgrey', marginBottom: 1}}>{`${props.item['instructor.user.name']}`}</Text>
+        }
+    }
     const checkType = () => {
         if(props.item.courseTitle)
         {   
@@ -40,7 +47,7 @@ const ListCoursesItem = (props) => {
                     <Image source={{uri: props.item.imageUrl}} style = {styles.image} />
                     <View style={styles.view}>
                     <Text numberOfLines = {1} style = {{fontSize: 17, fontWeight: 'bold', marginBottom: 1, color: theme.foreground}}>{props.item.title}</Text>
-                    <Text style = {{fontSize:14, color: 'darkgrey', marginBottom: 1}}>{`${props.item['instructor.user.name']}`}</Text>
+                    {checkName()}
                     <Star score={(props.item.contentPoint + props.item.formalityPoint + props.item.presentationPoint)/3} style={styles.starStyle}/>
                     <Text style = {{fontSize: 17, fontWeight: 'bold', color: '#62DDBD', marginBottom: 1}}>{props.item.soldNumber} Học viên</Text>
                     {checkPrice(props.item.price)}

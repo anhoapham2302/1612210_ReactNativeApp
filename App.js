@@ -30,6 +30,7 @@ import { CoursesProvider } from './provider/course-provider';
 import { ThemeContext } from './provider/theme-provider';
 import { ImageButtonProvider, ImageButtonContext } from './provider/imageButton-provider';
 import { LessonProvider } from './provider/lesson-provider';
+import { SearchProvider } from './provider/search-provider';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const MainNavigationStack = createStackNavigator();
@@ -202,6 +203,7 @@ export default function App() {
     <AuthProvider>
       <CoursesProvider>
         <LessonProvider>
+          <SearchProvider>
             <AuthorProvider>
               <NavigationContainer>
                 <ThemeProvider>
@@ -212,6 +214,7 @@ export default function App() {
                 </ThemeProvider>      
               </NavigationContainer>
             </AuthorProvider>
+            </SearchProvider>
           </LessonProvider>
       </CoursesProvider>
     </AuthProvider>

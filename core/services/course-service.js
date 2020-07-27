@@ -22,6 +22,21 @@ export const apiCourses = (course_id) => {
         })
 }
 
+export const apiSearchCourses = (text) => {
+    return fetch('https://api.itedu.me/course/search', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+                keyword: text,
+                limit: 10,
+                offset: 0
+        })
+        })
+}
+
 export const apiCourseDetails = (id) => {
     return fetch('https://api.itedu.me/course/get-course-info?id=' + id, {
         method: 'GET',
