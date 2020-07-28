@@ -5,6 +5,11 @@ import { ThemeContext } from "../../../../provider/theme-provider";
 
 const SectionCoursesItem = (props) => {
   const { theme } = useContext(ThemeContext);
+  let isProcessCourse = false;
+  if(props.item.process !== undefined)
+  {
+    isProcessCourse = true
+  }
   const checkName = () => {
     if (props.item.name) {
       return <Text style={{ fontSize: 14,color: 'darkgrey' }}>{`${props.item.name}`}</Text>;
@@ -43,7 +48,30 @@ const SectionCoursesItem = (props) => {
 
   return (
     <TouchableOpacity style={[styles.item, {backgroundColor: theme.background}]} onPress={onPressListItem}>
-      <Image source={{ uri: props.item.imageUrl }} style={styles.image} />
+      {isProcessCourse ? (
+        <View>
+           <Image source={{ uri: props.item.courseImage }} style={styles.image} />
+         <View style={styles.view}>
+           <Text
+             numberOfLines={1}
+             style={{
+               fontSize: 17,
+               fontWeight: "bold",
+               marginBottom: 1,
+               color: theme.foreground,
+             }}
+           >
+             {props.item.courseTitle}
+           </Text>
+           <Text
+            style={{ fontSize: 14, color: 'darkgrey'}}
+          >{props.item.instructorName}</Text>
+        </View>
+        </View>
+    
+      ) : (
+        <View>
+        <Image source={{ uri: props.item.imageUrl }} style={styles.image} />
       <View style={styles.view}>
         <Text
           numberOfLines={1}
@@ -79,6 +107,10 @@ const SectionCoursesItem = (props) => {
           {checkPrice(props.item.price)}
         </View>
       </View>
+        </View>
+      
+      )}
+     
     </TouchableOpacity>
   );
 };

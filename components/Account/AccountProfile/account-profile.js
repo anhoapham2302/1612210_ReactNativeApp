@@ -1,6 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
-import { TouchableOpacity, ScrollView } from "react-native-gesture-handler";
+import {
+  TouchableOpacity,
+  ScrollView,
+  TextInput,
+} from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { AuthContext } from "../../../provider/auth-provider";
 import ListCourses from "../../Courses/ListCourses/list-courses";
@@ -8,10 +12,12 @@ import { FavContext } from "../../../provider/favorite-provider";
 import { ThemeContext } from "../../../provider/theme-provider";
 import { themes } from "../../../global/theme";
 import { CoursesContext } from "../../../provider/course-provider";
+import SectionCourses from "../../Main/Home/SectionCourses/section-courses";
 
 const AccountProfile = (props) => {
   const { theme, setTheme } = useContext(ThemeContext);
   const { state } = useContext(AuthContext);
+  const {name, setName} = useState(state.userInfo.name) 
 
   const onPressSignOut = () => {
     props.navigation.navigate("Login");
@@ -24,18 +30,29 @@ const AccountProfile = (props) => {
     <ScrollView style={{ backgroundColor: theme.background }}>
       <View style={styles.container}>
         <View style={styles.header}></View>
-        <Image
-          style={styles.avatar}
-          source={{ uri: state.userInfo.avatar }}
-        />
+        <Image style={styles.avatar} source={{ uri: state.userInfo.avatar }} />
         <View style={styles.body}>
           <View style={styles.bodyContent}>
-            <Text style={[styles.name, { color: theme.foreground }]}>
-              {state.userInfo.name}
-            </Text>
-            <Text style={styles.info}>
-              Email: {state.userInfo.email}
-            </Text>
+            <View>
+              <TextInput
+                style={[styles.name, { color: theme.foreground }]}
+                defaultValue={state.userInfo.name}
+              ></TextInput>
+               <TouchableOpacity
+        style={{
+        alignItems: 'flex-end',
+          borderColor: theme.background,
+          height: 35
+        }}
+      >
+        <Icon.Button name="edit" backgroundColor="#fff" color="red">
+          <Text style={{ fontSize: 17, color: "red" }}>
+            Update
+          </Text>
+        </Icon.Button>
+      </TouchableOpacity>
+            </View>
+            <Text style={styles.info}>Email: {state.userInfo.email}</Text>
             <Text style={styles.info}>
               Số điện thoại: {state.userInfo.phone}
             </Text>
@@ -43,6 +60,7 @@ const AccountProfile = (props) => {
               Loại tài khoản: {state.userInfo.type}
             </Text>
           </View>
+          <SectionCourses title="Your Courses" navigation={props.navigation} />
         </View>
       </View>
       <TouchableOpacity

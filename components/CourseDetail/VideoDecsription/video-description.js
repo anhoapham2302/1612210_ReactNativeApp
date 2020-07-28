@@ -32,6 +32,7 @@ import ListLessons from "../../Courses/ListLessons/list_lessons";
 import { LessonContext } from "../../../provider/lesson-provider";
 import ListCourses from "../../Courses/ListCourses/list-courses";
 import { useIsFocused } from "@react-navigation/native";
+import { apiAuthorDetail } from "../../../core/services/author-service";
 
 const initialLayout = { width: Dimensions.get("window").width };
 
@@ -43,10 +44,7 @@ const VideoDescription = (props) => {
   const [data, setData] = useState([]);
   const [isOwn, checkOwn] = useState();
   const [isLoading, setLoading] = useState(true);
-  const [fav, setFav] = useState();
-  const [status, setStatus] = useState(true);
   const [index, setIndex] = useState(0);
-  const [lesson, setLesson] = useState([]);
   const lessonContext = useContext(LessonContext)
   const [click, setClick] = useState(0)
   useEffect(() => {
@@ -178,19 +176,19 @@ const VideoDescription = (props) => {
    
   };
 
-  const ThirdRoute = () => (
-    <View style={[styles.scene, { backgroundColor: "#673ab7" }]} />
-  );
+  // const ThirdRoute = () => (
+  //   <View style={[styles.scene, { backgroundColor: "#673ab7" }]} />
+  // );
 
   const [routes] = useState([
     { key: "lesson", title: "Bài học" },
     { key: "description", title: "Mô tả" },
-    { key: "evaluate", title: "Đánh giá" },
+    // { key: "evaluate", title: "Đánh giá" },
   ]);
   const renderScene = SceneMap({
     lesson: FirstRoute,
     description: SecondRoute,
-    evaluate: ThirdRoute,
+    // evaluate: ThirdRoute,
   });
 
 

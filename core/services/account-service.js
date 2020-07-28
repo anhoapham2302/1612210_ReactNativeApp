@@ -36,6 +36,20 @@ export const apiRecommendCourses = (id, limit, offset) => {
   );
 };
 
+export const apiProcessCourses = (token) => {
+  return fetch(
+    `https://api.itedu.me/user/get-process-courses`,
+    {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    }
+  );
+};
+
 export const apiCheckOwnCourse = (token, id) => {
   return fetch(`https://api.itedu.me/user/check-own-course/${id}`, {
     method: "GET",
@@ -55,5 +69,21 @@ export const apiChecLikeCourse = (token, id) => {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
     },
+  });
+};
+
+export const apiUpdateName = (token, name, avatar, phone) => {
+  return fetch(`https://api.itedu.me/user/update-profile`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: {
+      name: name,
+      avatar: avatar,
+      phone: phone
+    }
   });
 };

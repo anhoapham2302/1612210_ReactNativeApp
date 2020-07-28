@@ -44,9 +44,9 @@ const Login = (props) => {
        
     }
 
-    // const onPressRegister =()=>{
-    //     props.navigation.navigate("Register")
-    // }
+    const onPressRegister =()=>{
+        props.navigation.navigate("Register")
+    }
     // const onPressForgotPassword =()=>{
     //     props.navigation.navigate("ForgotPassword")
     // }
@@ -72,7 +72,9 @@ const Login = (props) => {
         }}>
             <Text style={Styles.button_text}>Login</Text>
         </TouchableOpacity>
-        
+        <TouchableOpacity style={[Styles.button_reg, {marginTop: 10}]} onPress={onPressRegister}>
+            <Text style={Styles.button_text}>Register</Text>
+        </TouchableOpacity>
         </View>  
     )
      

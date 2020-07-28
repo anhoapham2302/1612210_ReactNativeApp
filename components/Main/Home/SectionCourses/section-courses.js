@@ -7,10 +7,13 @@ import {
   apiTopRated,
 } from "../../../../core/services/course-service";
 import { ThemeContext } from "../../../../provider/theme-provider";
+import { apiProcessCourses } from "../../../../core/services/account-service";
+import { AuthContext } from "../../../../provider/auth-provider";
 
 const SectionCourses = (props) => {
   const { theme } = useContext(ThemeContext);
   const [data, setData] = useState([]);
+  const { state } = useContext(AuthContext);
 
   useEffect(() => {
     if (props.title === "Top Sell") {
@@ -28,10 +31,21 @@ const SectionCourses = (props) => {
         if (props.title === "Courses Of Author") {
           setData(props.item);
         } else {
-          apiCourses(props.course_id)
-            .then((response) => response.json())
-            .then((data) => setData(data.payload.rows))
-            .catch((error) => console.error(error));
+          if (props.title === "Your Courses") {
+            apiProcessCourses(state.token)
+              .then((response) => response.json())
+              .then((data) => 
+              {console.log(data);
+                setData(data.payload)
+            }
+              )
+              .catch((error) => console.error(error));
+          } else {
+            apiCourses(props.course_id)
+              .then((response) => response.json())
+              .then((data) => setData(data.payload.rows))
+              .catch((error) => console.error(error));
+          }
         }
       }
     }
@@ -52,7 +66,11 @@ const SectionCourses = (props) => {
       );
     }
     return courses.map((item) => (
-      <SectionCoursesItem navigation={props.navigation} item={item} author = {props.author}/>
+      <SectionCoursesItem
+        navigation={props.navigation}
+        item={item}
+        author={props.author}
+      />
     ));
   };
 
