@@ -20,34 +20,12 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default function ListLessons(props) {
   const { lesson } = useContext(LessonContext);
-  // const {state} = useContext(AuthContext)
   const { theme } = useContext(ThemeContext);
-  const [show, setShow] = useState(false);
-
-  const clickSection = () => {
-    if (show === true) {
-      setShow(false);
-    }
-    if (show === false) {
-      setShow(true);
-    }
-  };
   return (
     <ScrollView>
       {lesson.isLoading ? (
         <ActivityIndicator />
       ) : (
-        // <SectionList
-        //         sections = {(lesson.data)}
-        //         renderItem = {({item}) => <ListLessonItem item = {item}/>}
-        //         // renderSectionHeader={({section: {name}}) => <Text>{name}</Text>}
-        //     />
-        // <SectionList
-        // data={lesson.data}
-        // renderItem={({ item }) => (
-        //   <ListLessonItem navigation={props.navigation} item={item} />
-        // )}
-        // />
         <View  style={styles.view}>
           <Text
             style={{
@@ -69,7 +47,7 @@ export default function ListLessons(props) {
                 <FlatList
                   data={section.lesson}
                   renderItem={({ item }) => (
-                    <ListLessonItem navigation={props.navigation} item={item} />
+                    <ListLessonItem navigation={props.navigation} item={item} course_id = {lesson.data[0].courseId}/>
                   )}
                 />
               </View>

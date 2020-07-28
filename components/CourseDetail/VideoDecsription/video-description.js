@@ -194,7 +194,7 @@ const VideoDescription = (props) => {
 
 
   return (
-    <View>
+    <View style = {{marginTop: 30}}>
       {isLoading ? (
         <ActivityIndicator />
       ) : (

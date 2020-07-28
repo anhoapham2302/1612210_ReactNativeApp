@@ -30,14 +30,7 @@ const Home = (props) => {
             .finally(()=> setLoading(false))
     },[])
     const {theme} = useContext(ThemeContext)
-    // const {bookmark} = useContext(BookmarkContext)
-    // const renderBookmark = () =>{
-    //     if (bookmark.length === 0){
-    //         return <View/>
-    //     }else{
-    //         return <SectionCourses title = 'Bookmarks' navigation ={props.navigation}/>
-    //     }
-    // }
+
     const renderSectionCourse = (courses) => { 
         return courses.map(item =>  <SectionCourses title = {item.name} course_id = {item.id} navigation ={props.navigation}/>)
     }
@@ -46,13 +39,6 @@ const Home = (props) => {
             renderSectionCourse(data)
          )}
         
-        {/* <SectionCourses title = 'Learning' course_id = '4eb0c150-8212-44ef-a90b-fcd40130ac01' navigation ={props.navigation}/>  */}
-        {/* <SectionCourses title = 'Design' navigation ={props.navigation}/> */}
-        {/* <SectionCourses title = 'Web Development' navigation ={props.navigation}/>
-        <SectionCourses title = 'Mobile Development' navigation ={props.navigation}/>
-        <SectionCourses title = 'Game Development' navigation ={props.navigation}/>
-        <SectionCourses title = 'Databases Development' navigation ={props.navigation}/> */}
-        {/* {renderBookmark()}     */}
     </ScrollView>
 };
 

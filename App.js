@@ -20,10 +20,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Paths from './components/Paths/paths';
 import ChangePassword from './components/Authentication/ChangePassword/change-password';
 import { AuthProvider, AuthContext } from './provider/auth-provider';
-import { FavProvider } from './provider/favorite-provider';
 import { pushCoursesOfAuthor } from './core/services/author-service';
 import { AuthorProvider } from './provider/author-provider';
-import { BookmarkContext, BookmarkProvider } from './provider/bookmark-provider';
 import {ThemeProvider} from './provider/theme-provider'
 import ListCoursesPage from './components/Courses/ListCoursesPage/list_courses_page'
 import { CoursesProvider } from './provider/course-provider';
@@ -62,6 +60,7 @@ const HomeStack = (props) =>{
           ),}}/>
     <HomeNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <HomeNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <HomeNavigationStack.Screen name="VideoPlayer" component={VideoPlayer} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <HomeNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <HomeNavigationStack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     </HomeNavigationStack.Navigator>);
@@ -90,6 +89,7 @@ const DownloadsStack = (props) =>{
       ),}}/>
    <DownloadNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <DownloadNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <DownloadNavigationStack.Screen name="VideoPlayer" component={VideoPlayer} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <DownloadNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <DownloadNavigationStack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     </DownloadNavigationStack.Navigator>);
@@ -119,6 +119,7 @@ const BrowseStack = (props) =>{
       ),}}/>
     <BrowseNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <BrowseNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <BrowseNavigationStack.Screen name="VideoPlayer" component={VideoPlayer} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <BrowseNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <BrowseNavigationStack.Screen name="ListCoursesPage" component={ListCoursesPage} options={{cardStyle:{backgroundColor:theme.background},
       headerStyle: {
@@ -145,6 +146,7 @@ const SearchStack = () =>{
     <SearchNavigationStack.Screen name="Search" component={Search} options={{cardStyle:{backgroundColor:'#fff'}}}/>
     <SearchNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <SearchNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <SearchNavigationStack.Screen name="VideoPlayer" component={VideoPlayer} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <SearchNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <SearchNavigationStack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     </SearchNavigationStack.Navigator>);
