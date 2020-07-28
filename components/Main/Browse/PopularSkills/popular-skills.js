@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import PopularSkillsItem from '../PopularSkillsItem/popular-skills-item'
 import Styles from '../../../../global/style'
+import { ThemeContext } from '../../../../provider/theme-provider'
 
 const PopularSkills = (props) => {
+    const {theme} = useContext(ThemeContext)
     const skills = [
         {
             id : 1,
@@ -54,7 +56,7 @@ const PopularSkills = (props) => {
 
     return <View style = {Styles.view}>
         <View>
-            <Text style = {Styles.text}>{props.title}</Text>
+            <Text style = {{fontWeight: 'bold', fontSize: 20, color: theme.foreground}}>{props.title}</Text>
         </View>
         <ScrollView horizontal={true}>
             {renderListItems(skills)}

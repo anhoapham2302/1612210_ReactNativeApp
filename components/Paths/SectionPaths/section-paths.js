@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {View, Text, ScrollView, StyleSheet} from 'react-native';
 import SectionPathsItem from '../SectionPathsItem/section-paths-item';
+import { ThemeContext } from '../../../provider/theme-provider';
 
 const SectionPaths = (props) => {
+    const {theme} = useContext(ThemeContext)
     const paths = [
         {
             id : 1,
@@ -33,7 +35,7 @@ const SectionPaths = (props) => {
 
     return <View style = {styles.view}>
         <View>
-            <Text style = {styles.text}>{props.title}</Text>
+            <Text style = {{fontWeight: 'bold', fontSize: 20, color: theme.foreground}}>{props.title}</Text>
         </View>
         <ScrollView horizontal={true}>
             {renderListItems(paths)}

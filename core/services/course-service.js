@@ -1,62 +1,101 @@
 import courses from "../../global/courses"
-import { useContext } from "react"
+import { useContext, useState, useEffect} from "react"
 import { BookmarkContext } from "../../provider/bookmark-provider"
 
-export const renderCourses = (title) => {
-    const {bookmark} = useContext(BookmarkContext)
-    const null_array = []
-    const mobile_course = []
-    const web_course = []
-    const game_course = []
-    const db_course = []
-    const top_course = []
+export const apiCourses = (course_id) => {
+     return fetch('https://api.itedu.me/course/search', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+                keyword: "",
+                opt: {
+                  category: [   
+                      course_id
+                  ]
+                }, 
+                limit: 10,
+                offset: 0
+        })
+        })
+}
 
-    courses.sort(function(a, b){
-        return b.view - a.view
-    })
+export const apiSearchCourses = (text) => {
+    return fetch('https://api.itedu.me/course/search', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+                keyword: text,
+                limit: 10,
+                offset: 0
+        })
+        })
+}
 
-    for(let i = 0; i < courses.length; i++){
-        if(courses[i].cat === 'Mobile'){
-            mobile_course.push(courses[i])
-        }else{
-            if(courses[i].cat === 'Web'){
-                web_course.push(courses[i])
-            }else{
-                if(courses[i].cat === 'Game'){
-                    game_course.push(courses[i])
-                }else{
-                    if(courses[i].cat === 'Database'){
-                        db_course.push(courses[i])
-                    }
-                }
-            }
-        }
-    }
-    
-    for (let i =0; i < 5; i++){
-        top_course.push(courses[i])
-    }
-    if(title === 'Mobile Development'){
-        return {array: mobile_course}
-    }
+export const apiCourseDetails = (id) => {
+    return fetch('https://api.itedu.me/course/get-course-info?id=' + id, {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        })
+}
 
-    if(title === 'Web Development'){
-        return {array: web_course}
-    }
+export const renderTopSell = () => {
+    return fetch('https://api.itedu.me/course/top-sell', {
+       method: 'POST',
+       headers: {
+           Accept: 'application/json',
+           'Content-Type': 'application/json'
+       },
+       body: JSON.stringify({
+            limit: 10,
+            page: 1
+       })
+       })
+}
 
-    if(title === 'Game Development'){
-        return {array: game_course}
-    }
+export const apiTopRated = () => {
+    return fetch('https://api.itedu.me/course/top-rate', {
+       method: 'POST',
+       headers: {
+           Accept: 'application/json',
+           'Content-Type': 'application/json'
+       },
+       body: JSON.stringify({
+            limit: 10,
+            page: 1
+       })
+       })
+}
 
-    if(title === 'Databases Development'){
-        return {array: db_course}
-    }
+export const apiNewRelease = () => {
+    return fetch('https://api.itedu.me/course/top-new', {
+       method: 'POST',
+       headers: {
+           Accept: 'application/json',
+           'Content-Type': 'application/json'
+       },
+       body: JSON.stringify({
+            limit: 10,
+            page: 1
+       })
+       })
+}
 
-    if(title === 'Top Courses'){
-        return {array: top_course}
-    }
-    if(title === 'Bookmarks'){
-        return {array: bookmark}
-    }
-    return {array: null_array}
+export const apiGetLessonsOfCourse = (token, id) => {
+    return fetch(`https://api.itedu.me/course/detail-with-lesson/${id}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
 }

@@ -3,39 +3,50 @@ import { Image, Text, View, TextInput} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Styles from '../../../global/style'
-import { login } from '../../../core/services/auth-service';
 import { AuthContext } from '../../../provider/auth-provider';
-import { set } from 'react-native-reanimated';
-import { FavContext } from '../../../provider/favorite-provider';
+import { CoursesContext } from '../../../provider/course-provider';
 
 const Login = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [status, setStatus] = useState(null);
-    const {setAuth} = useContext(AuthContext)
-    const {setFav} = useContext(FavContext)
+    const authContext = useContext(AuthContext);
+    const coursesContext = useContext(CoursesContext)
+    const {state} = useContext(AuthContext)
+    const {courses} = useContext(CoursesContext)
+
+    
+    useEffect(() => {
+        if(authContext.state.isAuthenticated){
+            coursesContext.renderFavoriteCourses(state.token);
+        }
+    }, [authContext.state.isAuthenticated])
 
     useEffect(() => {
-       if(status && status.status === 200){
-            props.navigation.navigate("Main")
-            setFav(status.user.fav_courses)
-            console.log(status.user.fav_courses)
-       }
-    }, [status]) 
+        if(authContext.state.isAuthenticated){
+            props.navigation.navigate("Main");
+        }
+    },[authContext.state.isAuthenticated])
+    
+ 
+    const isAuthenticating= authContext.state.isAuthenticating;
 
     const renderLoginstatus = (status)=>{
-        if(!status){
-            return <View/>
-        }else if(status.status === 200){
-            return (<Text>Login</Text>)
+        if(isAuthenticating === true)
+        {
+            return (<Text></Text>)
         }else{
-            return(<Text>{status.errorString}</Text>)
+            if(status === true){
+                return (<Text>Login</Text>)
+            }else{
+            return(<Text>Login failed!</Text>)
+            }
         }
+       
     }
 
-    // const onPressRegister =()=>{
-    //     props.navigation.navigate("Register")
-    // }
+    const onPressRegister =()=>{
+        props.navigation.navigate("Register")
+    }
     // const onPressForgotPassword =()=>{
     //     props.navigation.navigate("ForgotPassword")
     // }
@@ -55,16 +66,15 @@ const Login = (props) => {
             secureTextEntry         
             defaultValue={password}
         />
-        {renderLoginstatus(status)}
+        {renderLoginstatus(authContext.state.isAuthenticated)}
         <TouchableOpacity style={Styles.button} onPress={()=>{
-            setStatus(login(username,password))
-            setAuth(login(username,password))
-            
-           
+           authContext.login(username, password)
         }}>
             <Text style={Styles.button_text}>Login</Text>
         </TouchableOpacity>
-        
+        <TouchableOpacity style={[Styles.button_reg, {marginTop: 10}]} onPress={onPressRegister}>
+            <Text style={Styles.button_text}>Register</Text>
+        </TouchableOpacity>
         </View>  
     )
      

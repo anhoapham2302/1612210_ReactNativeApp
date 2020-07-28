@@ -1,50 +1,63 @@
-import React, { useContext, useEffect } from 'react'
-import { StyleSheet, Text, View, FlatList, } from 'react-native'
-import ListCoursesItem from '../ListCoursesItem/list-courses-item'
-import Styles from '../../../global/style'
-import courses from '../../../global/courses'
-import { searchCourse, searchCourseOfAuthor, searchCourseOfRecommend } from '../../../core/services/search-service'
-import { AuthContext } from '../../../provider/auth-provider'
-import { FavContext } from '../../../provider/favorite-provider'
+import React, { useContext, useEffect, useState } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  ActivityIndicator,
+} from "react-native";
+import ListCoursesItem from "../ListCoursesItem/list-courses-item";
+import Styles from "../../../global/style";
+import courses from "../../../global/courses";
+import {
+  searchCourse,
+  searchCourseOfAuthor,
+  searchCourseOfRecommend,
+} from "../../../core/services/search-service";
+import { AuthContext } from "../../../provider/auth-provider";
+import { FavContext } from "../../../provider/favorite-provider";
+import {
+  renderNewRelease,
+  apiNewRelease,
+  apiSearchCourses,
+} from "../../../core/services/course-service";
+import { useReducer } from "react";
+import { coursesReducer } from "../../../reducer/courses-reducer";
+import { CoursesContext } from "../../../provider/course-provider";
+import { apiRecommendCourses } from "../../../core/services/account-service";
+
+const initialState = { data: [], isLoading: true, isError: false };
 
 const ListCourses = (props) => {
-    const {auth} = useContext(AuthContext)
-    const {fav} = useContext(FavContext)
-    const renderSeparator = () => {
-        return (
-          <View
-            style={Styles.renderseparator}
-          />
-        );
-      };
+  const authContext = useContext(AuthContext);
+  const coursesContext = useContext(CoursesContext);
+  const { state } = useContext(AuthContext);
+  const { courses } = useContext(CoursesContext);
+  const [data, setData] = useState([]);
+  const [isLoading, setLoading] = useState(true)  //const [state, dispatch] = useReducer(coursesReducer, initialState)
+  //const [state, dispatch] = useReducer(coursesReducer, initialState)
 
-    const checkComponent = (com) => {
-        if(com === 'Search'){
-            return searchCourse(props.text).course
-        }
-        if(com === 'Downloads'){
-            return fav
-        }
-        if(com === 'Author'){
-          return searchCourseOfAuthor(props.author).course
-        }
-        if(com === 'RecommendFromCourseDetail'){
-          return searchCourseOfRecommend(props.item.path, props.item.cat, props.item.author, props.item.id).course
-        }
-    }
-    //console.log(auth)
-      return (
-        <View style={Styles.view}> 
-        <View>
+  const renderSeparator = () => {
+    return <View style={Styles.renderseparator} />;
+  };
+  return (
+    <View style={Styles.view}>
+      {/* {state.isLoading && <ActivityIndicator/>} */}
+      {/* <View>
             <Text style = {Styles.text}>{props.title}</Text>
-        </View>
-            <FlatList
-                data={checkComponent(props.com)}
-                renderItem={({item})=><ListCoursesItem navigation ={props.navigation} item = {item}/>}
-                ItemSeparatorComponent={renderSeparator}
-            />
-        </View>
-    )
-}
+        </View> */}
+        {/* {isLoading ? <ActivityIndicator/> : (  */}
+        <FlatList
+        data={props.item}
+        renderItem={({ item }) => (
+          <ListCoursesItem navigation={props.navigation} item={item} />
+        )}
+        ItemSeparatorComponent={renderSeparator}
+      />
+      {/* )} */}
+     
+    </View>
+  );
+};
 
 export default ListCourses;

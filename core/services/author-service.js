@@ -1,22 +1,20 @@
-import courses from "../../global/courses"
-import authors from "../../global/authors"
+export const apiGetListAuthor = () => {
+  return fetch("https://api.itedu.me/instructor", {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  });
+};
 
-export const pushCoursesOfAuthor = () => {
-    for (let i = 0; i < authors.length; i++){
-        for (let j = 0; j < courses.length; j++){
-            if(courses[j].author === authors[i].name){
-                authors[i].courses_author.push(courses[j])
-            }
-        }
-    }
-}
-
-export const getAuthor = (author) => {
-    for (let i =0; i < authors.length; i++){
-        if(authors[i].name === author)
-        {
-            return authors[i]
-        }
-    }
-    return []
-}
+export const apiAuthorDetail = (id) => {
+    return fetch(`https://api.itedu.me/instructor/detail/${id}`, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+  };
+  
