@@ -18,7 +18,7 @@ Deadline 1: Mock-up UI/UX cho toàn bộ ứng dụng
   - Video demo: https://youtu.be/65IsY1aDBAg
   
   Deadline 3: Kết nối api cho toàn bộ ứng dụng
-  -- Commit: e6f0b27f54450b6bd21e9e77881e310f670f82c3
-  -- Video demo: https://youtu.be/DNSiJmtUmHU
+  - Commit: e6f0b27f54450b6bd21e9e77881e310f670f82c3
+  - Video demo: https://youtu.be/DNSiJmtUmHU
   
 ------------------------------------------------
