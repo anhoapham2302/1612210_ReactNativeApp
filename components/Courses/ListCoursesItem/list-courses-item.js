@@ -1,15 +1,11 @@
 import React, { useContext } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
 import Star from 'react-native-star-view';
-import { AuthorContext } from '../../../provider/author-provider';
-import { getAuthor } from '../../../core/services/author-service';
 import { ThemeContext } from '../../../provider/theme-provider';
 
 const ListCoursesItem = (props) => {
     const {theme} = useContext(ThemeContext)
-    const {setAuthor} = useContext(AuthorContext)
     const onPressListItem =()=>{   
-        setAuthor(getAuthor(props.item.author))
         props.navigation.navigate("CourseDetail", {item: props.item})
     }
     const checkPrice = (price) => {

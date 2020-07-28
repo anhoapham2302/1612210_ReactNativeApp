@@ -61,6 +61,20 @@ export const renderTopSell = () => {
        })
 }
 
+export const apiTopRated = () => {
+    return fetch('https://api.itedu.me/course/top-rate', {
+       method: 'POST',
+       headers: {
+           Accept: 'application/json',
+           'Content-Type': 'application/json'
+       },
+       body: JSON.stringify({
+            limit: 10,
+            page: 1
+       })
+       })
+}
+
 export const apiNewRelease = () => {
     return fetch('https://api.itedu.me/course/top-new', {
        method: 'POST',

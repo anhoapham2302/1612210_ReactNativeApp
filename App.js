@@ -20,8 +20,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import Paths from './components/Paths/paths';
 import ChangePassword from './components/Authentication/ChangePassword/change-password';
 import { AuthProvider, AuthContext } from './provider/auth-provider';
-import { pushCoursesOfAuthor } from './core/services/author-service';
-import { AuthorProvider } from './provider/author-provider';
 import {ThemeProvider} from './provider/theme-provider'
 import ListCoursesPage from './components/Courses/ListCoursesPage/list_courses_page'
 import { CoursesProvider } from './provider/course-provider';
@@ -29,6 +27,7 @@ import { ThemeContext } from './provider/theme-provider';
 import { ImageButtonProvider, ImageButtonContext } from './provider/imageButton-provider';
 import { LessonProvider } from './provider/lesson-provider';
 import { SearchProvider } from './provider/search-provider';
+import VideoMain from './components/CourseDetail/video-main';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const MainNavigationStack = createStackNavigator();
@@ -60,7 +59,7 @@ const HomeStack = (props) =>{
           ),}}/>
     <HomeNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <HomeNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <HomeNavigationStack.Screen name="VideoPlayer" component={VideoPlayer} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <HomeNavigationStack.Screen name="VideoMain" component={VideoMain} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <HomeNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <HomeNavigationStack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     </HomeNavigationStack.Navigator>);
@@ -89,7 +88,7 @@ const DownloadsStack = (props) =>{
       ),}}/>
    <DownloadNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <DownloadNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <DownloadNavigationStack.Screen name="VideoPlayer" component={VideoPlayer} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <DownloadNavigationStack.Screen name="VideoMain" component={VideoMain} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <DownloadNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <DownloadNavigationStack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     </DownloadNavigationStack.Navigator>);
@@ -119,7 +118,7 @@ const BrowseStack = (props) =>{
       ),}}/>
     <BrowseNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <BrowseNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <BrowseNavigationStack.Screen name="VideoPlayer" component={VideoPlayer} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <BrowseNavigationStack.Screen name="VideoMain" component={VideoMain} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <BrowseNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <BrowseNavigationStack.Screen name="ListCoursesPage" component={ListCoursesPage} options={{cardStyle:{backgroundColor:theme.background},
       headerStyle: {
@@ -146,7 +145,7 @@ const SearchStack = () =>{
     <SearchNavigationStack.Screen name="Search" component={Search} options={{cardStyle:{backgroundColor:'#fff'}}}/>
     <SearchNavigationStack.Screen name="AccountProfile" component={AccountProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <SearchNavigationStack.Screen name="CourseDetail" component={CourseDetail} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
-    <SearchNavigationStack.Screen name="VideoPlayer" component={VideoPlayer} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
+    <SearchNavigationStack.Screen name="VideoMain" component={VideoMain} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <SearchNavigationStack.Screen name="AuthorProfile" component={AuthorProfile} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     <SearchNavigationStack.Screen name="Paths" component={Paths} options={{cardStyle:{backgroundColor:'#fff'}, headerShown:false}}/>
     </SearchNavigationStack.Navigator>);
@@ -206,16 +205,13 @@ export default function App() {
       <CoursesProvider>
         <LessonProvider>
           <SearchProvider>
-            <AuthorProvider>
               <NavigationContainer>
                 <ThemeProvider>
                   <ImageButtonProvider>
-                    {pushCoursesOfAuthor()}
                     <MainNavigation/>
                     </ImageButtonProvider>
                 </ThemeProvider>      
               </NavigationContainer>
-            </AuthorProvider>
             </SearchProvider>
           </LessonProvider>
       </CoursesProvider>

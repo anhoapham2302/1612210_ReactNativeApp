@@ -1,3 +1,5 @@
+// Đây là component cho course details
+
 import React, { useContext, useState, useEffect, useMemo } from "react";
 import {
   View,
@@ -14,7 +16,6 @@ import Colors from "../../../global/color";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { AuthContext } from "../../../provider/auth-provider";
 import { FavContext } from "../../../provider/favorite-provider";
-import { AuthorContext } from "../../../provider/author-provider";
 import { BookmarkContext } from "../../../provider/bookmark-provider";
 import courses from "../../../global/courses";
 import { apiCourseDetails} from "../../../core/services/course-service";
@@ -129,8 +130,8 @@ const VideoDescription = (props) => {
   const learnWhat = data.learnWhat;
   const requirement = data.requirement;
   const SecondRoute = () => (
-    <ScrollView>
-      <Text style={{ color: theme.foreground }}>Các bạn sẽ được học:</Text>
+    <ScrollView style = {{marginLeft: 10}}>
+      <Text style={{ color: theme.foreground, fontSize: 17}}>Các bạn sẽ được học:</Text>
       {learnWhat.map((item) => {
         return (
           <Text style={{ marginLeft: 10, color: theme.foreground }}>
@@ -138,7 +139,7 @@ const VideoDescription = (props) => {
           </Text>
         );
       })}
-      <Text style={{ color: theme.foreground }}>Yêu cầu:</Text>
+      <Text style={{ color: theme.foreground, fontSize: 17 }}>Yêu cầu:</Text>
       {requirement.map((item) => {
         return (
           <Text style={{ marginLeft: 10, color: theme.foreground }}>
@@ -146,7 +147,7 @@ const VideoDescription = (props) => {
           </Text>
         );
       })}
-      <Text style={{ color: theme.foreground }}>Thông tin thêm:</Text>
+      <Text style={{ color: theme.foreground , fontSize: 17}}>Thông tin thêm:</Text>
       <Text style={{ marginLeft: 10, color: theme.foreground }}>
         {data.description}
       </Text>

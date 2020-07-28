@@ -4,6 +4,7 @@ import SectionCoursesItem from "../SectionCoursesItem/section-courses-item";
 import {
   apiCourses,
   renderTopSell,
+  apiTopRated,
 } from "../../../../core/services/course-service";
 import { ThemeContext } from "../../../../provider/theme-provider";
 
@@ -12,16 +13,27 @@ const SectionCourses = (props) => {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    if (props.title !== "Top Courses") {
-      apiCourses(props.course_id)
-        .then((response) => response.json())
-        .then((data) => setData(data.payload.rows))
-        .catch((error) => console.error(error));
-    } else {
+    if (props.title === "Top Sell") {
       renderTopSell()
         .then((response) => response.json())
         .then((data) => setData(data.payload))
         .catch((error) => console.error(error));
+    } else {
+      if (props.title === "Top Rate") {
+        apiTopRated()
+          .then((response) => response.json())
+          .then((data) => setData(data.payload))
+          .catch((error) => console.error(error));
+      } else {
+        if (props.title === "Courses Of Author") {
+          setData(props.item);
+        } else {
+          apiCourses(props.course_id)
+            .then((response) => response.json())
+            .then((data) => setData(data.payload.rows))
+            .catch((error) => console.error(error));
+        }
+      }
     }
   }, []);
 
@@ -40,7 +52,7 @@ const SectionCourses = (props) => {
       );
     }
     return courses.map((item) => (
-      <SectionCoursesItem navigation={props.navigation} item={item} />
+      <SectionCoursesItem navigation={props.navigation} item={item} author = {props.author}/>
     ));
   };
 

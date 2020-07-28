@@ -1,24 +1,25 @@
 import React, { useContext } from "react";
 import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
 import Star from "react-native-star-view";
-import Colors from "../../../../global/color";
-import { AuthContext } from "../../../../provider/auth-provider";
-import { AuthorContext } from "../../../../provider/author-provider";
-import { getAuthor } from "../../../../core/services/author-service";
 import { ThemeContext } from "../../../../provider/theme-provider";
 
 const SectionCoursesItem = (props) => {
-  const { setAuthor } = useContext(AuthorContext);
   const { theme } = useContext(ThemeContext);
   const checkName = () => {
     if (props.item.name) {
       return <Text style={{ fontSize: 14,color: 'darkgrey' }}>{`${props.item.name}`}</Text>;
     } else {
-      return (
-        <Text
-          style={{ fontSize: 14, color: 'darkgrey'}}
-        >{`${props.item["instructor.user.name"]}`}</Text>
-      );
+      if (props.item["instructor.user.name"]){
+        return (
+          <Text
+            style={{ fontSize: 14, color: 'darkgrey'}}
+          >{`${props.item["instructor.user.name"]}`}</Text>
+        );
+      }else{
+        return <Text style={{ fontSize: 14,color: 'darkgrey' }}>{props.author}</Text>;
+
+      }
+      
     }
   };
   const checkPrice = (price) => {
@@ -37,7 +38,6 @@ const SectionCoursesItem = (props) => {
     }
   };
   const onPressListItem = () => {
-    setAuthor(getAuthor(props.item.author));
     props.navigation.navigate("CourseDetail", { item: props.item });
   };
 
