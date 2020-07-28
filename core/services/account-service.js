@@ -73,17 +73,29 @@ export const apiChecLikeCourse = (token, id) => {
 };
 
 export const apiUpdateName = (token, name, avatar, phone) => {
-  return fetch(`https://api.itedu.me/user/update-profile`, {
+  return fetch('https://api.itedu.me/user/update-profile', {
     method: "PUT",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
     },
-    body: {
+    body: JSON.stringify({
       name: name,
       avatar: avatar,
       phone: phone
-    }
+    })
   });
+};
+
+
+export const apiGetInfo = (token) => {
+  return fetch('https://api.itedu.me/user/me', {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+     });
 };

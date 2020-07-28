@@ -1,5 +1,5 @@
-import React, { useContext, useState } from "react";
-import { StyleSheet, Text, View, Image } from "react-native";
+import React, { useContext, useState, useEffect } from "react";
+import { StyleSheet, Text, View, Image, Alert } from "react-native";
 import {
   TouchableOpacity,
   ScrollView,
@@ -13,32 +13,54 @@ import { ThemeContext } from "../../../provider/theme-provider";
 import { themes } from "../../../global/theme";
 import { CoursesContext } from "../../../provider/course-provider";
 import SectionCourses from "../../Main/Home/SectionCourses/section-courses";
+import { apiUpdateName, apiGetInfo } from "../../../core/services/account-service";
+import { useIsFocused } from '@react-navigation/native';
 
 const AccountProfile = (props) => {
   const { theme, setTheme } = useContext(ThemeContext);
   const { state } = useContext(AuthContext);
-  const {name, setName} = useState(state.userInfo.name) 
-
+  const [name, setName] = useState(state.userInfo.name) 
+  const [data, setData] = useState([])
+ 
   const onPressSignOut = () => {
     props.navigation.navigate("Login");
   };
   const onPressChangePassword = () => {
     props.navigation.navigate("ChangePassword");
   };
+  useEffect(() => {
+    apiGetInfo(state.token)
+    .then((respone) => respone.json())
+    .then((res) => setData(res.payload))
+    .catch((err) => console.log(err))
+  }, [useIsFocused()])
+
+  const updateName = () => {
+      if(name === ''){
+          Alert.alert('Name is empty.')
+      }else{
+          apiUpdateName(state.token, name, data.avatar, data.phone)
+          .then((respone) => respone.json())
+          .then((res) => Alert.alert(res.message))
+          .catch((err)=>console.log(err));
+      }
+  }
 
   return (
     <ScrollView style={{ backgroundColor: theme.background }}>
       <View style={styles.container}>
         <View style={styles.header}></View>
-        <Image style={styles.avatar} source={{ uri: state.userInfo.avatar }} />
+        <Image style={styles.avatar} source={{ uri: data.avatar }} />
         <View style={styles.body}>
           <View style={styles.bodyContent}>
             <View>
               <TextInput
                 style={[styles.name, { color: theme.foreground }]}
-                defaultValue={state.userInfo.name}
+                defaultValue={data.name}
+                onChangeText={(name) => setName(name)}
               ></TextInput>
                <TouchableOpacity
+               onPress = {updateName}
         style={{
         alignItems: 'flex-end',
           borderColor: theme.background,
@@ -52,12 +74,12 @@ const AccountProfile = (props) => {
         </Icon.Button>
       </TouchableOpacity>
             </View>
-            <Text style={styles.info}>Email: {state.userInfo.email}</Text>
+            <Text style={styles.info}>Email: {data.email}</Text>
             <Text style={styles.info}>
-              Số điện thoại: {state.userInfo.phone}
+              Số điện thoại: {data.phone}
             </Text>
             <Text style={styles.info}>
-              Loại tài khoản: {state.userInfo.type}
+              Loại tài khoản: {data.type}
             </Text>
           </View>
           <SectionCourses title="Your Courses" navigation={props.navigation} />
