@@ -10,11 +10,15 @@ const ListCoursesItem = (props) => {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        apiAuthorDetail(props.item.instructorId)
-        .then(respone => respone.json())
-        .then(res => setAuthor(res.payload))
-        .catch(err => console.log(err))
-        .finally(() => setLoading(false))
+        if(props.item.name === undefined & props.item['instructor.user.name'] === undefined){
+            apiAuthorDetail(props.item.instructorId)
+            .then(respone => respone.json())
+            .then(res => setAuthor(res.payload))
+            .catch(err => console.log(err))
+            .finally(() => setLoading(false))
+        }else{
+            setLoading(false)
+        }
     }, [])
     const onPressListItem =()=>{   
         props.navigation.navigate("CourseDetail", {item: props.item})

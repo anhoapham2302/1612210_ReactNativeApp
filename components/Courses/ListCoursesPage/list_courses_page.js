@@ -10,6 +10,7 @@ import ListCourses from "../ListCourses/list-courses";
 import { apiNewRelease } from "../../../core/services/course-service";
 import { apiRecommendCourses } from "../../../core/services/account-service";
 import { AuthContext } from "../../../provider/auth-provider";
+import courses from "../../../global/courses";
 
 export default function ListCoursesPage(props) {
   const [data, setData] = useState([]);
@@ -33,6 +34,11 @@ export default function ListCoursesPage(props) {
         .finally(() => setLoading(false));
     }, []);
   }
+  var courses
+  if(loading === false)
+  {
+    courses = data.filter(course => course.status === "COMPLETED")
+  }
   return (
     <ScrollView>
       {loading ? (
@@ -40,7 +46,7 @@ export default function ListCoursesPage(props) {
       ) : (
         <ListCourses
           title={props.route.params.title}
-          item={data}
+          item={courses}
           com={props.route.params.com}
           navigation={props.navigation}
         />
