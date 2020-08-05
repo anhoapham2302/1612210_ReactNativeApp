@@ -1,13 +1,25 @@
-import React, { useContext } from 'react'
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native'
+import React, { useContext, useState, useEffect } from 'react'
+import { StyleSheet, Text, View, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
 import Star from 'react-native-star-view';
 import { ThemeContext } from '../../../provider/theme-provider';
+import { apiAuthorDetail } from '../../../core/services/author-service';
 
 const ListCoursesItem = (props) => {
     const {theme} = useContext(ThemeContext)
+    const [author, setAuthor] = useState()
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        apiAuthorDetail(props.item.instructorId)
+        .then(respone => respone.json())
+        .then(res => setAuthor(res.payload))
+        .catch(err => console.log(err))
+        .finally(() => setLoading(false))
+    }, [])
     const onPressListItem =()=>{   
         props.navigation.navigate("CourseDetail", {item: props.item})
     }
+
     const checkPrice = (price) => {
         if(price === 0){
             return <Text style = {{fontSize: 17, color: 'red', fontWeight: 'bold'}}>Miễn phí</Text>
@@ -19,7 +31,11 @@ const ListCoursesItem = (props) => {
         if(props.item.name){
             return  <Text style = {{fontSize:14, color: 'darkgrey', marginBottom: 1}}>{`${props.item.name}`}</Text>
         }else{
-            return <Text style = {{fontSize:14, color: 'darkgrey', marginBottom: 1}}>{`${props.item['instructor.user.name']}`}</Text>
+            if(props.item['instructor.user.name']){
+                return <Text style = {{fontSize:14, color: 'darkgrey', marginBottom: 1}}>{`${props.item['instructor.user.name']}`}</Text>
+            }else{
+            return <Text style = {{fontSize:14, color: 'darkgrey', marginBottom: 1}}>{author.name}</Text>
+            }
         }
     }
     const checkType = () => {
@@ -53,7 +69,7 @@ const ListCoursesItem = (props) => {
     }
 return (
     <View>
-        {checkType()}
+        {loading ? <ActivityIndicator/> : checkType()}
     </View>
     )
 }
