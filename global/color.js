@@ -1,5 +1,7 @@
-import React from 'react'
 const Colors = {
-        backgroundItem: '#FFF'
-  }
-  module.exports = Colors ;
+  backgroundItem: "#FFF",
+  login: "#3498DB",
+  register: "#9B59B6",
+  forgotPassword: "#F39C12",
+};
+module.exports = Colors;

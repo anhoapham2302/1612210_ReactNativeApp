@@ -4,7 +4,6 @@ import { ThemeContext } from '../../../provider/theme-provider'
 
 export default function VideoInfomation(props) {
     const {theme} = useContext(ThemeContext);
-    console.log(props);
     return (
         <View style = {styles.view}>
             <Text style = {{fontSize: 20, color: theme.foreground}}>{props.item.name}</Text>

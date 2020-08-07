@@ -1,23 +1,26 @@
 import React,{useState} from 'react'
 import {Text, View, TextInput, TouchableOpacity} from 'react-native'
 import Styles from '../../../global/style'
+import Colors from '../../../global/color'
 const ForgotPassword = (props) => {
     const onPress =()=>{
         props.navigation.navigate("Login")
     }
     return (
-            <View style={{flex: 1, justifyContent:'center', alignItems:'center'}}>
-                <TextInput style={Styles.text_input}  placeholder = 'Email'/>
-                <View style={{flexDirection:'row', justifyContent:'flex-start', alignItems:'flex-start'}}>
-                <TextInput style={Styles.code_input}  placeholder = 'Code'/>
-                <TouchableOpacity style={Styles.button_code}>
-                    <Text style={{textAlign:"center", paddingTop:4, color:'white'}}>Send code</Text>
-                </TouchableOpacity>
-                </View>   
-                <TouchableOpacity style={Styles.button_reg} onPress={onPress}>
-                    <Text style={Styles.button_text}>OK</Text>
-                </TouchableOpacity>
-            </View>  
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text style = {[Styles.title, {color: Colors.forgotPassword}]}>Forgot Password</Text>
+        <TextInput
+          style={[Styles.text_input, {borderColor: Colors.forgotPassword}]}
+          placeholder="Email"
+        />
+        <TouchableOpacity
+          style={[Styles.button, {backgroundColor: Colors.forgotPassword}]}
+          onPress={() => {
+          }}
+        >
+        <Text style={Styles.button_text}>Send Email</Text>
+        </TouchableOpacity>
+      </View>
     )   
 }
 

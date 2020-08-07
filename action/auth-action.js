@@ -1,4 +1,4 @@
-import {apiLogin} from '../core/services/auth-service'
+import {apiLogin, apiRegister} from '../core/services/auth-service'
 export const login = (dispatch) => (username, password) => {
     dispatch({type: 'LOGIN_REQUEST'})
     apiLogin(username, password).then((response) => {
@@ -13,4 +13,10 @@ export const login = (dispatch) => (username, password) => {
         .catch((error) => {
             dispatch({type: 'LOGIN_FAILED'})
         })
+}
+
+export const register = (name, email, phone, password, callBack) => {
+    apiRegister(name, email, phone, password)
+    .then((response => callBack(response.status)))
+    .catch(err => console.log(err))
 }

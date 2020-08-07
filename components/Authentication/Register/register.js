@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Text, View, TextInput, TouchableOpacity, Alert } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
+import React, { useState, useEffect } from "react";
+import { Text, View, TextInput, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
 import Styles from "../../../global/style";
-import { apiRegister } from "../../../core/services/auth-service";
+import Colors from "../../../global/color";
+import { register } from "../../../action/auth-action";
 const Register = (props) => {
   const onPressSignUp = () => {
     props.navigation.navigate("Main");
@@ -14,7 +14,17 @@ const Register = (props) => {
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [cpassword, setcPassword] = useState("");
+  const [cpassword, setcPassword] = useState(""); 
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState();
+
+  const checkLoading = res => {
+    if(res !== undefined)
+    {
+      setStatus(res);
+      setLoading(false);
+    }
+  }
 
   const checkInputRequired = () => {
     if (name === "") {
@@ -35,12 +45,8 @@ const Register = (props) => {
                 if(password !== cpassword){
                     Alert.alert("Password And Confirm Password Are Not Match")
                 }else{
-                    console.log(email);
-                    apiRegister(name, email, phone, password)
-                    .then((respone) => respone.json())
-                    .then((res) => Alert.alert(res.message))
-                    .catch((err) => console.log(err))
-                    // props.navigation.navigate("Main");
+                    setLoading(true)
+                    register(name, email, phone, password, checkLoading)
                 }
             }
           }
@@ -49,32 +55,47 @@ const Register = (props) => {
     }
   };
 
+  useEffect(() => {
+    if(loading === false){
+      if(status === 400){
+        Alert.alert("Email hoặc số điện thoại đã được sử dụng.");
+      }
+      if(status === 200){
+        Alert.alert("Đăng ký thành công. Vui lòng kiểm tra email để kích hoạt tài khoản.");
+        props.navigation.navigate("Login");
+      }
+    }
+  }, [loading])
+
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <ActivityIndicator animating={loading}/>
+            <Text style = {[Styles.title, {color: Colors.register}]}>Register</Text>
+
       <TextInput
-        style={Styles.text_input}
+        style={[Styles.text_input, {borderColor: Colors.register}]}
         onChangeText={(name) => setName(name)}
         placeholder="Name"
       />
       <TextInput
-        style={Styles.text_input}
+        style={[Styles.text_input, {borderColor: Colors.register}]}
         onChangeText={(email) => setEmail(email)}
         placeholder="Email"
       />
       <TextInput
-        style={Styles.text_input}
+        style={[Styles.text_input, {borderColor: Colors.register}]}
         onChangeText={(phone) => setPhone(phone)}
         keyboardType="number-pad"
         placeholder="Phone number"
       />
       <TextInput
-        style={Styles.text_input}
+        style={[Styles.text_input, {borderColor: Colors.register}]}
         onChangeText={(password) => setPassword(password)}
         secureTextEntry       
         placeholder="Password"
       />
       <TextInput
-        style={Styles.text_input}
+        style={[Styles.text_input, {borderColor: Colors.register}]}
         onChangeText={(cpassword) => setcPassword(cpassword)}
         secureTextEntry       
         placeholder="Confirm password"

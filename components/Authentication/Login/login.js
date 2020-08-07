@@ -1,88 +1,89 @@
-import React,{useState, useEffect, useContext} from 'react'
-import { Image, Text, View, TextInput} from 'react-native'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import Icon from 'react-native-vector-icons/FontAwesome';
-import Styles from '../../../global/style'
-import { AuthContext } from '../../../provider/auth-provider';
-import { CoursesContext } from '../../../provider/course-provider';
+import React, { useState, useEffect, useContext } from "react";
+import {
+  Image,
+  Text,
+  View,
+  TextInput,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import Icon from "react-native-vector-icons/FontAwesome";
+import Styles from "../../../global/style";
+import Colors from "../../../global/color";
+import { AuthContext } from "../../../provider/auth-provider";
+import { CoursesContext } from "../../../provider/course-provider";
 
 const Login = (props) => {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const authContext = useContext(AuthContext);
-    const coursesContext = useContext(CoursesContext)
-    const {state} = useContext(AuthContext)
-    const {courses} = useContext(CoursesContext)
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const authContext = useContext(AuthContext);
+  const coursesContext = useContext(CoursesContext);
+  const { state } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
 
-    
-    useEffect(() => {
-        if(authContext.state.isAuthenticated){
-            coursesContext.renderFavoriteCourses(state.token);
-        }
-    }, [authContext.state.isAuthenticated])
-
-    useEffect(() => {
-        if(authContext.state.isAuthenticated){
-            props.navigation.navigate("Main");
-        }
-    },[authContext.state.isAuthenticated])
-    
- 
-    const isAuthenticating= authContext.state.isAuthenticating;
-
-    const renderLoginstatus = (status)=>{
-        if(isAuthenticating === true)
-        {
-            return (<Text></Text>)
-        }else{
-            if(status === true){
-                return (<Text>Login</Text>)
-            }else{
-            return(<Text>Login failed!</Text>)
-            }
-        }
-       
+  useEffect(() => {
+    setLoading(false);
+    if (authContext.state.isAuthenticating === false) {
+      if (authContext.state.isAuthenticated) {
+        props.navigation.navigate("Main");
+        coursesContext.renderFavoriteCourses(state.token);
+      } else {
+        Alert.alert("Email hoặc password không đúng.");
+      }
     }
+  }, [authContext.state.isAuthenticating]);
 
-    const onPressRegister =()=>{
-        props.navigation.navigate("Register")
-    }
-    // const onPressForgotPassword =()=>{
-    //     props.navigation.navigate("ForgotPassword")
-    // }
-    
-    return (
-        <View style={{flex: 1, justifyContent:'center', alignItems:'center'}}>
-        <TextInput 
-            style={Styles.text_input}  
-            onChangeText={text=>setUsername(text)}
-            placeholder = 'Email'
-            defaultValue={username}
-        />   
-        <TextInput 
-            style={Styles.text_input}  
-            onChangeText={text=>setPassword(text)}
-            placeholder = 'Password'       
-            secureTextEntry         
-            defaultValue={password}
-        />
-        {renderLoginstatus(authContext.state.isAuthenticated)}
-        <TouchableOpacity style={Styles.button} onPress={()=>{
-           authContext.login(username, password)
-        }}>
-            <Text style={Styles.button_text}>Login</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[Styles.button_reg, {marginTop: 10}]} onPress={onPressRegister}>
-            <Text style={Styles.button_text}>Register</Text>
-        </TouchableOpacity>
-        </View>  
-    )
-     
-                
-    
-        
-          
-    
-}
+  const onPressLogin = () => {
+    setLoading(true);
+    authContext.login(username, password);
+  };
 
-export default Login
+  const onPressRegister = () => {
+    props.navigation.navigate("Register");
+  };
+  const onPressForgotPassword = () => {
+    props.navigation.navigate("ForgotPassword");
+  };
+
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <ActivityIndicator animating={loading} />
+      <Text style={[Styles.title, { color: Colors.login }]}>Login</Text>
+      <TextInput
+        style={[Styles.text_input, { borderColor: Colors.login }]}
+        onChangeText={(text) => setUsername(text)}
+        placeholder="Email"
+        defaultValue={username}
+      />
+      <TextInput
+        style={[Styles.text_input, { borderColor: Colors.login }]}
+        onChangeText={(text) => setPassword(text)}
+        placeholder="Password"
+        secureTextEntry
+        defaultValue={password}
+      />
+      <TouchableOpacity style={Styles.button} onPress={onPressLogin}>
+        <Text style={Styles.button_text}>Login</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={{ marginTop: 0 }}
+        onPress={onPressForgotPassword}
+      >
+        <Text
+          style={{ color: Colors.forgotPassword, fontSize: 15, marginTop: 5 }}
+        >
+          Forgot password?
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={[Styles.button_reg, { marginTop: 25 }]}
+        onPress={onPressRegister}
+      >
+        <Text style={Styles.button_text}>Register</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+export default Login;

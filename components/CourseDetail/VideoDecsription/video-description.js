@@ -7,10 +7,10 @@ import {
   Image,
   Dimensions,
   ActivityIndicator,
-  TouchableOpacity,
   ScrollView,
   Modal,
 } from "react-native";
+import { TouchableOpacity} from "react-native-gesture-handler";
 import Star from "react-native-star-view";
 import Colors from "../../../global/color";
 import Icon from "react-native-vector-icons/FontAwesome";

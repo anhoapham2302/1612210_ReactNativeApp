@@ -1,4 +1,4 @@
-export const authReducer = (prevState, action) => {
+export const loginReducer = (prevState, action) => {
     switch (action.type) {
         case "LOGIN_REQUEST":
             return {...prevState, isAuthenticating: true, isAuthenticated: false}
