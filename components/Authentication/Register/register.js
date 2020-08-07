@@ -17,6 +17,7 @@ const Register = (props) => {
   const [cpassword, setcPassword] = useState(""); 
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState();
+  const [registerProcess, setRegisterProcess] = useState(false);
 
   const checkLoading = res => {
     if(res !== undefined)
@@ -46,6 +47,7 @@ const Register = (props) => {
                     Alert.alert("Password And Confirm Password Are Not Match")
                 }else{
                     setLoading(true)
+                    setRegisterProcess(true)
                     register(name, email, phone, password, checkLoading)
                 }
             }
@@ -54,16 +56,20 @@ const Register = (props) => {
       }
     }
   };
-
   useEffect(() => {
-    if(loading === false){
+    if(loading === false && registerProcess === true){
+      setRegisterProcess(false)
       if(status === 400){
         Alert.alert("Email hoặc số điện thoại đã được sử dụng.");
+      }else{
+        if(status === 200){
+          Alert.alert("Đăng ký thành công. Vui lòng kiểm tra email để kích hoạt tài khoản.");
+          props.navigation.navigate("Login");
+        }else{
+          Alert.alert("Hệ thống gặp lỗi khi đăng ký. Vui lòng thử lại sau.");
+        }
       }
-      if(status === 200){
-        Alert.alert("Đăng ký thành công. Vui lòng kiểm tra email để kích hoạt tài khoản.");
-        props.navigation.navigate("Login");
-      }
+     
     }
   }, [loading])
 

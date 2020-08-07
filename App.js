@@ -49,6 +49,7 @@ const HomeStack = (props) =>{
       headerStyle: {
         backgroundColor: theme.background,
       },
+      headerLeft: null,
       headerTitle: () => (
         <Text style={{fontSize: 20, fontWeight: 'bold', color: theme.foreground}}>Home</Text>
         ),
@@ -78,6 +79,7 @@ const DownloadsStack = (props) =>{
       headerStyle: {
         backgroundColor: theme.background,
       },
+      headerLeft: null,
       headerTitle: () => (
         <Text style={{fontSize: 20, fontWeight: 'bold', color: theme.foreground}}>Favorited Courses</Text>
         ),
@@ -108,6 +110,7 @@ const BrowseStack = (props) =>{
       headerStyle: {
         backgroundColor: theme.background,
       },
+      headerLeft: null,
       headerTitle: () => (
         <Text style={{fontSize: 20, fontWeight: 'bold', color: theme.foreground}}>Browse</Text>
         ),

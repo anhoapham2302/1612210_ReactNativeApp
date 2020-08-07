@@ -35,8 +35,16 @@ const Login = (props) => {
   }, [authContext.state.isAuthenticating]);
 
   const onPressLogin = () => {
-    setLoading(true);
-    authContext.login(username, password);
+    if (username === "") {
+      Alert.alert("Vui lòng nhập email");
+    } else {
+      if (password === "") {
+        Alert.alert("Vui lòng nhập password");
+      } else {
+        setLoading(true);
+        authContext.login(username, password);
+      }
+    }
   };
 
   const onPressRegister = () => {

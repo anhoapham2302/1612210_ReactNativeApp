@@ -27,3 +27,16 @@ export const apiRegister = (name, email, phone, password) => {
         })
     })
 }
+
+export const apiSendEmailForgotPassword = (email) => {
+    return fetch('https://api.itedu.me/user/forget-pass/send-email', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            email: email,
+        })
+    })
+}   
