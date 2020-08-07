@@ -1,98 +1,192 @@
 import React, { useContext, useState, useEffect } from "react";
-import { StyleSheet, Text, View, Image, Alert } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  Alert,
+  Platform,
+  ActivityIndicator,
+} from "react-native";
 import {
   TouchableOpacity,
   ScrollView,
   TextInput,
 } from "react-native-gesture-handler";
+import * as firebase from "firebase";
+import * as ImagePicker from "expo-image-picker";
+import Constants from "expo-constants";
+import * as Permissions from "expo-permissions";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { AuthContext } from "../../../provider/auth-provider";
-import ListCourses from "../../Courses/ListCourses/list-courses";
-import { FavContext } from "../../../provider/favorite-provider";
 import { ThemeContext } from "../../../provider/theme-provider";
 import { themes } from "../../../global/theme";
-import { CoursesContext } from "../../../provider/course-provider";
 import SectionCourses from "../../Main/Home/SectionCourses/section-courses";
-import { apiUpdateName, apiGetInfo } from "../../../core/services/account-service";
-import { useIsFocused } from '@react-navigation/native';
+import {
+  apiUpdateName,
+  apiGetInfo,
+} from "../../../core/services/account-service";
+import { useIsFocused } from "@react-navigation/native";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDO1f6iJGQ0V73vsQSUvFFARU3YKapq_4s",
+  authDomain: "react-native-2020-31543.firebaseapp.com",
+  databaseURL: "https://react-native-2020-31543.firebaseio.com",
+  projectId: "react-native-2020-31543",
+  storageBucket: "react-native-2020-31543.appspot.com",
+  messagingSenderId: "302457066942",
+  appId: "1:302457066942:web:b415e551de0a993af215ef",
+  measurementId: "G-Q2PQF9WBX9",
+};
 
 const AccountProfile = (props) => {
   const { theme, setTheme } = useContext(ThemeContext);
   const { state } = useContext(AuthContext);
-  const [name, setName] = useState(state.userInfo.name) 
-  const [data, setData] = useState([])
- 
-  const onPressSignOut = () => {
-    props.navigation.navigate("Login");
+  const [name, setName] = useState(state.userInfo.name);
+  const [phone, setPhone] = useState(state.userInfo.phone);
+  const [data, setData] = useState([]);
+  const [image, setImage] = useState(null);
+  const [firebaseUrl, setFirebaseUrl] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [loadImg, setLoadImg] = useState(true);
+
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+
+  const getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== "granted") {
+        alert("Sorry, we need camera roll permissions to make this work!");
+      }
+    }
   };
-  const onPressChangePassword = () => {
-    props.navigation.navigate("ChangePassword");
+  const uploadImage = async (uri) => {
+    setLoading(true);
+    const name = new Date().getTime();
+    const response = await fetch(uri);
+    const blob = await response.blob();
+    var ref = firebase.storage().ref("images").child(name.toString());
+    return ref.put(blob).then(() => {
+      ref
+        .getDownloadURL()
+        .then((url) => setFirebaseUrl(url))
+        .finally(() => setLoading(false));
+    });
   };
+  const _pickImage = async () => {
+    try {
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        setImage(result.uri);
+        uploadImage(result.uri);
+      }
+    } catch (E) {
+      console.log(E);
+    }
+  };
+
   useEffect(() => {
+    setLoadImg(true)
     apiGetInfo(state.token)
-    .then((respone) => respone.json())
-    .then((res) => setData(res.payload))
-    .catch((err) => console.log(err))
-  }, [useIsFocused()])
+      .then((respone) => respone.json())
+      .then((res) => setData(res.payload))
+      .catch((err) => console.log(err))
+      .finally(() => setLoadImg(false));
+  }, [loading]);
 
   const updateName = () => {
-      if(name === ''){
-          Alert.alert('Name is empty.')
-      }else{
-          apiUpdateName(state.token, name, data.avatar, data.phone)
+    if (name === "") {
+      Alert.alert("Name is empty.");
+    } else {
+      if (loading === false) {
+        console.log(firebaseUrl);
+        apiUpdateName(state.token, name, firebaseUrl, phone)
           .then((respone) => respone.json())
           .then((res) => Alert.alert(res.message))
-          .catch((err)=>console.log(err));
+          .catch((err) => console.log(err));
       }
-  }
+    }
+  };
 
   return (
     <ScrollView style={{ backgroundColor: theme.background }}>
       <View style={styles.container}>
         <View style={styles.header}></View>
-        <Image style={styles.avatar} source={{ uri: data.avatar }} />
+        {loadImg ? (
+          <ActivityIndicator />
+        ) : (
+          image !== null ? <Image style={styles.avatar} source={{ uri: image }} /> :
+          <Image style={styles.avatar} source={{ uri: data.avatar }} />
+        )}
+        <TouchableOpacity
+          onPress={(getPermissionAsync, _pickImage)}
+          style={{
+            alignItems: "flex-end",
+            borderColor: theme.background,
+            height: 35,
+            marginRight: 70,
+          }}
+        >
+          <Icon.Button name="edit" backgroundColor="#fff" color="red">
+            <Text style={{ fontSize: 17, color: "red" }}>Tải ảnh</Text>
+          </Icon.Button>
+        </TouchableOpacity>
         <View style={styles.body}>
           <View style={styles.bodyContent}>
-            <View>
-              <TextInput
-                style={[styles.name, { color: theme.foreground }]}
-                defaultValue={data.name}
-                onChangeText={(name) => setName(name)}
-              ></TextInput>
-               <TouchableOpacity
-               onPress = {updateName}
-        style={{
-        alignItems: 'flex-end',
-          borderColor: theme.background,
-          height: 35
-        }}
-      >
-        <Icon.Button name="edit" backgroundColor="#fff" color="red">
-          <Text style={{ fontSize: 17, color: "red" }}>
-            Update
-          </Text>
-        </Icon.Button>
-      </TouchableOpacity>
-            </View>
+            <TextInput
+              style={[
+                styles.name,
+                {
+                  color: theme.foreground,
+                  borderBottomWidth: 1,
+                  fontWeight: "700",
+                },
+              ]}
+              defaultValue={data.name}
+              onChangeText={(name) => setName(name)}
+            ></TextInput>
             <Text style={styles.info}>Email: {data.email}</Text>
-            <Text style={styles.info}>
-              Số điện thoại: {data.phone}
-            </Text>
-            <Text style={styles.info}>
-              Loại tài khoản: {data.type}
-            </Text>
+            <View style={{ flexDirection: "row" }}>
+              <Text style={styles.info}>Số điện thoại: </Text>
+              <TextInput
+                style={{
+                  fontSize: 16,
+                  color: "#00BFFF",
+                  fontWeight: "700",
+                  marginTop: 7,
+                  borderBottomWidth: 1,
+                  borderBottomColor: "#00BFFF",
+                }}
+                defaultValue={data.phone}
+                onChangeText={(phone) => setPhone(phone)}
+              ></TextInput>
+            </View>
+            <Text style={styles.info}>Loại tài khoản: {data.type}</Text>
+          </View>
+          <View>
+            <TouchableOpacity
+              onPress={updateName}
+              style={{
+                alignItems: "flex-end",
+                borderColor: theme.background,
+                height: 35,
+                marginRight: 70,
+              }}
+            >
+              <Icon.Button name="edit" backgroundColor="#fff" color="red">
+                <Text style={{ fontSize: 17, color: "red" }}>Cập nhật</Text>
+              </Icon.Button>
+            </TouchableOpacity>
           </View>
           <SectionCourses title="Your Courses" navigation={props.navigation} />
         </View>
       </View>
-      <TouchableOpacity
-        style={{ width: 120, margin: 10 }}
-        onPress={onPressSignOut}
-      >
-        <Icon.Button name="sign-out" style={{ backgroundColor: "red" }}>
-          <Text style={{ fontSize: 17, color: "white" }}>Sign Out</Text>
-        </Icon.Button>
-      </TouchableOpacity>
       <TouchableOpacity
         style={{ width: 190, margin: 10 }}
         onPress={() => {
@@ -109,13 +203,6 @@ const AccountProfile = (props) => {
 };
 
 const styles = StyleSheet.create({
-  item: {
-    flexDirection: "row",
-    marginTop: 30,
-    marginBottom: 20,
-    marginLeft: 10,
-    borderBottomWidth: 0.5,
-  },
   text: {
     paddingLeft: 10,
     paddingTop: 30,
@@ -143,10 +230,6 @@ const styles = StyleSheet.create({
     position: "absolute",
     marginTop: 130,
   },
-  name: {
-    fontSize: 22,
-    fontWeight: "600",
-  },
   body: {
     marginTop: 40,
   },
@@ -154,6 +237,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     padding: 30,
+    paddingBottom: 0,
   },
   name: {
     fontSize: 28,

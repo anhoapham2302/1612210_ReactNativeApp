@@ -11,7 +11,7 @@ import Home from "./components/Main/Home/home";
 import Browse from "./components/Main/Browse/browse";
 import Search from "./components/Main/Search/search";
 import ListCourses from "./components/Courses/ListCourses/list-courses";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SectionCourses from "./components/Main/Home/SectionCourses/section-courses";
@@ -38,6 +38,7 @@ import {
 import { LessonProvider } from "./provider/lesson-provider";
 import { SearchProvider } from "./provider/search-provider";
 import VideoMain from "./components/CourseDetail/video-main";
+import { apiGetInfo } from "./core/services/account-service";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const MainNavigationStack = createStackNavigator();
@@ -50,10 +51,20 @@ const HomeStack = (props) => {
   const { theme } = useContext(ThemeContext);
   const { state } = useContext(AuthContext);
   const [visible, setVisible] = useState(false);
+  const [data, setData] = useState();
+  const [loading, setLoading] = useState(true);
 
   const onPressListItem = () => {
     props.navigation.navigate("AccountProfile");
   };
+
+  useEffect(() => {
+    apiGetInfo(state.token)
+      .then((respone) => respone.json())
+      .then((res) => setData(res.payload))
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
+  }, [useIsFocused()]);
 
   return (
     <HomeNavigationStack.Navigator initialRouteName="Home">
@@ -78,17 +89,18 @@ const HomeStack = (props) => {
           ),
           headerRight: () => (
             <View>
-              <TouchableOpacity
-                onPress={() => {
-                  setVisible(true);
-                }}
-                style={{ marginRight: 20 }}
-              >
-                <Image
-                  source={{ uri: state.userInfo.avatar }}
-                  style={styles.image}
-                />
-              </TouchableOpacity>
+              {loading ? (
+                <View></View>
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                    setVisible(true);
+                  }}
+                  style={{ marginRight: 20 }}
+                >
+                  <Image source={{ uri: data.avatar }} style={styles.image} />
+                </TouchableOpacity>
+              )}
 
               <Modal animationType="fade" transparent={true} visible={visible}>
                 <View
@@ -129,8 +141,15 @@ const HomeStack = (props) => {
                     <TouchableOpacity style={{ marginTop: 10 }}>
                       <Text style={[styles.text]}>Cấu hình ứng dụng</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ marginTop: 10 }} onPress = {() => {props.navigation.navigate("Login");}}>
-                      <Text style={[styles.text, {color: '#E74C3C'}]}>Đăng xuất</Text>
+                    <TouchableOpacity
+                      style={{ marginTop: 10 }}
+                      onPress={() => {
+                        props.navigation.navigate("Login");
+                      }}
+                    >
+                      <Text style={[styles.text, { color: "#E74C3C" }]}>
+                        Đăng xuất
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -251,8 +270,15 @@ const DownloadsStack = (props) => {
                     <TouchableOpacity style={{ marginTop: 10 }}>
                       <Text style={[styles.text]}>Cấu hình ứng dụng</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ marginTop: 10 }} onPress = {() => {props.navigation.navigate("Login");}}>
-                      <Text style={[styles.text, {color: '#E74C3C'}]}>Đăng xuất</Text>
+                    <TouchableOpacity
+                      style={{ marginTop: 10 }}
+                      onPress={() => {
+                        props.navigation.navigate("Login");
+                      }}
+                    >
+                      <Text style={[styles.text, { color: "#E74C3C" }]}>
+                        Đăng xuất
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -374,8 +400,15 @@ const BrowseStack = (props) => {
                     <TouchableOpacity style={{ marginTop: 10 }}>
                       <Text style={[styles.text]}>Cấu hình ứng dụng</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ marginTop: 10 }} onPress = {() => {props.navigation.navigate("Login");}}>
-                      <Text style={[styles.text, {color: '#E74C3C'}]}>Đăng xuất</Text>
+                    <TouchableOpacity
+                      style={{ marginTop: 10 }}
+                      onPress={() => {
+                        props.navigation.navigate("Login");
+                      }}
+                    >
+                      <Text style={[styles.text, { color: "#E74C3C" }]}>
+                        Đăng xuất
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 </View>

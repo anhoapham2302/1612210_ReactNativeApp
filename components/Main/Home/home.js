@@ -8,13 +8,13 @@ import { useIsFocused } from '@react-navigation/native';
 import { ThemeContext } from '../../../provider/theme-provider';
 import { themes } from '../../../global/theme';
 import { coursesReducer } from '../../../reducer/courses-reducer';
+import { AuthContext } from '../../../provider/auth-provider';
 
 const initialState = {data: [], isLoading: true, isError: false}
 
 const Home = (props) => {
     const [isLoading, setLoading] = useState(true)
     const [data, setData] = useState()
-    const [state, dispatch] = useReducer(coursesReducer, initialState)
     useEffect(() => {
        
 
