@@ -7,12 +7,12 @@ import {
   Alert,
   Platform,
   ActivityIndicator,
-} from "react-native";
-import {
   TouchableOpacity,
   ScrollView,
   TextInput,
-} from "react-native-gesture-handler";
+} from "react-native";
+import { Button } from "react-native-paper";
+
 import * as firebase from "firebase";
 import * as ImagePicker from "expo-image-picker";
 import Constants from "expo-constants";
@@ -23,10 +23,10 @@ import { ThemeContext } from "../../../provider/theme-provider";
 import { themes } from "../../../global/theme";
 import SectionCourses from "../../Main/Home/SectionCourses/section-courses";
 import {
-  apiUpdateName,
+  apiUpdateProfile,
   apiGetInfo,
 } from "../../../core/services/account-service";
-import { useIsFocused } from "@react-navigation/native";
+import Colors from "../../../global/color";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDO1f6iJGQ0V73vsQSUvFFARU3YKapq_4s",
@@ -47,8 +47,10 @@ const AccountProfile = (props) => {
   const [data, setData] = useState([]);
   const [image, setImage] = useState(null);
   const [firebaseUrl, setFirebaseUrl] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [loadImg, setLoadImg] = useState(true);
+  const [updating, setUpdating] = useState(true);
+  const [message, setMessage] = useState(null);
 
   if (!firebase.apps.length) {
     firebase.initializeApp(firebaseConfig);
@@ -92,51 +94,76 @@ const AccountProfile = (props) => {
   };
 
   useEffect(() => {
-    setLoadImg(true)
+    setLoadImg(true);
     apiGetInfo(state.token)
       .then((respone) => respone.json())
-      .then((res) => setData(res.payload))
+      .then((res) => {
+        setData(res.payload);
+        if (firebaseUrl === null) {
+          setFirebaseUrl(res.payload.avatar);
+        }
+      })
       .catch((err) => console.log(err))
       .finally(() => setLoadImg(false));
   }, [loading]);
 
   const updateName = () => {
     if (name === "") {
-      Alert.alert("Name is empty.");
+      Alert.alert("Vui lòng nhập tên");
     } else {
-      if (loading === false) {
-        console.log(firebaseUrl);
-        apiUpdateName(state.token, name, firebaseUrl, phone)
-          .then((respone) => respone.json())
-          .then((res) => Alert.alert(res.message))
-          .catch((err) => console.log(err));
+      if (phone === "") {
+        Alert.alert("Vui lòng nhập số điện thoại");
+      } else {
+        if (loading === false) {
+          setUpdating(true);
+          apiUpdateProfile(state.token, name, firebaseUrl, phone)
+            .then((respone) => respone.json())
+            .then((res) => setMessage(res.message))
+            .catch((err) => console.log(err))
+            .finally(() => setUpdating(false));
+        }
       }
     }
   };
 
+  useEffect(() => {
+    if (updating === false) {
+      if (message === "OK") {
+        Alert.alert("Cập nhật thông tin thành công");
+      } else {
+        Alert.alert(message);
+      }
+    }
+  }, [updating]);
+
   return (
     <ScrollView style={{ backgroundColor: theme.background }}>
       <View style={styles.container}>
-        <View style={styles.header}></View>
+        <View style={[styles.header, {backgroundColor: Colors.changePassword}]}></View>
         {loadImg ? (
           <ActivityIndicator />
+        ) : image !== null ? (
+          <Image style={styles.avatar} source={{ uri: image }} />
         ) : (
-          image !== null ? <Image style={styles.avatar} source={{ uri: image }} /> :
           <Image style={styles.avatar} source={{ uri: data.avatar }} />
         )}
-        <TouchableOpacity
-          onPress={(getPermissionAsync, _pickImage)}
+        <Button
+          icon="upload"
+          mode="text"
+          uppercase={false}
+          color={Colors.changePassword}
           style={{
-            alignItems: "flex-end",
-            borderColor: theme.background,
-            height: 35,
-            marginRight: 70,
+            marginLeft: 230,
+            marginTop: 30,
+            width: 100,
           }}
+          labelStyle={{
+            fontSize: 15,
+          }}
+          onPress={(getPermissionAsync, _pickImage)}
         >
-          <Icon.Button name="edit" backgroundColor="#fff" color="red">
-            <Text style={{ fontSize: 17, color: "red" }}>Tải ảnh</Text>
-          </Icon.Button>
-        </TouchableOpacity>
+          Tải lên
+        </Button>
         <View style={styles.body}>
           <View style={styles.bodyContent}>
             <TextInput
@@ -169,35 +196,48 @@ const AccountProfile = (props) => {
             </View>
             <Text style={styles.info}>Loại tài khoản: {data.type}</Text>
           </View>
-          <View>
-            <TouchableOpacity
-              onPress={updateName}
-              style={{
-                alignItems: "flex-end",
-                borderColor: theme.background,
-                height: 35,
-                marginRight: 70,
-              }}
-            >
-              <Icon.Button name="edit" backgroundColor="#fff" color="red">
-                <Text style={{ fontSize: 17, color: "red" }}>Cập nhật</Text>
-              </Icon.Button>
-            </TouchableOpacity>
-          </View>
+              <View style={{ alignItems: "center"}}>
+                 <Button
+               icon="update"
+               mode="outlined"
+               loading={loading}
+               color={Colors.changePassword}
+               style={{
+                 width: 120,
+                 borderWidth: 1,
+                  borderColor: Colors.changePassword
+               }}
+               onPress={updateName}
+               >
+               Cập nhật
+             </Button>
+              </View>             
           <SectionCourses title="Your Courses" navigation={props.navigation} />
         </View>
       </View>
-      <TouchableOpacity
-        style={{ width: 190, margin: 10 }}
+      <Button
+        icon="key-change"
+        mode="outlined"
+        color={Colors.changePassword}
+        style={{ width: 190, margin: 15, borderColor: "red", borderWidth: 1 }}
+        onPress={() => {
+          props.navigation.navigate("ChangePassword");
+        }}
+      >
+        Đổi mật khẩu
+      </Button>
+      <Button
+        icon="theme-light-dark"
+        mode="contained"
+        color="red"
+        style={{ width: 190, margin: 15, marginTop: 0 }}
         onPress={() => {
           if (theme === themes.light) setTheme(themes.dark);
           else setTheme(themes.light);
         }}
       >
-        <Icon.Button name="reply" style={{ backgroundColor: "blue" }}>
-          <Text style={{ fontSize: 17, color: "white" }}>Change Theme</Text>
-        </Icon.Button>
-      </TouchableOpacity>
+        Change theme
+      </Button>
     </ScrollView>
   );
 };
@@ -216,7 +256,6 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   header: {
-    backgroundColor: "#00BFFF",
     height: 200,
   },
   avatar: {
@@ -230,14 +269,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     marginTop: 130,
   },
-  body: {
-    marginTop: 40,
-  },
+  body: {},
   bodyContent: {
     flex: 1,
     alignItems: "center",
-    padding: 30,
-    paddingBottom: 0,
+    paddingBottom: 10,
   },
   name: {
     fontSize: 28,

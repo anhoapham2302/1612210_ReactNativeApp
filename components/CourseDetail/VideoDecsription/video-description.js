@@ -9,8 +9,9 @@ import {
   ActivityIndicator,
   ScrollView,
   Modal,
+  TouchableOpacity
 } from "react-native";
-import { TouchableOpacity} from "react-native-gesture-handler";
+import { Button } from "react-native-paper";
 import Star from "react-native-star-view";
 import Colors from "../../../global/color";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -83,7 +84,7 @@ const VideoDescription = (props) => {
   const buyCourse = () => {
     apiGetFreeCourse(state.token, props.item.id)
       .catch((err) => console.log(err))
-      .finally(()=>{
+      .finally(() => {
         checkOwn(true);
         setModelVisible(false);
       });
@@ -95,12 +96,12 @@ const VideoDescription = (props) => {
     }
   };
 
-  // if(statusBuy === 'OK'){
-  //   checkOwn(true)
-  // }
   const renderFavButton = () => {
     return (
-      <TouchableOpacity
+      <Button
+        icon="heart"
+        mode="outlined"
+        color="red"
         style={{
           width: 130,
           borderWidth: 2,
@@ -109,32 +110,27 @@ const VideoDescription = (props) => {
         }}
         onPress={clickFavButton}
       >
-        <Icon.Button name="heart" backgroundColor="#fff" color="red">
-          <Text style={{ fontSize: 17, fontWeight: "bold", color: "red" }}>
-            Favorite
-          </Text>
-        </Icon.Button>
-      </TouchableOpacity>
+        Favorite
+      </Button>
     );
   };
 
   const renderUnFavButton = () => {
     return (
-      <TouchableOpacity
+      <Button
+        icon="heart"
+        mode="contained"
+        color="red"
         style={{
           width: 130,
-          borderWidth: 0,
+          borderWidth: 2,
           borderRadius: 5,
-          borderColor: "red",
+          borderColor: "white",
         }}
         onPress={clickFavButton}
       >
-        <Icon.Button name="heart" backgroundColor="red" color="#fff">
-          <Text style={{ fontSize: 17, fontWeight: "bold", color: "#fff" }}>
-            Favorited
-          </Text>
-        </Icon.Button>
-      </TouchableOpacity>
+        Favorited
+      </Button>
     );
   };
 
@@ -209,27 +205,20 @@ const VideoDescription = (props) => {
         >
           Giá: {price} VND
         </Text>
-        <TouchableOpacity
-          onPress={clickBuyButton}
+        <Button
+          icon="cart"
+          mode="contained"
+          color="blue"
           style={{
             marginTop: 5,
-            width: 120,
+            width: 130,
             height: 40,
             borderRadius: 5,
-            backgroundColor: "#4DC4FF",
           }}
+          onPress={clickBuyButton}
         >
-          <Text
-            style={{
-              color: "white",
-              fontSize: 20,
-              paddingLeft: 15,
-              paddingTop: 5,
-            }}
-          >
-            Mua ngay
-          </Text>
-        </TouchableOpacity>
+          Mua ngay
+        </Button>
       </ScrollView>
     );
   };
@@ -292,22 +281,24 @@ const VideoDescription = (props) => {
         </View>
       )}
       {/* Model */}
-        <Modal animationType="fade" transparent={true} visible={modalVisible}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
+      <Modal animationType="fade" transparent={true} visible={modalVisible}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
             <Text style={styles.text}>Bạn muốn tham gia khóa học?</Text>
-          <View style={{ flexDirection: "row" , marginTop: 20}}>
-            <TouchableOpacity onPress={() => setModelVisible(false)} style = {{marginRight: 25}}>
-              <Text style={styles.text}>Không</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={buyCourse}>
-              <Text style={styles.text}>Có</Text>
-            </TouchableOpacity>
-          </View>
+            <View style={{ flexDirection: "row", marginTop: 20 }}>
+              <TouchableOpacity
+                onPress={() => setModelVisible(false)}
+                style={{ marginRight: 25 }}
+              >
+                <Text style={styles.text}>Không</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={buyCourse}>
+                <Text style={styles.text}>Có</Text>
+              </TouchableOpacity>
             </View>
-          
           </View>
-        </Modal>
+        </View>
+      </Modal>
       {/* Model */}
     </View>
   );
@@ -361,11 +352,11 @@ const styles = {
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5
+    elevation: 5,
   },
 };
 

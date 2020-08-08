@@ -71,7 +71,7 @@ export const apiChecLikeCourse = (token, id) => {
   });
 };
 
-export const apiUpdateName = (token, name, avatar, phone) => {
+export const apiUpdateProfile = (token, name, avatar, phone) => {
   return fetch("https://api.itedu.me/user/update-profile", {
     method: "PUT",
     headers: {

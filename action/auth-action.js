@@ -1,4 +1,4 @@
-import {apiLogin, apiRegister, apiSendEmailForgotPassword} from '../core/services/auth-service'
+import {apiLogin, apiRegister, apiSendEmailForgotPassword, apiChangePassword} from '../core/services/auth-service'
 export const login = (dispatch) => (username, password) => {
     dispatch({type: 'LOGIN_REQUEST'})
     apiLogin(username, password).then((response) => {
@@ -23,6 +23,14 @@ export const register = (name, email, phone, password, callBack) => {
 
 export const sendEmailForgotPassword = (email, callBack) => {
     apiSendEmailForgotPassword(email)
+    .then((response) =>{
+        callBack(response.status)
+    })
+    .catch(err => console.log(err))
+}
+
+export const changePassword = (token, id, opassword, npassword, callBack) => {
+    apiChangePassword(token, id, opassword, npassword)
     .then((response) =>{
         callBack(response.status)
     })
