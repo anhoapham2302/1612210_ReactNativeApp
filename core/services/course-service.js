@@ -99,3 +99,18 @@ export const apiGetLessonsOfCourse = (token, id) => {
         },
       });
 }
+
+export const apiUpdateCurrentTime = (token, id, time) => {
+    return fetch('https://api.itedu.me/lesson/update-current-time-learn-video', {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+            lessonId: id,
+            currentTime: time
+        })
+      });
+}

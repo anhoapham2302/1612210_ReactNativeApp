@@ -8,7 +8,7 @@ import { ThemeContext } from "../../provider/theme-provider";
 
 export default function VideoMain(props) {
   const { state } = useContext(AuthContext);
-  const {theme} = useContext(ThemeContext)
+  const { theme } = useContext(ThemeContext);
   const ele = props.route.params;
   const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(true);
@@ -26,16 +26,19 @@ export default function VideoMain(props) {
     video_id = data.videoUrl.split("https://youtube.com/embed/", 2);
   }
   return (
-    <ScrollView style = {{backgroundColor: theme.background}}>
+    <ScrollView style={{ backgroundColor: theme.background }}>
       {isLoading ? (
         <ActivityIndicator />
       ) : (
         <View>
           <VideoPlayer
+            lesson_id={props.route.params.item.id}
+            current = {data.currentTime}
             video_id={video_id}
             navigation={props.navigation}
           />
           <VideoInfomation
+            lesson_id={props.route.params.item.id}
             video_id={video_id}
             item={ele.item}
             navigation={props.navigation}
