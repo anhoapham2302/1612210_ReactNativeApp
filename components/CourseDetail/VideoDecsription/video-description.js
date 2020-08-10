@@ -1,6 +1,6 @@
 // Đây là component cho course details
 
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useCallback } from "react";
 import {
   View,
   Text,
@@ -9,7 +9,8 @@ import {
   ActivityIndicator,
   ScrollView,
   Modal,
-  TouchableOpacity
+  TouchableOpacity,
+  Linking
 } from "react-native";
 import { Button } from "react-native-paper";
 import Star from "react-native-star-view";
@@ -43,7 +44,7 @@ const VideoDescription = (props) => {
   const [click, setClick] = useState(0);
   const [statusBuy, setStatusBuy] = useState();
   const [modalVisible, setModelVisible] = useState(false);
-
+  const buyUrl = `https://itedu.me/payment/${props.item.id}`;
   var price;
 
   if (props.item.price !== undefined) {
@@ -81,7 +82,7 @@ const VideoDescription = (props) => {
     coursesContext.renderFavoriteCourses(state.token);
   }, [click]);
 
-  const buyCourse = () => {
+  const getFreeCourse = () => {
     apiGetFreeCourse(state.token, props.item.id)
       .catch((err) => console.log(err))
       .finally(() => {
@@ -90,9 +91,15 @@ const VideoDescription = (props) => {
       });
   };
 
+  const buyCourse = useCallback(async() => {
+    await Linking.openURL(buyUrl);
+  })
+
   const clickBuyButton = () => {
     if (price === 0) {
       setModelVisible(true);
+    }else{
+      buyCourse();
     }
   };
 
@@ -292,7 +299,7 @@ const VideoDescription = (props) => {
               >
                 <Text style={styles.text}>Không</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={buyCourse}>
+              <TouchableOpacity onPress={getFreeCourse}>
                 <Text style={styles.text}>Có</Text>
               </TouchableOpacity>
             </View>
