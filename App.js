@@ -39,6 +39,7 @@ import { LessonProvider } from "./provider/lesson-provider";
 import { SearchProvider } from "./provider/search-provider";
 import VideoMain from "./components/CourseDetail/video-main";
 import { apiGetInfo } from "./core/services/account-service";
+import { HistorySearchProvider } from "./provider/history-search-provider";
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const MainNavigationStack = createStackNavigator();
@@ -589,6 +590,7 @@ export default function App() {
       <CoursesProvider>
         <LessonProvider>
           <SearchProvider>
+            <HistorySearchProvider>
             <NavigationContainer>
               <ThemeProvider>
                 <ImageButtonProvider>
@@ -596,6 +598,7 @@ export default function App() {
                 </ImageButtonProvider>
               </ThemeProvider>
             </NavigationContainer>
+            </HistorySearchProvider>
           </SearchProvider>
         </LessonProvider>
       </CoursesProvider>

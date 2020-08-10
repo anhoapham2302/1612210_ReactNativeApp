@@ -4,7 +4,6 @@ export const getCoursesSearch = (dispatch) => (token, input_text) => {
   apiSearchCourses(token, input_text)
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
       dispatch({ type: "CONFIRM_SEARCH", data: data.payload.courses.data, count: data.payload.courses.total});
     })
     .catch((error) => console.error(error));

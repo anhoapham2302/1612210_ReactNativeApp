@@ -13,7 +13,6 @@ import ListCourses from "../../Courses/ListCourses/list-courses";
 export default function SearchResult(props) {
   const { search_results } = useContext(SearchContext);
   const { theme } = useContext(ThemeContext);
-console.log(search_results.count);
   return (
     <ScrollView style={{ backgroundColor: theme.background }}>
       {(search_results.count === 0) ? (<Text style = {[styles.text, {color: theme.foreground}]}>Không tìm thấy kết quả.</Text>) : 
