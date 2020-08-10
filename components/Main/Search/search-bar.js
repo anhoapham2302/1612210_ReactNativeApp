@@ -9,10 +9,12 @@ import {
 } from "react-native";
 import { SearchContext } from "../../../provider/search-provider";
 import { ThemeContext } from "../../../provider/theme-provider";
+import { AuthContext } from "../../../provider/auth-provider";
 
 export default function SearchBarView(props) {
   const [text, setText] = useState("");
   const { theme } = useContext(ThemeContext);
+  const {state} = useContext(AuthContext)
   const searchContext = useContext(SearchContext);
   const createAlert = () => {
     Alert.alert("Text input is required.");
@@ -31,7 +33,7 @@ export default function SearchBarView(props) {
             if (text === "") {
               createAlert();
             } else {
-              searchContext.getCoursesSearch(text);
+              searchContext.getCoursesSearch(state.token, text);
             }
           }
         }}
