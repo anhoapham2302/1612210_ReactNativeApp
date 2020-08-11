@@ -1,15 +1,28 @@
 import React, { useState, useContext, useEffect } from "react";
-import { View, Text } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ImageBackground,
+} from "react-native";
 import { AuthContext } from "../../../provider/auth-provider";
 import { useIsFocused } from "@react-navigation/native";
-import { apiGetHistorySearch } from "../../../core/services/search-service";
+import { apiGetHistorySearch, apiDelHistorySearch } from "../../../core/services/search-service";
 import { ActivityIndicator } from "react-native-paper";
+import { SearchContext } from "../../../provider/search-provider";
+import { HistorySearchContext } from "../../../provider/history-search-provider";
+import { ThemeContext } from "../../../provider/theme-provider";
 
 export default function HistorySearch() {
   const isFocus = useIsFocused();
+  const {theme} = useContext(ThemeContext)
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const { state } = useContext(AuthContext);
+  const searchContext = useContext(SearchContext);
+  const [item, setItem] = useState(null);
+  const historySearchContext = useContext(HistorySearchContext);
 
   useEffect(() => {
     if (isFocus === true) {
@@ -21,15 +34,58 @@ export default function HistorySearch() {
     }
   }, [isFocus]);
 
+  useEffect(() => {
+    if (item !== null) {
+      searchContext.getCoursesSearch(state.token, item);
+      historySearchContext.historySearchAction("SELECT_RESULT", item)
+    }
+  }, [item]);
+
   return (
-    <View>
+    <View style={[styles.view]}>
       {loading ? (
         <ActivityIndicator />
       ) : (
-        data.map((item) => {
-          return <Text>{item.content}</Text>;
-        })
+        <View>
+          <Text style={{ fontSize: 20, color: theme.foreground}}>Tìm kiếm gần đầy</Text>
+          {data.map((item) => {
+            return (
+              <View style={styles.result}>
+                <TouchableOpacity onPress={() => setItem(item.content)}>
+                  <Text style={[styles.item, { color: "#62DDBD" }]}>
+                    {item.content}
+                  </Text>
+                </TouchableOpacity>
+                <View>
+                  <TouchableOpacity onPress={() => {
+                    const newData = data.filter(itemDel => itemDel.content !== item.content);
+                    setData(newData);
+                    apiDelHistorySearch(state.token, item.id);
+                  }}>
+                    <Text style={[styles.item, { color: "red" }]}>Xóa</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            );
+          })}
+        </View>
       )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  view: {
+    marginLeft: 15,
+  },
+  result: {
+    justifyContent: "space-between",
+    flexDirection: "row",
+    marginLeft: 5,
+    marginRight: 50,
+    paddingTop: 5,
+  },
+  item: {
+    fontSize: 15,
+  },
+});

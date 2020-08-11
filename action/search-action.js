@@ -8,3 +8,7 @@ export const getCoursesSearch = (dispatch) => (token, input_text) => {
     })
     .catch((error) => console.error(error));
 };
+
+export const historySearchAction = (dispatch) => (type, text) => {
+  dispatch({type: type, text: text})
+}

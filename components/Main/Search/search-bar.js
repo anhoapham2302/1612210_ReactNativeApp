@@ -17,21 +17,23 @@ export default function SearchBarView(props) {
   const { theme } = useContext(ThemeContext);
   const { state } = useContext(AuthContext);
   const searchContext = useContext(SearchContext);
-  const { setVisible } = useContext(HistorySearchContext);
+  const { historySearch } = useContext(HistorySearchContext);
+  const historySearchContext  = useContext(HistorySearchContext);
+
   const createAlert = () => {
     Alert.alert("Text input is required.");
   };
   return (
-    <View style={{ flexDirection: "row", marginTop: 70, marginHorizontal: 17 }}>
+    <View style={{ flexDirection: "row", marginTop: 70, marginHorizontal: 15 }}>
       <TextInput
-        style={[styles.search, { color: theme.foreground }]}
+        style={[styles.search, { color: theme.foreground, borderBottomColor: theme.foreground}]}
         onChangeText={(input_text) => {
           setText(input_text);
           if (input_text === "") {
-            setVisible(true);
+            historySearchContext.historySearchAction("COMPLETE_SEARCH")
           }
         }}
-        defaultValue={text}
+        defaultValue={historySearch.text}
         placeholder="Search input..."
       />
       <TouchableOpacity
@@ -41,8 +43,8 @@ export default function SearchBarView(props) {
             if (text === "") {
               createAlert();
             } else {
-              setVisible(false);
               searchContext.getCoursesSearch(state.token, text);
+              historySearchContext.historySearchAction("SELECT_RESULT", text)
             }
           }
         }}

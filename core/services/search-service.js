@@ -24,3 +24,14 @@ export const apiGetHistorySearch = (token) => {
         },
     })
 }
+
+export const apiDelHistorySearch = (token, id) => {
+  return fetch(`https://api.itedu.me/course/delete-search-history/${id}`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+})
+}

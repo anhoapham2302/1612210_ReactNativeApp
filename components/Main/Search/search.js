@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { View, Dimensions } from "react-native";
+import { View, Dimensions, StyleSheet } from "react-native";
 
 import SearchResult from "./search-result";
 import SearchBarView from "./search-bar";
@@ -10,12 +10,13 @@ import { HistorySearchContext } from "../../../provider/history-search-provider"
 const windowHeight = Dimensions.get("window").height;
 
 const Search = (props) => {
-  const { visible } = useContext(HistorySearchContext);
+  const { historySearch } = useContext(HistorySearchContext);
   const { theme } = useContext(ThemeContext);
+
   return (
     <View style={{ backgroundColor: theme.background, height: windowHeight }}>
       <SearchBarView navigation={props.navigation} />
-      {visible ? (
+      {historySearch.visible ? (
         <HistorySearch navigation={props.navigation} />
       ) : (
         <SearchResult navigation={props.navigation} />
