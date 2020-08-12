@@ -13,7 +13,7 @@ export default function VideoMain(props) {
   const [data, setData] = useState([]);
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
-    apiGetVideoData(state.token, ele.course_id, ele.item.id)
+    apiGetVideoData(state.token, ele.course_id, ele.item.id || ele.item.lessonId)
       .then((respone) => respone.json())
       .then((res) => {
         setData(res.payload);
@@ -37,12 +37,12 @@ export default function VideoMain(props) {
             video_id={video_id}
             navigation={props.navigation}
           />
-          <VideoInfomation
+          {/* <VideoInfomation
             lesson_id={props.route.params.item.id}
             video_id={video_id}
             item={ele.item}
             navigation={props.navigation}
-          />
+          /> */}
         </View>
       )}
     </ScrollView>

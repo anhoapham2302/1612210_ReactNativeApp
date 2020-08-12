@@ -99,3 +99,14 @@ export const apiUpdateCurrentTime = (token, id, time) => {
         })
       });
 }
+
+export const apiGetLastWatchedLesson = (token, id) => {
+    return fetch(`https://api.itedu.me/course/last-watched-lesson/${id}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+}

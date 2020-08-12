@@ -3,11 +3,16 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, ActivityIndicator } fr
 import Star from 'react-native-star-view';
 import { ThemeContext } from '../../../provider/theme-provider';
 import { apiAuthorDetail } from '../../../core/services/author-service';
+import { apiGetLastWatchedLesson } from '../../../core/services/course-service';
+import { AuthContext } from '../../../provider/auth-provider';
 
 const ListCoursesItem = (props) => {
-    const {theme} = useContext(ThemeContext)
-    const [author, setAuthor] = useState()
-    const [loading, setLoading] = useState(true)
+    const {theme} = useContext(ThemeContext);
+    const [author, setAuthor] = useState();
+    const [loading, setLoading] = useState(true);
+    const {state} = useContext(AuthContext);
+    const [getLessonProcess, setGetLessonProcess] = useState(true);
+    const [data, setData] = useState(null);
 
     useEffect(() => {
         if(props.item.name === undefined & props.item['instructor.user.name'] === undefined){
@@ -20,9 +25,30 @@ const ListCoursesItem = (props) => {
             setLoading(false)
         }
     }, [])
-    const onPressListItem =()=>{   
-        props.navigation.navigate("CourseDetail", {item: props.item})
+    const onPressListItem =()=>{
+        setGetLessonProcess(true)
+        apiGetLastWatchedLesson(state.token, props.item.id)
+        .then((respone) => {
+            if(respone.status === 200){
+                respone.json().then((res) => {
+                    setData(res.payload)
+                })
+                .finally(() => setGetLessonProcess(false))
+            }
+        })
+       
     }
+
+    useEffect(() => {
+        console.log(data);
+        if(getLessonProcess === false){
+            if(data !== null){
+                props.navigation.navigate("VideoMain", {item: data, course_id: props.item.id});
+            }else{
+                props.navigation.navigate("CourseDetail", {item: props.item})
+            }
+        }
+    }, [getLessonProcess])
 
     const checkPrice = (price) => {
         if(price === 0){
