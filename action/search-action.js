@@ -1,7 +1,7 @@
 import { apiSearchCourses } from "../core/services/search-service";
 
-export const getCoursesSearch = (dispatch) => (token, input_text) => {
-  apiSearchCourses(token, input_text)
+export const getCoursesSearch = (dispatch) => (token, input_text, limit, offset) => {
+  apiSearchCourses(token, input_text, limit, offset)
     .then((response) => response.json())
     .then((data) => {
       dispatch({ type: "CONFIRM_SEARCH", data: data.payload.courses.data, count: data.payload.courses.total});

@@ -1,4 +1,4 @@
-export const apiSearchCourses = (token, text) => {
+export const apiSearchCourses = (token, text, limit, offset) => {
   return fetch("https://api.itedu.me/course/searchV2", {
     method: "POST",
     headers: {
@@ -8,8 +8,8 @@ export const apiSearchCourses = (token, text) => {
     body: JSON.stringify({
       token: token,
       keyword: text,
-      limit: 0,
-      offset: 0,
+      limit: limit,
+      offset: offset,
     }),
   });
 };

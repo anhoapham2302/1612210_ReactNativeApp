@@ -43,7 +43,7 @@ export default function SearchBarView(props) {
             if (text === "") {
               createAlert();
             } else {
-              searchContext.getCoursesSearch(state.token, text);
+              searchContext.getCoursesSearch(state.token, text, 2, 0);
               historySearchContext.historySearchAction("SELECT_RESULT", text)
             }
           }
