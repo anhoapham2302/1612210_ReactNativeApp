@@ -56,3 +56,19 @@ export const apiChangePassword = (token, id, opassword, npassword) => {
     }),
   });
 };
+
+export const apiGoogleLogin = (email, id) => {
+  return fetch("https://api.itedu.me/user/login-google-mobile", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      user: {
+        email: email,
+        id: id,
+      },
+    }),
+  });
+};
