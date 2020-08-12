@@ -4,7 +4,7 @@ import { getCoursesSearch } from '../action/search-action'
 
 const SearchContext = React.createContext()
 
-const initialState = {data: [], count: -1, isLoading: true, isError: false, isFirst: true}
+const initialState = {data: [], count: -1, isLoading: true, isError: false, isFirst: true, page: 1}
 
 const SearchProvider = (props) => {
     const [search_results, dispatch] = useReducer(searchReducer, initialState)
