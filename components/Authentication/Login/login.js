@@ -96,7 +96,7 @@ const Login = (props) => {
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <ActivityIndicator animating={loading} style={{height: 300, width: 300}}/>
+      <ActivityIndicator animating={loading}/>
       <Text style={[Styles.title, { color: Colors.login }]}>Login</Text>
       <Button
         icon={{uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/471px-Google_%22G%22_Logo.svg.png"}}

@@ -10,7 +10,8 @@ import {
   ScrollView,
   Modal,
   TouchableOpacity,
-  Linking
+  Linking,
+  Share,
 } from "react-native";
 import { Button } from "react-native-paper";
 import Star from "react-native-star-view";
@@ -45,6 +46,7 @@ const VideoDescription = (props) => {
   const [statusBuy, setStatusBuy] = useState();
   const [modalVisible, setModelVisible] = useState(false);
   const buyUrl = `https://itedu.me/payment/${props.item.id}`;
+  const shareUrl = `https://itedu.me/course-detail/${props.item.id}`;
   var price;
 
   if (props.item.price !== undefined) {
@@ -91,16 +93,38 @@ const VideoDescription = (props) => {
       });
   };
 
-  const buyCourse = useCallback(async() => {
+  const buyCourse = useCallback(async () => {
     await Linking.openURL(buyUrl);
-  })
+  });
 
   const clickBuyButton = () => {
     if (price === 0) {
       setModelVisible(true);
-    }else{
+    } else {
       buyCourse();
     }
+  };
+
+  const onShare = async () => {
+    Share.share(
+      {
+        message:
+          "Cùng tham gia khóa học: " +
+          shareUrl,
+        url:
+          shareUrl,
+        title: "Chia sẻ khóa học",
+        
+      },
+      {
+        // Android only:
+        dialogTitle:
+          "Cùng tham gia khóa học: " +
+          shareUrl,
+        // iOS only:
+        excludedActivityTypes: ["com.apple.UIKit.activity.PostToTwitter"],
+      }
+    );
   };
 
   const renderFavButton = () => {
@@ -117,7 +141,7 @@ const VideoDescription = (props) => {
         }}
         onPress={clickFavButton}
       >
-        Favorite
+        Yêu thích
       </Button>
     );
   };
@@ -136,7 +160,7 @@ const VideoDescription = (props) => {
         }}
         onPress={clickFavButton}
       >
-        Favorited
+        Đã thích
       </Button>
     );
   };
@@ -273,9 +297,26 @@ const VideoDescription = (props) => {
             <View
               style={{
                 marginTop: 20,
+                flexDirection: 'row',
+                justifyContent: 'space-around'
               }}
             >
               {checkFav()}
+              <Button
+                icon="share"
+                mode="contained"
+                color="#3498DB"
+                labelStyle={{color: '#FFF'}}
+                style={{
+                  width: 130,
+                  borderWidth: 2,
+                  borderRadius: 5,
+                  borderColor: "white",
+                }}
+                onPress={onShare}
+              >
+                Chia sẻ
+              </Button>
             </View>
           </View>
           <TabView
