@@ -27,30 +27,29 @@ const ListCoursesItem = (props) => {
         }
     }, [])
     const onPressListItem =()=>{
-        // setGetLessonProcess(true)
-        // apiGetLastWatchedLesson(state.token, props.item.id)
-        // .then((respone) => {
-        //     if(respone.status === 200){
-        //         respone.json().then((res) => {
-        //             setData(res.payload)
-        //         })
-        //         .finally(() => setGetLessonProcess(false))
-        //     }else{
-        //         setGetLessonProcess(false);
-        //     }
-        // })
-        props.navigation.navigate("CourseDetail", { item: props.item });
+        setGetLessonProcess(true)
+        apiGetLastWatchedLesson(state.token, props.item.id)
+        .then((respone) => {
+            if(respone.status === 200){
+                respone.json().then((res) => {
+                    setData(res.payload)
+                })
+                .finally(() => setGetLessonProcess(false))
+            }else{
+                setGetLessonProcess(false);
+            }
+        })
     }
 
-    // useEffect(() => {
-    //     if(getLessonProcess === false){
-    //         if(data !== null){
-    //             props.navigation.navigate("VideoMain", {item: data, course_id: props.item.id});
-    //         }else{
-    //             props.navigation.navigate("CourseDetail", {item: props.item})
-    //         }
-    //     }
-    // }, [getLessonProcess])
+    useEffect(() => {
+        if(getLessonProcess === false){
+            if(data !== null){
+                props.navigation.navigate("VideoMain", {item: data, course_id: props.item.id});
+            }else{
+                props.navigation.navigate("CourseDetail", {item: props.item})
+            }
+        }
+    }, [getLessonProcess])
 
     const checkPrice = (price) => {
         if(price === 0){

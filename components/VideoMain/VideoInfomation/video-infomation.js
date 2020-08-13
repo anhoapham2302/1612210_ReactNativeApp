@@ -1,22 +1,43 @@
-import React, { useContext } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
+import { View, Text, StyleSheet, ActivityIndicator } from 'react-native'
 import { ThemeContext } from '../../../provider/theme-provider'
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { getDetailLessonAction } from '../../../action/lesson-action';
+import { AuthContext } from '../../../provider/auth-provider';
 
 export default function VideoInfomation(props) {
     const {theme} = useContext(ThemeContext);
-    console.log(props);
+    const {state} = useContext(AuthContext);
+    const [loading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
     const onBackButton = () => {
         props.navigation.navigate("CourseDetail", { item: {id: props.course_id} });
     }
+
+    const lessonDetails = res => {
+        if(res !== undefined)
+        {
+            setData(res.payload);
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        getDetailLessonAction(state.token, props.course_id, props.item.lessonId, lessonDetails)
+    }, [])
     return (
-        <View style = {styles.view}>
-            <Text style = {{fontSize: 20, color: theme.foreground}}>{props.item.name}</Text>
-            <Text style = {{fontSize: 14, color: 'darkgrey'}}>Thời lượng: {props.item.hours} giờ</Text>
-            <TouchableOpacity onPress={onBackButton}>
-                <Text>Quay về khóa học</Text>
-            </TouchableOpacity>
+        <View>
+            {loading ? <ActivityIndicator/> : (
+                <View style = {styles.view}>
+                <Text style = {{fontSize: 20, color: theme.foreground}}>{data.name}</Text>
+                <Text style = {{fontSize: 14, color: 'darkgrey'}}>Thời lượng: {data.hours} giờ</Text>
+                <TouchableOpacity onPress={onBackButton}>
+                    <Text>Quay về khóa học</Text>
+                </TouchableOpacity>
+            </View>
+            )}
         </View>
+        
     )
 }
 

@@ -25,6 +25,7 @@ export default function VideoMain(props) {
   if (isLoading === false) {
     video_id = data.videoUrl.split("https://youtube.com/embed/", 2);
   }
+  console.log(data);
   return (
     <ScrollView style={{ backgroundColor: theme.background }}>
       {isLoading ? (
