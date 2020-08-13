@@ -34,13 +34,14 @@ const ListCoursesItem = (props) => {
                     setData(res.payload)
                 })
                 .finally(() => setGetLessonProcess(false))
+            }else{
+                setGetLessonProcess(false);
             }
         })
        
     }
 
     useEffect(() => {
-        console.log(data);
         if(getLessonProcess === false){
             if(data !== null){
                 props.navigation.navigate("VideoMain", {item: data, course_id: props.item.id});

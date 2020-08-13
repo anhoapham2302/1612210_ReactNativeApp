@@ -37,12 +37,12 @@ export default function VideoMain(props) {
             video_id={video_id}
             navigation={props.navigation}
           />
-          {/* <VideoInfomation
+          <VideoInfomation
             lesson_id={props.route.params.item.id}
             video_id={video_id}
             item={ele.item}
             navigation={props.navigation}
-          /> */}
+          />
         </View>
       )}
     </ScrollView>
