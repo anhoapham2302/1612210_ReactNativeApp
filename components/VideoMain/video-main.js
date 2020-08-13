@@ -38,9 +38,8 @@ export default function VideoMain(props) {
             navigation={props.navigation}
           />
           <VideoInfomation
-            lesson_id={props.route.params.item.id}
-            video_id={video_id}
             item={ele.item}
+            course_id={ele.course_id}
             navigation={props.navigation}
           />
         </View>

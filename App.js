@@ -10,12 +10,9 @@ import {
 import Home from "./components/Main/Home/home";
 import Browse from "./components/Main/Browse/browse";
 import Search from "./components/Main/Search/search";
-import ListCourses from "./components/Courses/ListCourses/list-courses";
 import { NavigationContainer, useIsFocused } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import SectionCourses from "./components/Main/Home/SectionCourses/section-courses";
-import VideoPlayer from "./components/CourseDetail/VideoPlayer/video-player";
 import CourseDetail from "./components/CourseDetail/course-detail";
 import Login from "./components/Authentication/Login/login";
 import Register from "./components/Authentication/Register/register";
@@ -37,10 +34,9 @@ import {
 } from "./provider/imageButton-provider";
 import { LessonProvider } from "./provider/lesson-provider";
 import { SearchProvider } from "./provider/search-provider";
-import VideoMain from "./components/CourseDetail/video-main";
+import VideoMain from "./components/VideoMain/video-main";
 import { apiGetInfo } from "./core/services/account-service";
 import { HistorySearchProvider } from "./provider/history-search-provider";
-const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 const MainNavigationStack = createStackNavigator();
 const HomeNavigationStack = createStackNavigator();

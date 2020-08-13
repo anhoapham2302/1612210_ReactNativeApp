@@ -9,47 +9,56 @@ import {
 import { ThemeContext } from "../../../../provider/theme-provider";
 import { apiProcessCourses } from "../../../../core/services/account-service";
 import { AuthContext } from "../../../../provider/auth-provider";
+import { getCoursesFromCatAction } from "../../../../action/course-action";
 
 const SectionCourses = (props) => {
   const { theme } = useContext(ThemeContext);
   const [data, setData] = useState([]);
   const { state } = useContext(AuthContext);
+  const [isLoading, setLoading] = useState(true);
+  
+  const coursesFromCat = res => {
+    if(res !== undefined)
+    {
+      setData(res.payload.rows);
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
     if (props.title === "Top Sell") {
+      setLoading(true);
       renderTopSell()
         .then((response) => response.json())
         .then((data) => setData(data.payload))
-        .catch((error) => console.error(error));
+        .catch((error) => console.error(error))
+        .finally(() => setLoading(false));
     } else {
       if (props.title === "Top Rate") {
+        setLoading(true);
         apiTopRated()
           .then((response) => response.json())
           .then((data) => setData(data.payload))
-          .catch((error) => console.error(error));
+          .catch((error) => console.error(error))
+          .finally(() => setLoading(false));
       } else {
         if (props.title === "Courses Of Author") {
           setData(props.item);
         } else {
           if (props.title === "Your Courses") {
+            setLoading(true);
             apiProcessCourses(state.token)
               .then((response) => response.json())
-              .then((data) => 
-              {console.log(data);
-                setData(data.payload)
-            }
-              )
-              .catch((error) => console.error(error));
+              .then((data) => setData(data.payload))
+              .catch((error) => console.error(error))
+              .finally(() => setLoading(false));
           } else {
-            apiCourses(props.course_id)
-              .then((response) => response.json())
-              .then((data) => setData(data.payload.rows))
-              .catch((error) => console.error(error));
+            getCoursesFromCatAction([props.course_id], coursesFromCat);
           }
         }
       }
     }
-  }, []);
+  }, [isLoading]);
 
   const renderListItems = (courses) => {
     if (courses.length === 0) {

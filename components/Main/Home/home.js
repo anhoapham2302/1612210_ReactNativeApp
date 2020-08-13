@@ -9,25 +9,25 @@ import { ThemeContext } from '../../../provider/theme-provider';
 import { themes } from '../../../global/theme';
 import { coursesReducer } from '../../../reducer/courses-reducer';
 import { AuthContext } from '../../../provider/auth-provider';
+import { getAllCatAction } from '../../../action/course-action';
+import { apiGetAllCat } from '../../../core/services/course-service';
 
 const initialState = {data: [], isLoading: true, isError: false}
 
 const Home = (props) => {
-    const [isLoading, setLoading] = useState(true)
-    const [data, setData] = useState()
-    useEffect(() => {
-       
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState();
 
-       fetch('https://api.itedu.me/category/all', {
-        method: 'GET',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        }).then((respone)=>respone.json())
-            .then((json)=>setData(json.payload))
-            .catch((error) => console.error(error))
-            .finally(()=> setLoading(false))
+    const allCat = res =>
+    {
+        if(res !== undefined)
+        {
+            setData(res.payload);
+            setLoading(false);
+        }
+    }
+    useEffect(() => {    
+        getAllCatAction(allCat);  
     },[])
     const {theme} = useContext(ThemeContext)
 

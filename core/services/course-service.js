@@ -2,6 +2,36 @@ import courses from "../../global/courses"
 import { useContext, useState, useEffect} from "react"
 import { BookmarkContext } from "../../provider/bookmark-provider"
 
+export const apiGetAllCat = () => {
+    return fetch('https://api.itedu.me/category/all', {
+        method: 'GET',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+}
+
+export const apiGetCoursesFromCat = (cat_id) => {
+    return fetch('https://api.itedu.me/course/search', {
+        method: 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+                keyword: "",
+                opt: {
+                  category:   
+                      cat_id
+                  
+                }, 
+                limit: 0,
+                offset: 0
+        })
+        })
+}
+
 export const apiCourses = (course_id) => {
      return fetch('https://api.itedu.me/course/search', {
         method: 'POST',

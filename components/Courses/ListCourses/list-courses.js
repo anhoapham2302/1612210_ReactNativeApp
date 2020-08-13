@@ -1,32 +1,16 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
-  StyleSheet,
-  Text,
   View,
   FlatList,
-  ActivityIndicator,
+  ScrollView
 } from "react-native";
 import ListCoursesItem from "../ListCoursesItem/list-courses-item";
 import Styles from "../../../global/style";
-import courses from "../../../global/courses";
-import {
-  searchCourse,
-  searchCourseOfAuthor,
-  searchCourseOfRecommend,
-} from "../../../core/services/search-service";
-import { AuthContext } from "../../../provider/auth-provider";
-import { FavContext } from "../../../provider/favorite-provider";
-import {
-  renderNewRelease,
-  apiNewRelease,
-  apiSearchCourses,
-} from "../../../core/services/course-service";
-import { useReducer } from "react";
-import { coursesReducer } from "../../../reducer/courses-reducer";
-import { CoursesContext } from "../../../provider/course-provider";
-import { apiRecommendCourses } from "../../../core/services/account-service";
 
-const initialState = { data: [], isLoading: true, isError: false };
+import { AuthContext } from "../../../provider/auth-provider";
+
+import { CoursesContext } from "../../../provider/course-provider";
+
 
 const ListCourses = (props) => {
   const authContext = useContext(AuthContext);
@@ -42,18 +26,19 @@ const ListCourses = (props) => {
   };
   return (
     <View style={Styles.view}>
-      {/* {state.isLoading && <ActivityIndicator/>} */}
-      {/* <View>
-            <Text style = {Styles.text}>{props.title}</Text>
-        </View> */}
-        {/* {isLoading ? <ActivityIndicator/> : (  */}
-        <FlatList
+      <FlatList
         data={props.item}
         renderItem={({ item }) => (
           <ListCoursesItem navigation={props.navigation} item={item} />
         )}
         ItemSeparatorComponent={renderSeparator}
       />
+      {/* {state.isLoading && <ActivityIndicator/>} */}
+      {/* <View>
+            <Text style = {Styles.text}>{props.title}</Text>
+        </View> */}
+        {/* {isLoading ? <ActivityIndicator/> : (  */}
+        
       {/* )} */}
      
     </View>
