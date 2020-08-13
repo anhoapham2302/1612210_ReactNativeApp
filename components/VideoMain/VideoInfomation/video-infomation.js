@@ -4,27 +4,31 @@ import { ThemeContext } from '../../../provider/theme-provider'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { getDetailLessonAction } from '../../../action/lesson-action';
 import { AuthContext } from '../../../provider/auth-provider';
+import { useIsFocused } from '@react-navigation/native';
 
 export default function VideoInfomation(props) {
     const {theme} = useContext(ThemeContext);
     const {state} = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const isFocused = useIsFocused();
     const onBackButton = () => {
         props.navigation.navigate("CourseDetail", { item: {id: props.course_id} });
     }
-
     const lessonDetails = res => {
         if(res !== undefined)
         {
             setData(res.payload);
             setLoading(false);
         }
-    }
+    }  
 
     useEffect(() => {
-        getDetailLessonAction(state.token, props.course_id, props.item.lessonId, lessonDetails)
-    }, [])
+        if(isFocused === true)
+        {   
+            getDetailLessonAction(state.token, props.course_id, props.item.lessonId || props.item.id, lessonDetails)
+        }
+    }, [isFocused])
     return (
         <View>
             {loading ? <ActivityIndicator/> : (

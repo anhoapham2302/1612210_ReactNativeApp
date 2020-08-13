@@ -36,7 +36,7 @@ export default function HistorySearch() {
 
   useEffect(() => {
     if (item !== null) {
-      searchContext.getCoursesSearch(state.token, item);
+      searchContext.getCoursesSearch(state.token, item, 2, 0, 1);
       historySearchContext.historySearchAction("SELECT_RESULT", item)
     }
   }, [item]);

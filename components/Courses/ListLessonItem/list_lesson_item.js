@@ -6,7 +6,7 @@ import Ionicons from "react-native-vector-icons/Ionicons";
 export default function ListLessonItem(props) {
   const { theme } = useContext(ThemeContext);
   const onPressListItem = () => {
-    props.navigation.navigate("VideoMain", {item: props.item, course_id: props.course_id});
+    props.navigation.push("VideoMain", {item: props.item, course_id: props.course_id});
   };
   return (
     <TouchableOpacity

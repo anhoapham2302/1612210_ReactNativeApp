@@ -151,3 +151,28 @@ export const apiGetLessonDetail = (token, course_id, lesson_id) => {
         },
       });
 }
+
+export const apiGetExcercise = (token, lesson_id) => {
+    return fetch(`https://api.itedu.me/exercise/student/list-exercise-lesson`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+            lessonId: lesson_id
+        })
+      });
+}
+
+export const apiGetRating = (token, course_id, id) => {
+    return fetch(`https://api.itedu.me/course/get-course-detail/${course_id}/${id}`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+}

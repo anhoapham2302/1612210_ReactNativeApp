@@ -5,6 +5,7 @@ import VideoPlayer from "./VideoPlayer/video-player";
 import { apiGetVideoData } from "../../core/services/video-service";
 import VideoInfomation from "./VideoInfomation/video-infomation";
 import { ThemeContext } from "../../provider/theme-provider";
+import VideoTab from "./VideoTab/video-tab";
 
 export default function VideoMain(props) {
   const { state } = useContext(AuthContext);
@@ -25,7 +26,6 @@ export default function VideoMain(props) {
   if (isLoading === false) {
     video_id = data.videoUrl.split("https://youtube.com/embed/", 2);
   }
-  console.log(data);
   return (
     <ScrollView style={{ backgroundColor: theme.background }}>
       {isLoading ? (
@@ -43,6 +43,7 @@ export default function VideoMain(props) {
             course_id={ele.course_id}
             navigation={props.navigation}
           />
+          <VideoTab course_id={ele.course_id} lesson_id = {ele.item.id || ele.item.lessonId} navigation={props.navigation}/>
         </View>
       )}
     </ScrollView>

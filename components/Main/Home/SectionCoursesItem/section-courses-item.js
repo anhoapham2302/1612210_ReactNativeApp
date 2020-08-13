@@ -4,6 +4,8 @@ import Star from "react-native-star-view";
 import { ThemeContext } from "../../../../provider/theme-provider";
 import { AuthContext } from "../../../../provider/auth-provider";
 import { apiGetLastWatchedLesson } from "../../../../core/services/course-service";
+import { LessonContext } from "../../../../provider/lesson-provider";
+import { apiGetVideoData } from "../../../../core/services/video-service";
 
 const SectionCoursesItem = (props) => {
   const { theme } = useContext(ThemeContext);
@@ -73,12 +75,12 @@ const SectionCoursesItem = (props) => {
   useEffect(() => {
     if (getLessonProcess === false) {
       if (data !== null) {
-        props.navigation.navigate("VideoMain", {
+        props.navigation.push("VideoMain", {
           item: data,
           course_id: props.item.id,
         });
       } else {
-        props.navigation.navigate("CourseDetail", { item: props.item });
+        props.navigation.push("CourseDetail", { item: props.item });
       }
     }
   }, [getLessonProcess]);

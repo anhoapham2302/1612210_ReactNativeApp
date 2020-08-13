@@ -1,10 +1,12 @@
 import { apiSearchCourses } from "../core/services/search-service";
 
-export const getCoursesSearch = (dispatch) => (token, input_text, limit, offset, page) => {
+export const getCoursesSearch = (dispatch) => (token, input_text, limit, offset, coursesPage, instructorsPage) => {
   apiSearchCourses(token, input_text, limit, offset)
     .then((response) => response.json())
     .then((data) => {
-      dispatch({ type: "CONFIRM_SEARCH", data: data.payload.courses.data, count: data.payload.courses.total, page: page});
+      dispatch({ type: "CONFIRM_SEARCH", courses: data.payload.courses.data, coursesCount: data.payload.courses.total, coursesPage: coursesPage,
+      instructors: data.payload.instructors.data, instructorsCount:  data.payload.instructors.total, instructorsPage: instructorsPage
+    });
     })
     .catch((error) => console.error(error));
 };

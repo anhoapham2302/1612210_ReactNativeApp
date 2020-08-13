@@ -44,9 +44,9 @@ const ListCoursesItem = (props) => {
     useEffect(() => {
         if(getLessonProcess === false){
             if(data !== null){
-                props.navigation.navigate("VideoMain", {item: data, course_id: props.item.id});
+                props.navigation.push("VideoMain", {item: data, course_id: props.item.id});
             }else{
-                props.navigation.navigate("CourseDetail", {item: props.item})
+                props.navigation.push("CourseDetail", {item: props.item})
             }
         }
     }, [getLessonProcess])

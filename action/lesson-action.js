@@ -1,4 +1,4 @@
-import { apiGetLessonsOfCourse, apiGetLessonDetail } from "../core/services/course-service";
+import { apiGetLessonsOfCourse, apiGetLessonDetail, apiGetExcercise } from "../core/services/course-service";
 
 export const getLesson = (dispatch) => (token, id) => {
   apiGetLessonsOfCourse(token, id)
@@ -20,3 +20,13 @@ export const getDetailLessonAction = (token, course_id, lesson_id, callback) => 
   .then((res) => callback(res))
   .catch((err) => console.log(err))
 }
+
+export const getExerciseAction = (token, lesson_id, callback) => {
+  apiGetExcercise(token, lesson_id)
+  .then((respone) => respone.json())
+  .then((res) => {
+    console.log(res);
+    callback(res);
+  })
+  .catch((err) => console.log(err))
+} 

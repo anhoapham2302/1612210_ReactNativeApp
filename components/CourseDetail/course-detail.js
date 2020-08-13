@@ -15,7 +15,6 @@ const CourseDetail = (props) => {
   const { state } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-
   const courseDetails = res => {
     if(res !== undefined){
       setData(res.payload);

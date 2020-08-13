@@ -8,7 +8,8 @@ import { apiCheckOwnCourse, apiGetFreeCourse } from '../../../core/services/acco
 import { Button } from "react-native-paper";
 import { LessonContext } from '../../../provider/lesson-provider';
 import ListCourses from '../../Courses/ListCourses/list-courses';
-import { getCoursesFromCatAction } from '../../../action/course-action';
+import { getCoursesFromCatAction, getRatingAction } from '../../../action/course-action';
+import { apiGetVideoData } from '../../../core/services/video-service';
 
 
 const initialLayout = { width: Dimensions.get("window").width };
@@ -18,6 +19,7 @@ export default function TabViewCourse(props) {
   const [isOwn, checkOwn] = useState();
   const [modalVisible, setModelVisible] = useState(false);
   const lessonContext = useContext(LessonContext);
+  const {lesson} = useContext(LessonContext);
   const {state} = useContext(AuthContext);
   const {theme} = useContext(ThemeContext);
   const [index, setIndex] = useState(0);
@@ -26,6 +28,8 @@ export default function TabViewCourse(props) {
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState(true);
   const [newData, setNewData] = useState([]);
+  const [ratingLoading, setRatingLoading] = useState(true);
+  const [rating, setRating] = useState([]);
 
   const coursesFromCat = res => {
     if(res !== undefined)
@@ -91,6 +95,18 @@ export default function TabViewCourse(props) {
     lessonContext.getLesson(state.token, props.data.id);
   }, [isOwn]);
 
+  // useEffect(() => {
+  //   if(lesson.isLoading  === false){
+  //     lesson.data.map((item) => {
+  //       apiGetVideoData(state.token, props.data.id, item.lesson.id)
+  //       .then((respone) => respone.json())
+  //       .then((res) => {
+  //         console.log(res);
+  //       })
+  //       .catch((err) => console.log(err))
+  //     })
+  //   }
+  // }, [lesson.isLoading])
   var learnWhat = [];
   var requirement = [];
   if (props.data.learnWhat !== undefined) {
@@ -130,7 +146,7 @@ export default function TabViewCourse(props) {
   const FirstRoute = () => {
     return <View>
       {  lessonLoading ? <ActivityIndicator/> : (
-      (isOwn) ?
+      (isOwn) ? 
       (
          <View>
            <ListLessons navigation={props.navigation} />
@@ -184,15 +200,45 @@ export default function TabViewCourse(props) {
     </View>
   );
 
+  const getRating = res => {
+    if(res !== undefined){
+      setRating(res.payload.ratings.ratingList);
+      setRatingLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getRatingAction(state.token, props.data.id, getRating)
+  }, [])
+  const FourthRoute = () => (
+    <View>
+      {ratingLoading ? <ActivityIndicator/> : (
+        rating.map((item) => {
+        return (
+          <View style={{flexDirection:'row', marginTop: 10, marginLeft: 20}}>
+              <Text style = {[styles.comment, {fontWeight: 'bold', color: theme.foreground}]}>{item.user.name}: </Text>
+              <Text style = {{color: theme.foreground}}>{item.content}</Text>
+          </View>
+        )
+       
+        })
+      ) 
+    }
+    </View>
+  );
+
   const [routes] = useState([
     { key: "lesson", title: "Bài học" },
     { key: "description", title: "Mô tả" },
     { key: "recommend", title: "Gợi ý" },
+    { key: "rating", title: "Bình luận" },
+
   ]);
   const renderScene = SceneMap({
     lesson: FirstRoute,
     description: SecondRoute,
     recommend: ThirdRoute,
+    rating: FourthRoute,
   });
 
   const renderTabBar = props => (
@@ -262,4 +308,6 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+   comment: {
+   }
 })

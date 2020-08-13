@@ -16,22 +16,18 @@ const VideoPlayer = (props) => {
   const [event, setEvent] = useState(null);
   const isFocused = useIsFocused();
 
-  console.log(isFocused);
-
   const currentTime = Math.floor(props.current)*1000;
   useEffect(() => {
+    console.log(isFocused);
     if (isFocused === false) {
       if (props.video_id[0] === "") {
-        setPlaying(false);
         playerRef.current.getCurrentTime().then((data) => {
           apiUpdateCurrentTime(state.token, props.lesson_id, data)
         });
       } else {
-        setPlaying(false);
         videoRef.current.getStatusAsync().then((data) => {
           apiUpdateCurrentTime(state.token, props.lesson_id, (data.positionMillis)/1000)
-        })
-
+        });
       }
     }
   }, [isFocused]);
@@ -69,7 +65,10 @@ const VideoPlayer = (props) => {
           isMuted={false}
           positionMillis={currentTime}
           resizeMode="cover"
-          shouldPlay={playing}
+          onPlaybackStatusUpdate={(event) => {
+            setEvent(event);
+          }}
+          shouldPlay={true}
           isLooping
           useNativeControls
           style={{ width: "100%", height: 250, borderBottomWidth: 0.5 }}
