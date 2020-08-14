@@ -10,8 +10,10 @@ import { ThemeContext } from "../../../../provider/theme-provider";
 import { apiProcessCourses } from "../../../../core/services/account-service";
 import { AuthContext } from "../../../../provider/auth-provider";
 import { getCoursesFromCatAction } from "../../../../action/course-action";
+import { ImageButtonContext } from "../../../../provider/imageButton-provider";
 
 const SectionCourses = (props) => {
+  const {setTitle} = useContext(ImageButtonContext)
   const { theme } = useContext(ThemeContext);
   const [data, setData] = useState([]);
   const { state } = useContext(AuthContext);
@@ -23,6 +25,11 @@ const SectionCourses = (props) => {
       setData(res.payload.rows);
       setLoading(false);
     }
+  }
+
+  const onPressMore = () =>{
+    setTitle(props.title)
+    props.navigation.navigate("ListCoursesPage", {title: props.title, com: "Any", data: data})
   }
 
   useEffect(() => {
@@ -74,8 +81,9 @@ const SectionCourses = (props) => {
         </View>
       );
     }
-    return courses.map((item) => (
+    return courses.slice(0, 5).map((item) => (
       <SectionCoursesItem
+        key={item.id.toString()}
         navigation={props.navigation}
         item={item}
         author={props.author}
@@ -91,7 +99,7 @@ const SectionCourses = (props) => {
         >
           {props.title}
         </Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onPressMore}>
           <Text style = {{marginRight: 15, marginTop: 5, fontSize: 15, color: '#4DC4FF'}}>Xem thêm {'>>'}</Text>
         </TouchableOpacity>
       </View>

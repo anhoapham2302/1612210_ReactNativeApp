@@ -6,14 +6,20 @@ import AuthorListSearchItem from '../AuthorListSearchItem/author-list-search-ite
 
 export default function AuthorListSearch(props) {
     const {search_results} = useContext(SearchContext);
+    var data;
 
+    if(props.com === "ListAuthor"){
+        data = props.data
+    }else{
+        data = search_results.instructors
+    }
     const renderSeparator = () => {
         return <View style={[Styles.renderseparator, {marginTop: 10, marginLeft: 15}]} />;
       };
     return (
         <View> 
             <FlatList horizontal = {false}
-                data={search_results.instructors}
+                data={data}
                 renderItem={({item})=><AuthorListSearchItem navigation={props.navigation} item = {item}/>}
                 ItemSeparatorComponent={renderSeparator}
             />

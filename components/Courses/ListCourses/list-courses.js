@@ -2,7 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   FlatList,
-  ScrollView
+  ScrollView,
+  Text
 } from "react-native";
 import ListCoursesItem from "../ListCoursesItem/list-courses-item";
 import Styles from "../../../global/style";
@@ -26,13 +27,14 @@ const ListCourses = (props) => {
   };
   return (
     <View style={Styles.view}>
-      <FlatList
+      {props.item.length === 0 ? <Text>Empty</Text> : (<FlatList
         data={props.item}
         renderItem={({ item }) => (
           <ListCoursesItem navigation={props.navigation} item={item} />
         )}
         ItemSeparatorComponent={renderSeparator}
-      />   
+      />   )}
+      
     </View>
   );
 };

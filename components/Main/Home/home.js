@@ -33,7 +33,7 @@ const Home = (props) => {
     const {theme} = useContext(ThemeContext)
 
     const renderSectionCourse = (courses) => { 
-        return courses.map(item =>  <SectionCourses title = {item.name} course_id = {item.id} navigation ={props.navigation}/>)
+        return courses.map(item =>  <SectionCourses key = {item.id.toString()} title = {item.name} course_id = {item.id} navigation ={props.navigation}/>)
     }
     return <ScrollView style = {{backgroundColor: theme.background}}>
         {isLoading ? <ActivityIndicator/> : (

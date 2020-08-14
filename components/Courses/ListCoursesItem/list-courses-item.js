@@ -73,7 +73,7 @@ const ListCoursesItem = (props) => {
     const checkType = () => {
         if(props.item.courseTitle)
         {   
-            if(props.item.courseAveragePoint < 6){
+            if(props.item.courseAveragePoint < 6 && props.item.courseAveragePoint > 0){
                 star= props.item.courseAveragePoint;
             }else{
                 star = 5;
@@ -91,7 +91,7 @@ const ListCoursesItem = (props) => {
         }
         else
         {
-            if(Math.ceil((props.item.contentPoint + props.item.formalityPoint + props.item.presentationPoint)/3) < 6){
+            if(Math.ceil((props.item.contentPoint + props.item.formalityPoint + props.item.presentationPoint)/3) < 6 && Math.ceil((props.item.contentPoint + props.item.formalityPoint + props.item.presentationPoint)/3)>0){
                 star= Math.ceil((props.item.contentPoint + props.item.formalityPoint + props.item.presentationPoint)/3);
             }else{
                 star = 5;

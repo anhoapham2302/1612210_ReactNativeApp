@@ -50,6 +50,8 @@ const HomeStack = (props) => {
   const [visible, setVisible] = useState(false);
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
+  const { title } = useContext(ImageButtonContext);
+
 
   const onPressListItem = () => {
     props.navigation.navigate("AccountProfile");
@@ -179,6 +181,29 @@ const HomeStack = (props) => {
         name="Paths"
         component={Paths}
         options={{ cardStyle: { backgroundColor: "#fff" }, headerShown: false }}
+      />
+        <HomeNavigationStack.Screen
+        name="ListCoursesPage"
+        component={ListCoursesPage}
+        options={{
+          cardStyle: { backgroundColor: theme.background },
+          headerStyle: {
+            backgroundColor: theme.background,
+          },
+          headerTintColor: theme.foreground,
+          headerLeft: null,
+          headerTitle: () => (
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: "bold",
+                color: theme.foreground,
+              }}
+            >
+              {title}
+            </Text>
+          ),
+        }}
       />
     </HomeNavigationStack.Navigator>
   );
@@ -454,14 +479,6 @@ const BrowseStack = (props) => {
             >
               {title}
             </Text>
-          ),
-          headerRight: () => (
-            <TouchableOpacity style={styles.header} onPress={onPressListItem}>
-              <Image
-                source={{ uri: state.userInfo.avatar }}
-                style={styles.image}
-              />
-            </TouchableOpacity>
           ),
         }}
       />

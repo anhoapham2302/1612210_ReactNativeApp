@@ -22,7 +22,7 @@ const SectionCoursesItem = (props) => {
     props.item.presentationPoint) /
   3));
   let starShow = 0;
-  if(star < 6){
+  if(star < 6 && star > 0){
     starShow = star
   }else{
     starShow = 5

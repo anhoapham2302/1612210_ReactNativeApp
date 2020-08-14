@@ -16,6 +16,8 @@ export default function ListCoursesPage(props) {
   const [data, setData] = useState([]);
   const { state } = useContext(AuthContext);
   const [loading, setLoading] = useState(true);
+  var courses
+
   if (props.route.params.com === "NewRelease") {
     useEffect(() => {
       apiNewRelease()
@@ -34,10 +36,21 @@ export default function ListCoursesPage(props) {
         .finally(() => setLoading(false));
     }, []);
   }
-  var courses
+
+  if (props.route.params.com === "Any") {
+    useEffect(() => {
+      setLoading(false);
+    }, [])
+  }
+
   if(loading === false)
   {
-    courses = data.filter(course => course.status === "COMPLETED")
+    if(props.route.params.com === "Any")
+    {
+      courses = props.route.params.data;
+    }else{
+      courses = data.filter(course => course.status === "COMPLETED");
+    }
   }
   return (
     <ScrollView>
