@@ -6,8 +6,10 @@ import { apiAuthorDetail } from '../../../core/services/author-service';
 import { apiGetLastWatchedLesson } from '../../../core/services/course-service';
 import { AuthContext } from '../../../provider/auth-provider';
 import { ScrollView } from 'react-native-gesture-handler';
+import { LanguageContext } from '../../../provider/language-provider';
 
 const ListCoursesItem = (props) => {
+    const {language} = useContext(LanguageContext);
     const {theme} = useContext(ThemeContext);
     const [author, setAuthor] = useState();
     const [loading, setLoading] = useState(true);
@@ -54,7 +56,7 @@ const ListCoursesItem = (props) => {
 
     const checkPrice = (price) => {
         if(price === 0){
-            return <Text style = {{fontSize: 17, color: 'red', fontWeight: 'bold'}}>Miễn phí</Text>
+        return <Text style = {{fontSize: 17, color: 'red', fontWeight: 'bold'}}>{language.free}</Text>
         }else{
             return <Text style = {{fontSize: 17, color: 'red', fontWeight: 'bold'}}>{price} VNĐ</Text>
         }
@@ -84,7 +86,7 @@ const ListCoursesItem = (props) => {
                 <Text numberOfLines = {1} style = {{fontSize: 17, fontWeight: 'bold', marginBottom: 1, color: theme.foreground}}>{props.item.courseTitle}</Text>
                 <Text style = {{fontSize:14, color: 'darkgrey', marginBottom: 1}}>{`${props.item.instructorName}`}</Text>
                 <Star score={star} style={styles.starStyle}/>    
-                <Text style = {{fontSize: 17, fontWeight: 'bold', color: '#62DDBD', marginBottom: 1}}>{props.item.courseSoldNumber} Học viên</Text>
+            <Text style = {{fontSize: 17, fontWeight: 'bold', color: '#62DDBD', marginBottom: 1}}>{props.item.courseSoldNumber}{language.student}</Text>
                 {checkPrice(props.item.coursePrice)}
                 </View>
             </TouchableOpacity>)
@@ -103,7 +105,7 @@ const ListCoursesItem = (props) => {
                     <Text numberOfLines = {1} style = {{fontSize: 17, fontWeight: 'bold', marginBottom: 1, color: theme.foreground}}>{props.item.title}</Text>
                     {checkName()}
                     <Star score={star} style={styles.starStyle}/>
-                    <Text style = {{fontSize: 17, fontWeight: 'bold', color: '#62DDBD', marginBottom: 1}}>{props.item.soldNumber} Học viên</Text>
+                    <Text style = {{fontSize: 17, fontWeight: 'bold', color: '#62DDBD', marginBottom: 1}}>{props.item.soldNumber} {language.student}</Text>
                     {checkPrice(props.item.price)}
                     </View>
                 </TouchableOpacity>)

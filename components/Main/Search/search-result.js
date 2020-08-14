@@ -16,10 +16,12 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { HistorySearchContext } from "../../../provider/history-search-provider";
 import { AuthContext } from "../../../provider/auth-provider";
 import AuthorListSearch from "../../Authors/AuthorListSearch/author-list-search";
+import { LanguageContext } from "../../../provider/language-provider";
 
 const initialLayout = { width: Dimensions.get("window").width };
 
 export default function SearchResult(props) {
+  const {language} = useContext(LanguageContext);
   const { search_results } = useContext(SearchContext);
   const { historySearch } = useContext(HistorySearchContext);
   const searchContext = useContext(SearchContext);
@@ -123,7 +125,7 @@ export default function SearchResult(props) {
     <ScrollView style={{ backgroundColor: theme.background }}>
       {search_results.coursesCount === 0 ? (
         <Text style={[styles.text, { color: theme.foreground }]}>
-          Không tìm thấy kết quả.
+          {language.emptySearch}
         </Text>
       ) : search_results.isFirst ? (
         <View></View>
@@ -197,8 +199,8 @@ export default function SearchResult(props) {
   );
 
   const [routes] = useState([
-    { key: "courses", title: "Khóa học" },
-    { key: "instructors", title: "Giảng viên" },
+    { key: "courses", title: language.course },
+    { key: "instructors", title: language.instructor },
   ]);
   const renderScene = SceneMap({
     courses: FirstRoute,

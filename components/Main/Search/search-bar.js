@@ -11,8 +11,10 @@ import { SearchContext } from "../../../provider/search-provider";
 import { ThemeContext } from "../../../provider/theme-provider";
 import { AuthContext } from "../../../provider/auth-provider";
 import { HistorySearchContext } from "../../../provider/history-search-provider";
+import { LanguageContext } from "../../../provider/language-provider";
 
 export default function SearchBarView(props) {
+  const {language} = useContext(LanguageContext);
   const [text, setText] = useState("");
   const { theme } = useContext(ThemeContext);
   const { state } = useContext(AuthContext);
@@ -34,7 +36,7 @@ export default function SearchBarView(props) {
           }
         }}
         defaultValue={historySearch.text}
-        placeholder="Search input..."
+        placeholder={language.searchInput}
       />
       <TouchableOpacity
         style={styles.button}
@@ -49,7 +51,7 @@ export default function SearchBarView(props) {
           }
         }}
       >
-        <Text style={[styles.text, { color: theme.foreground }]}>Search</Text>
+        <Text style={[styles.text, { color: theme.foreground }]}>{language.search}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -62,7 +64,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
   },
   button: {
-    width: 70,
+    width: 100,
     height: 35,
   },
   text: {

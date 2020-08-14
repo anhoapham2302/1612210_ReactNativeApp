@@ -3,22 +3,18 @@ import {
   StyleSheet,
   Text,
   View,
-  SectionList,
   ScrollView,
   ActivityIndicator,
   FlatList,
-  TouchableHighlight,
 } from "react-native";
 import ListLessonItem from "../ListLessonItem/list_lesson_item";
 import { LessonContext } from "../../../provider/lesson-provider";
-import { AuthContext } from "../../../provider/auth-provider";
-import { useIsFocused } from "@react-navigation/native";
-import ListCoursesItem from "../ListCoursesItem/list-courses-item";
 import { ThemeContext } from "../../../provider/theme-provider";
-import { set } from "react-native-reanimated";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { LanguageContext } from "../../../provider/language-provider";
+
 
 export default function ListLessons(props) {
+  const {language} = useContext(LanguageContext);
   const { lesson } = useContext(LessonContext);
   const { theme } = useContext(ThemeContext);
   return (
@@ -35,7 +31,7 @@ export default function ListLessons(props) {
               color: "red",
             }}
           >
-            * Nhấn vào bài học để xem video.
+            * {language.click}
           </Text>
           {lesson.data.map((section) => {
             return (

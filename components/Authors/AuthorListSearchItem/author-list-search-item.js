@@ -9,8 +9,10 @@ import {
 } from "react-native";
 import { apiAuthorDetail } from "../../../core/services/author-service";
 import { ThemeContext } from "../../../provider/theme-provider";
+import { LanguageContext } from "../../../provider/language-provider";
 
 export default function AuthorListSearchItem(props) {
+  const {language} = useContext(LanguageContext);
     const {theme} = useContext(ThemeContext);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,7 +36,7 @@ export default function AuthorListSearchItem(props) {
             <Image source={{ uri: data.avatar }} style={styles.image} />
             <View style={{flexDirection: 'column', marginTop: 15, marginLeft: 5}}>
             <Text style = {{fontSize: 17, color: theme.foreground, fontWeight: 'bold'}}>{data.name}</Text>
-            <Text style = {{color: 'darkgrey'}}>Khóa học: {data.totalCourse}</Text>
+            <Text style = {{color: 'darkgrey'}}>{language.course} {data.totalCourse}</Text>
             </View>
             </View>
 

@@ -27,6 +27,7 @@ import {
   apiGetInfo,
 } from "../../../core/services/account-service";
 import Colors from "../../../global/color";
+import { LanguageContext } from "../../../provider/language-provider";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDO1f6iJGQ0V73vsQSUvFFARU3YKapq_4s",
@@ -40,6 +41,7 @@ const firebaseConfig = {
 };
 
 const AccountProfile = (props) => {
+  const {language} = useContext(LanguageContext);
   const { theme, setTheme } = useContext(ThemeContext);
   const { state } = useContext(AuthContext);
   const [name, setName] = useState(state.userInfo.name);
@@ -109,10 +111,10 @@ const AccountProfile = (props) => {
 
   const updateName = () => {
     if (name === "") {
-      Alert.alert("Vui lòng nhập tên");
+      Alert.alert(language.pleaseName);
     } else {
       if (phone === "") {
-        Alert.alert("Vui lòng nhập số điện thoại");
+        Alert.alert(language.pleasePhone);
       } else {
         if (loading === false) {
           setUpdating(true);
@@ -129,7 +131,7 @@ const AccountProfile = (props) => {
   useEffect(() => {
     if (updating === false) {
       if (message === "OK") {
-        Alert.alert("Cập nhật thông tin thành công");
+        Alert.alert(language.success);
       } else {
         Alert.alert(message);
       }
@@ -162,7 +164,7 @@ const AccountProfile = (props) => {
           }}
           onPress={(getPermissionAsync, _pickImage)}
         >
-          Tải lên
+          {language.upload}
         </Button>
         <View style={styles.body}>
           <View style={styles.bodyContent}>
@@ -180,7 +182,7 @@ const AccountProfile = (props) => {
             ></TextInput>
             <Text style={styles.info}>Email: {data.email}</Text>
             <View style={{ flexDirection: "row" }}>
-              <Text style={styles.info}>Số điện thoại: </Text>
+              <Text style={styles.info}>{language.name}: </Text>
               <TextInput
                 style={{
                   fontSize: 16,
@@ -194,7 +196,7 @@ const AccountProfile = (props) => {
                 onChangeText={(phone) => setPhone(phone)}
               ></TextInput>
             </View>
-            <Text style={styles.info}>Loại tài khoản: {data.type}</Text>
+            <Text style={styles.info}>{language.type}: {data.type}</Text>
           </View>
               <View style={{ alignItems: "center"}}>
                  <Button
@@ -209,10 +211,10 @@ const AccountProfile = (props) => {
                }}
                onPress={updateName}
                >
-               Cập nhật
+              {language.update}
              </Button>
               </View>             
-          <SectionCourses title="Your Courses" navigation={props.navigation} />
+          <SectionCourses title={language.yourCourse} navigation={props.navigation} />
         </View>
       </View>
       <Button
@@ -224,7 +226,7 @@ const AccountProfile = (props) => {
           props.navigation.navigate("ChangePassword");
         }}
       >
-        Đổi mật khẩu
+        {language.changePassword}
       </Button>
       <Button
         icon="theme-light-dark"

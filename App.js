@@ -37,6 +37,8 @@ import { SearchProvider } from "./provider/search-provider";
 import VideoMain from "./components/VideoMain/video-main";
 import { apiGetInfo } from "./core/services/account-service";
 import { HistorySearchProvider } from "./provider/history-search-provider";
+import { LanguageContext, LanguageProvider } from "./provider/language-provider";
+import { languages } from "./global/language";
 const Tab = createBottomTabNavigator();
 const MainNavigationStack = createStackNavigator();
 const HomeNavigationStack = createStackNavigator();
@@ -45,6 +47,7 @@ const DownloadNavigationStack = createStackNavigator();
 const SearchNavigationStack = createStackNavigator();
 
 const HomeStack = (props) => {
+  const {language} = useContext(LanguageContext);
   const { theme } = useContext(ThemeContext);
   const { state } = useContext(AuthContext);
   const [visible, setVisible] = useState(false);
@@ -83,7 +86,7 @@ const HomeStack = (props) => {
                 color: theme.foreground,
               }}
             >
-              Home
+              {language.cat}
             </Text>
           ),
           headerRight: () => (
@@ -135,10 +138,10 @@ const HomeStack = (props) => {
                         setVisible(false);
                       }}
                     >
-                      <Text style={[styles.text]}>Quản lý tài khoản</Text>
+                      <Text style={[styles.text]}>{language.profile}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={{ marginTop: 10 }}>
-                      <Text style={[styles.text]}>Cấu hình ứng dụng</Text>
+                      <Text style={[styles.text]}>{language.setting}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={{ marginTop: 10 }}
@@ -147,7 +150,7 @@ const HomeStack = (props) => {
                       }}
                     >
                       <Text style={[styles.text, { color: "#E74C3C" }]}>
-                        Đăng xuất
+                        {language.logOut}
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -210,6 +213,7 @@ const HomeStack = (props) => {
 };
 
 const DownloadsStack = (props) => {
+  const { language } = useContext(LanguageContext);
   const { theme } = useContext(ThemeContext);
   const { state } = useContext(AuthContext);
   const [visible, setVisible] = useState(false);
@@ -236,7 +240,7 @@ const DownloadsStack = (props) => {
                 color: theme.foreground,
               }}
             >
-              Favorited Courses
+              {language.favorited}
             </Text>
           ),
           headerRight: () => (
@@ -287,10 +291,10 @@ const DownloadsStack = (props) => {
                         setVisible(false);
                       }}
                     >
-                      <Text style={[styles.text]}>Quản lý tài khoản</Text>
+                      <Text style={[styles.text]}>{language.profile}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={{ marginTop: 10 }}>
-                      <Text style={[styles.text]}>Cấu hình ứng dụng</Text>
+                      <Text style={[styles.text]}>{language.setting}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={{ marginTop: 10 }}
@@ -299,7 +303,7 @@ const DownloadsStack = (props) => {
                       }}
                     >
                       <Text style={[styles.text, { color: "#E74C3C" }]}>
-                        Đăng xuất
+                       {language.logOut}
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -339,6 +343,7 @@ const DownloadsStack = (props) => {
 };
 
 const BrowseStack = (props) => {
+  const { language } = useContext(LanguageContext);
   const { theme } = useContext(ThemeContext);
   const { state } = useContext(AuthContext);
   const { title } = useContext(ImageButtonContext);
@@ -366,7 +371,7 @@ const BrowseStack = (props) => {
                 color: theme.foreground,
               }}
             >
-              Browse
+              {language.home}
             </Text>
           ),
           headerRight: () => (
@@ -531,6 +536,7 @@ const SearchStack = () => {
   );
 };
 const TabNav = () => {
+  const {language} = useContext(LanguageContext);
   const { theme } = useContext(ThemeContext);
   return (
     <Tab.Navigator
@@ -538,13 +544,13 @@ const TabNav = () => {
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
 
-          if (route.name === "Home") {
+          if (route.name === language.home) {
             iconName = focused ? "md-home" : "md-home";
-          } else if (route.name === "Browse") {
+          } else if (route.name === language.cat) {
             iconName = focused ? "md-list" : "md-list";
-          } else if (route.name === "Favorites") {
+          } else if (route.name === language.favorite) {
             iconName = focused ? "md-heart" : "md-heart";
-          } else if (route.name === "Search") {
+          } else if (route.name === language.search) {
             iconName = focused ? "md-search" : "md-search";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -558,10 +564,10 @@ const TabNav = () => {
         },
       }}
     >
-      <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Favorites" component={DownloadsStack} />
-      <Tab.Screen name="Browse" component={BrowseStack} />
-      <Tab.Screen name="Search" component={SearchStack} />
+      <Tab.Screen name={language.home} component={BrowseStack} />
+      <Tab.Screen name={language.favorite} component={DownloadsStack} />
+      <Tab.Screen name={language.cat} component={HomeStack} />
+      <Tab.Screen name={language.search} component={SearchStack} />
     </Tab.Navigator>
   );
 };
@@ -600,6 +606,7 @@ const MainNavigation = () => {
 export default function App() {
   return (
     <AuthProvider>
+      <LanguageProvider>
       <CoursesProvider>
         <LessonProvider>
           <SearchProvider>
@@ -615,6 +622,7 @@ export default function App() {
           </SearchProvider>
         </LessonProvider>
       </CoursesProvider>
+      </LanguageProvider>
     </AuthProvider>
   );
 }

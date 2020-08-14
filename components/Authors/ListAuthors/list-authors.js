@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,8 +11,10 @@ import Styles from "../../../global/style";
 import authors from "../../../global/authors";
 import { apiGetListAuthor } from "../../../core/services/author-service";
 import AuthorListSearch from "../AuthorListSearch/author-list-search";
+import { LanguageContext } from "../../../provider/language-provider";
 
 const ListAuthor = (props) => {
+  const {language} = useContext(LanguageContext);
   const [data, setData] = useState([]);
   useEffect(() => {
     apiGetListAuthor()
@@ -27,7 +29,7 @@ const onPressMore = () => {
     <View style={Styles.view}>
       <View style={{ flexDirection: "row" , justifyContent: "space-between"}}>
         <Text style={[Styles.text, { fontSize: 20 }]}>{props.title}</Text>
-        <TouchableOpacity onPress={onPressMore}>
+        <TouchableOpacity>
           <Text
             style={{
               marginRight: 15,
@@ -36,7 +38,7 @@ const onPressMore = () => {
               color: "#4DC4FF",
             }}
           >
-            Xem thêm {">>"}
+            {language.more} {">>"}
           </Text>
         </TouchableOpacity>
       </View>

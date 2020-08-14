@@ -13,8 +13,10 @@ import { ActivityIndicator } from "react-native-paper";
 import { SearchContext } from "../../../provider/search-provider";
 import { HistorySearchContext } from "../../../provider/history-search-provider";
 import { ThemeContext } from "../../../provider/theme-provider";
+import { LanguageContext } from "../../../provider/language-provider";
 
 export default function HistorySearch() {
+  const {language} = useContext(LanguageContext);
   const isFocus = useIsFocused();
   const {theme} = useContext(ThemeContext)
   const [data, setData] = useState([]);
@@ -47,7 +49,7 @@ export default function HistorySearch() {
         <ActivityIndicator />
       ) : (
         <View>
-          <Text style={{ fontSize: 20, color: theme.foreground}}>Tìm kiếm gần đầy</Text>
+          <Text style={{ fontSize: 20, color: theme.foreground}}>{language.historySearch}</Text>
           {data.map((item) => {
             return (
               <View style={styles.result}>
@@ -62,7 +64,7 @@ export default function HistorySearch() {
                     setData(newData);
                     apiDelHistorySearch(state.token, item.id);
                   }}>
-                    <Text style={[styles.item, { color: "red" }]}>Xóa</Text>
+                    <Text style={[styles.item, { color: "red" }]}>{language.delete}</Text>
                   </TouchableOpacity>
                 </View>
               </View>

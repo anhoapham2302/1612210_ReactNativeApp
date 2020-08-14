@@ -4,8 +4,11 @@ import { Button } from "react-native-paper";
 import { apiAddFavoriteCourse } from '../../../core/services/account-service';
 import { AuthContext } from '../../../provider/auth-provider';
 import { CoursesContext } from '../../../provider/course-provider';
+import { LanguageContext } from "../../../provider/language-provider";
+
 
 export default function CourseAction(props) {
+  const {language} = useContext(LanguageContext)
     const {state} = useContext(AuthContext);
     const coursesContext = useContext(CoursesContext);
     const { courses } = useContext(CoursesContext);
@@ -40,7 +43,7 @@ export default function CourseAction(props) {
             }}
             onPress={clickFavButton}
           >
-            Yêu thích
+            {language.favorite}
           </Button>
         );
       };
@@ -60,7 +63,7 @@ export default function CourseAction(props) {
             }}
             onPress={clickFavButton}
           >
-            Đã thích
+            {language.favorited}
           </Button>
         );
       };
@@ -115,7 +118,7 @@ export default function CourseAction(props) {
                 }}
                 onPress={onShare}
               >
-                Chia sẻ
+            {language.share}
               </Button>
         </View>
     )

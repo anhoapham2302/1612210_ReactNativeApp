@@ -13,10 +13,12 @@ import { AuthContext } from "../../../provider/auth-provider";
 import { LessonContext } from "../../../provider/lesson-provider";
 import { getExerciseAction } from "../../../action/lesson-action";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { LanguageContext } from "../../../provider/language-provider";
 
 const initialLayout = { width: Dimensions.get("window").width };
 
 export default function VideoTab(props) {
+  const {language} = useContext(LanguageContext);
   const { theme } = useContext(ThemeContext);
   const [index, setIndex] = useState(0);
   const { state } = useContext(AuthContext);
@@ -50,11 +52,11 @@ export default function VideoTab(props) {
       <ActivityIndicator />
     ) : data.exercises.length === 0 ? (
       <View>
-        <Text>Không có bài tập</Text>
+        <Text>{language.emptyLesson}</Text>
       </View>
     ) : (
       <View>
-          <Text style={ { color: theme.foreground, fontSize: 17, fontWeight: 'bold', marginLeft: 10, marginTop: 5 }}>Danh sách bài tập</Text>
+          <Text style={ { color: theme.foreground, fontSize: 17, fontWeight: 'bold', marginLeft: 10, marginTop: 5 }}>{language.listLesson}</Text>
         {data.exercises.map((item) => {
           return (<TouchableOpacity       style={{ flexDirection: "row", margin: 5, marginLeft: 10 }}
           >
@@ -65,8 +67,8 @@ export default function VideoTab(props) {
     );
 
   const [routes] = useState([
-    { key: "lesson", title: "Bài học" },
-    { key: "exercise", title: "Bài tập" },
+    { key: "lesson", title: language.lesson },
+    { key: "exercise", title: language.exercise },
     // { key: "recommend", title: "Gợi ý" },
   ]);
   const renderScene = SceneMap({

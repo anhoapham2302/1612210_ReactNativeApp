@@ -11,9 +11,12 @@ import { apiProcessCourses } from "../../../../core/services/account-service";
 import { AuthContext } from "../../../../provider/auth-provider";
 import { getCoursesFromCatAction } from "../../../../action/course-action";
 import { ImageButtonContext } from "../../../../provider/imageButton-provider";
+import { LanguageContext } from "../../../../provider/language-provider";
+import { languages } from "../../../../global/language";
 
 const SectionCourses = (props) => {
-  const {setTitle} = useContext(ImageButtonContext)
+  const {language} = useContext(LanguageContext);
+  const {setTitle} = useContext(ImageButtonContext);
   const { theme } = useContext(ThemeContext);
   const [data, setData] = useState([]);
   const { state } = useContext(AuthContext);
@@ -33,7 +36,7 @@ const SectionCourses = (props) => {
   }
 
   useEffect(() => {
-    if (props.title === "Top Sell") {
+    if (props.title === language.topSell) {
       setLoading(true);
       renderTopSell()
         .then((response) => response.json())
@@ -41,7 +44,7 @@ const SectionCourses = (props) => {
         .catch((error) => console.error(error))
         .finally(() => setLoading(false));
     } else {
-      if (props.title === "Top Rate") {
+      if (props.title === language.topRate) {
         setLoading(true);
         apiTopRated()
           .then((response) => response.json())
@@ -49,10 +52,10 @@ const SectionCourses = (props) => {
           .catch((error) => console.error(error))
           .finally(() => setLoading(false));
       } else {
-        if (props.title === "Courses Of Author") {
+        if (props.title === language.courseInstructor) {
           setData(props.item);
         } else {
-          if (props.title === "Your Courses") {
+          if (props.title === language.yourCourse) {
             setLoading(true);
             apiProcessCourses(state.token)
               .then((response) => response.json())
@@ -100,7 +103,7 @@ const SectionCourses = (props) => {
           {props.title}
         </Text>
         <TouchableOpacity onPress={onPressMore}>
-          <Text style = {{marginRight: 15, marginTop: 5, fontSize: 15, color: '#4DC4FF'}}>Xem thêm {'>>'}</Text>
+          <Text style = {{marginRight: 15, marginTop: 5, fontSize: 15, color: '#4DC4FF'}}>{language.more} {'>>'}</Text>
         </TouchableOpacity>
       </View>
       <ScrollView horizontal={true}>{renderListItems(data)}</ScrollView>

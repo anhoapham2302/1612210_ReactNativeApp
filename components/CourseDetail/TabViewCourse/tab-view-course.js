@@ -1,27 +1,42 @@
-import React, { useContext, useState, useEffect, useCallback } from 'react'
-import { StyleSheet, Text, View, Linking, Modal, Dimensions, TouchableOpacity, ActivityIndicator } from 'react-native'
+import React, { useContext, useState, useEffect, useCallback } from "react";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Linking,
+  Modal,
+  Dimensions,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
-import ListLessons from '../../Courses/ListLessons/list_lessons';
-import { AuthContext } from '../../../provider/auth-provider';
-import { ThemeContext } from '../../../provider/theme-provider';
-import { apiCheckOwnCourse, apiGetFreeCourse } from '../../../core/services/account-service';
+import ListLessons from "../../Courses/ListLessons/list_lessons";
+import { AuthContext } from "../../../provider/auth-provider";
+import { ThemeContext } from "../../../provider/theme-provider";
+import {
+  apiCheckOwnCourse,
+  apiGetFreeCourse,
+} from "../../../core/services/account-service";
 import { Button } from "react-native-paper";
-import { LessonContext } from '../../../provider/lesson-provider';
-import ListCourses from '../../Courses/ListCourses/list-courses';
-import { getCoursesFromCatAction, getRatingAction } from '../../../action/course-action';
-import { apiGetVideoData } from '../../../core/services/video-service';
-
+import { LessonContext } from "../../../provider/lesson-provider";
+import ListCourses from "../../Courses/ListCourses/list-courses";
+import {
+  getCoursesFromCatAction,
+  getRatingAction,
+} from "../../../action/course-action";
+import { apiGetVideoData } from "../../../core/services/video-service";
+import { LanguageContext } from "../../../provider/language-provider";
 
 const initialLayout = { width: Dimensions.get("window").width };
 
 export default function TabViewCourse(props) {
+  const { language } = useContext(LanguageContext);
   const buyUrl = `https://itedu.me/payment/${props.data.id}`;
   const [isOwn, checkOwn] = useState();
   const [modalVisible, setModelVisible] = useState(false);
   const lessonContext = useContext(LessonContext);
-  const {lesson} = useContext(LessonContext);
-  const {state} = useContext(AuthContext);
-  const {theme} = useContext(ThemeContext);
+  const { state } = useContext(AuthContext);
+  const { theme } = useContext(ThemeContext);
   const [index, setIndex] = useState(0);
   const [lessonLoading, setLessonLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -31,26 +46,24 @@ export default function TabViewCourse(props) {
   const [ratingLoading, setRatingLoading] = useState(true);
   const [rating, setRating] = useState([]);
 
-  const coursesFromCat = res => {
-    if(res !== undefined)
-    {
+  const coursesFromCat = (res) => {
+    if (res !== undefined) {
       setData(res.payload.rows);
       setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    getCoursesFromCatAction(props.data.categoryIds, coursesFromCat)
-  }, [])
+    getCoursesFromCatAction(props.data.categoryIds, coursesFromCat);
+  }, []);
 
   useEffect(() => {
-    if(loading === false)
-    {
-      const temp = data.filter(item => item.id !== props.data.id)
+    if (loading === false) {
+      const temp = data.filter((item) => item.id !== props.data.id);
       setNewData(temp);
       setFilter(false);
     }
-  }, [loading])
+  }, [loading]);
 
   var price;
 
@@ -95,18 +108,6 @@ export default function TabViewCourse(props) {
     lessonContext.getLesson(state.token, props.data.id);
   }, [isOwn]);
 
-  // useEffect(() => {
-  //   if(lesson.isLoading  === false){
-  //     lesson.data.map((item) => {
-  //       apiGetVideoData(state.token, props.data.id, item.lesson.id)
-  //       .then((respone) => respone.json())
-  //       .then((res) => {
-  //         console.log(res);
-  //       })
-  //       .catch((err) => console.log(err))
-  //     })
-  //   }
-  // }, [lesson.isLoading])
   var learnWhat = [];
   var requirement = [];
   if (props.data.learnWhat !== undefined) {
@@ -118,7 +119,7 @@ export default function TabViewCourse(props) {
   const SecondRoute = () => (
     <View style={{ marginLeft: 10 }}>
       <Text style={{ color: theme.foreground, fontSize: 17 }}>
-        Các bạn sẽ được học:
+        {language.learn}:
       </Text>
       {learnWhat.map((item) => {
         return (
@@ -127,7 +128,9 @@ export default function TabViewCourse(props) {
           </Text>
         );
       })}
-      <Text style={{ color: theme.foreground, fontSize: 17 }}>Yêu cầu:</Text>
+      <Text style={{ color: theme.foreground, fontSize: 17 }}>
+        {language.requirment}:
+      </Text>
       {requirement.map((item) => {
         return (
           <Text style={{ marginLeft: 10, color: theme.foreground }}>
@@ -136,7 +139,7 @@ export default function TabViewCourse(props) {
         );
       })}
       <Text style={{ color: theme.foreground, fontSize: 17 }}>
-        Thông tin thêm:
+        {language.moreInfo}:
       </Text>
       <Text style={{ marginLeft: 10, color: theme.foreground }}>
         {props.data.description}
@@ -144,95 +147,107 @@ export default function TabViewCourse(props) {
     </View>
   );
   const FirstRoute = () => {
-    return <View>
-      {  lessonLoading ? <ActivityIndicator/> : (
-      (isOwn) ? 
-      (
-         <View>
-           <ListLessons navigation={props.navigation} />
-         </View>
-       )
-     :
-        (
-         <View style={{ marginLeft: 15 }}>
-           <Text
-             style={{
-               color: theme.foreground,
-               fontSize: 14,
-               fontStyle: "italic",
-               color: "red",
-             }}
-           >
-             * Bạn phải mua khóa học mới có thể xem được bài học.
-           </Text>
-   
-           <Text
-             style={{ color: theme.foreground, fontSize: 20, fontWeight: "bold" }}
-           >
-             Giá: {price} VND
-           </Text>
-           <Button
-             icon="cart"
-             mode="contained"
-             color="blue"
-             style={{
-               marginTop: 5,
-               width: 130,
-               height: 40,
-               borderRadius: 5,
-             }}
-             onPress={clickBuyButton}
-           >
-             Mua ngay
-           </Button>
-         </View>
-       )
-    )}
-    </View>
-  
-        
+    return (
+      <View>
+        {lessonLoading ? (
+          <ActivityIndicator />
+        ) : isOwn ? (
+          <View>
+            <ListLessons navigation={props.navigation} />
+          </View>
+        ) : (
+          <View style={{ marginLeft: 15 }}>
+            <Text
+              style={{
+                color: theme.foreground,
+                fontSize: 14,
+                fontStyle: "italic",
+                color: "red",
+              }}
+            >
+              * {language.requestBuy}
+            </Text>
+
+            <Text
+              style={{
+                color: theme.foreground,
+                fontSize: 20,
+                fontWeight: "bold",
+              }}
+            >
+              {price} VND
+            </Text>
+            <Button
+              icon="cart"
+              mode="contained"
+              color="blue"
+              style={{
+                marginTop: 5,
+                width: 130,
+                height: 40,
+                borderRadius: 5,
+              }}
+              onPress={clickBuyButton}
+            >
+              {language.buy}
+            </Button>
+          </View>
+        )}
+      </View>
+    );
   };
 
   const ThirdRoute = () => (
     <View>
-      {filter ? <ActivityIndicator/> :     <ListCourses item={newData}  navigation={props.navigation} />
-}
+      {filter ? (
+        <ActivityIndicator />
+      ) : (
+        <ListCourses item={newData} navigation={props.navigation} />
+      )}
     </View>
   );
 
-  const getRating = res => {
-    if(res !== undefined){
+  const getRating = (res) => {
+    if (res !== undefined) {
       setRating(res.payload.ratings.ratingList);
       setRatingLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
-    getRatingAction(state.token, props.data.id, getRating)
-  }, [])
+    getRatingAction(state.token, props.data.id, getRating);
+  }, []);
   const FourthRoute = () => (
     <View>
-      {ratingLoading ? <ActivityIndicator/> : (
+      {ratingLoading ? (
+        <ActivityIndicator />
+      ) : (
         rating.map((item) => {
-        return (
-          <View style={{flexDirection:'row', marginTop: 10, marginLeft: 20}}>
-              <Text style = {[styles.comment, {fontWeight: 'bold', color: theme.foreground}]}>{item.user.name}: </Text>
-              <Text style = {{color: theme.foreground}}>{item.content}</Text>
-          </View>
-        )
-       
+          return (
+            <View
+              style={{ flexDirection: "row", marginTop: 10, marginLeft: 20 }}
+            >
+              <Text
+                style={[
+                  styles.comment,
+                  { fontWeight: "bold", color: theme.foreground },
+                ]}
+              >
+                {item.user.name}:{" "}
+              </Text>
+              <Text style={{ color: theme.foreground }}>{item.content}</Text>
+            </View>
+          );
         })
-      ) 
-    }
+      )}
     </View>
   );
 
   const [routes] = useState([
-    { key: "lesson", title: "Bài học" },
-    { key: "description", title: "Mô tả" },
-    { key: "recommend", title: "Gợi ý" },
-    { key: "rating", title: "Bình luận" },
-
+    { key: "lesson", title: language.lesson },
+    { key: "description", title: language.desc },
+    { key: "recommend", title: language.subject },
+    { key: "rating", title: language.rating },
   ]);
   const renderScene = SceneMap({
     lesson: FirstRoute,
@@ -241,41 +256,39 @@ export default function TabViewCourse(props) {
     rating: FourthRoute,
   });
 
-  const renderTabBar = props => (
+  const renderTabBar = (props) => (
     <TabBar
       {...props}
-      indicatorStyle={{ backgroundColor: 'red' }}
-      style={{ backgroundColor: theme.background, borderColor: 'red' }}
-      labelStyle={{color: 'red'}}
+      indicatorStyle={{ backgroundColor: "red" }}
+      style={{ backgroundColor: theme.background, borderColor: "red" }}
+      labelStyle={{ color: "red" }}
     />
   );
 
-  return(
+  return (
     <View>
-       <TabView
-            style={{ marginTop: 15}}
-            navigationState={{ index, routes }}
-            renderScene={renderScene}
-            onIndexChange={setIndex}
-            initialLayout={initialLayout}
-            renderTabBar={renderTabBar}
-            
-            
-          />
-       {/* Model */}
-       <Modal animationType="fade" transparent={true} visible={modalVisible}>
+      <TabView
+        style={{ marginTop: 15 }}
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        initialLayout={initialLayout}
+        renderTabBar={renderTabBar}
+      />
+      {/* Model */}
+      <Modal animationType="fade" transparent={true} visible={modalVisible}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.text}>Bạn muốn tham gia khóa học?</Text>
+            <Text style={styles.text}>{language.buyCofirm}</Text>
             <View style={{ flexDirection: "row", marginTop: 20 }}>
               <TouchableOpacity
                 onPress={() => setModelVisible(false)}
                 style={{ marginRight: 25 }}
               >
-                <Text style={styles.text}>Không</Text>
+                <Text style={styles.text}>{language.cancel}</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={getFreeCourse}>
-                <Text style={styles.text}>Có</Text>
+                <Text style={styles.text}>{language.ok}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -283,7 +296,7 @@ export default function TabViewCourse(props) {
       </Modal>
       {/* Model */}
     </View>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -308,6 +321,5 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-   comment: {
-   }
-})
+  comment: {},
+});

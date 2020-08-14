@@ -2,8 +2,10 @@ import React, { useContext } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Star from "react-native-star-view";
 import { ThemeContext } from '../../../provider/theme-provider';
+import { LanguageContext } from '../../../provider/language-provider';
 
 export default function CourseDesc(props) {
+  const {language} = useContext(LanguageContext);
     const {theme} = useContext(ThemeContext);
     let star = 0;
     if(Math.ceil((props.data.contentPoint +
@@ -25,7 +27,7 @@ export default function CourseDesc(props) {
             <View style={styles.view}>
               <Text
                 style={{ color: "darkgrey" }}
-              >{`${props.data.videoNumber} video(s) . ${props.data.totalHours} hours`}</Text>
+              >{`${props.data.videoNumber} video(s) . ${props.data.totalHours} ${language.hour}`}</Text>
               <Star
                 score={
                   star

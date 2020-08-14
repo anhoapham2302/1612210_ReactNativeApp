@@ -6,8 +6,10 @@ import { AuthContext } from "../../../../provider/auth-provider";
 import { apiGetLastWatchedLesson } from "../../../../core/services/course-service";
 import { LessonContext } from "../../../../provider/lesson-provider";
 import { apiGetVideoData } from "../../../../core/services/video-service";
+import { LanguageContext } from "../../../../provider/language-provider";
 
 const SectionCoursesItem = (props) => {
+  const {language} = useContext(LanguageContext);
   const { theme } = useContext(ThemeContext);
   const {state} = useContext(AuthContext);
   const [getLessonProcess, setGetLessonProcess] = useState(true);
@@ -54,7 +56,7 @@ const SectionCoursesItem = (props) => {
     if (price === 0) {
       return (
         <Text style={{ fontSize: 17, color: "red", fontWeight: "bold" }}>
-          Miễn phí
+          {language.free}
         </Text>
       );
     } else {
@@ -159,7 +161,7 @@ const SectionCoursesItem = (props) => {
                   color: "#62DDBD",
                 }}
               >
-                {props.item.soldNumber} Học viên
+                {props.item.soldNumber} {language.student}
               </Text>
               {checkPrice(props.item.price)}
             </View>
