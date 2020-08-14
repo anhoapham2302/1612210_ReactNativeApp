@@ -14,6 +14,7 @@ const ListCoursesItem = (props) => {
     const {state} = useContext(AuthContext);
     const [getLessonProcess, setGetLessonProcess] = useState(true);
     const [data, setData] = useState(null);
+    let star = 0;
 
     useEffect(() => {
         if(props.item.name === undefined & props.item['instructor.user.name'] === undefined){
@@ -72,12 +73,17 @@ const ListCoursesItem = (props) => {
     const checkType = () => {
         if(props.item.courseTitle)
         {   
+            if(props.item.courseAveragePoint < 6){
+                star= props.item.courseAveragePoint;
+            }else{
+                star = 5;
+            }
             return (<TouchableOpacity style = {styles.item}  onPress={onPressListItem}>
                 <Image source={{uri: props.item.courseImage}} style = {styles.image} />
                 <View style={styles.view}>
                 <Text numberOfLines = {1} style = {{fontSize: 17, fontWeight: 'bold', marginBottom: 1, color: theme.foreground}}>{props.item.courseTitle}</Text>
                 <Text style = {{fontSize:14, color: 'darkgrey', marginBottom: 1}}>{`${props.item.instructorName}`}</Text>
-                <Star score={props.item.courseAveragePoint} style={styles.starStyle}/>    
+                <Star score={star} style={styles.starStyle}/>    
                 <Text style = {{fontSize: 17, fontWeight: 'bold', color: '#62DDBD', marginBottom: 1}}>{props.item.courseSoldNumber} Học viên</Text>
                 {checkPrice(props.item.coursePrice)}
                 </View>
@@ -85,13 +91,18 @@ const ListCoursesItem = (props) => {
         }
         else
         {
+            if(Math.ceil((props.item.contentPoint + props.item.formalityPoint + props.item.presentationPoint)/3) < 6){
+                star= Math.ceil((props.item.contentPoint + props.item.formalityPoint + props.item.presentationPoint)/3);
+            }else{
+                star = 5;
+            }
             return (   
                 <TouchableOpacity style = {styles.item}  onPress={onPressListItem}>
                     <Image source={{uri: props.item.imageUrl}} style = {styles.image} />
                     <View style={styles.view}>
                     <Text numberOfLines = {1} style = {{fontSize: 17, fontWeight: 'bold', marginBottom: 1, color: theme.foreground}}>{props.item.title}</Text>
                     {checkName()}
-                    <Star score={(props.item.contentPoint + props.item.formalityPoint + props.item.presentationPoint)/3} style={styles.starStyle}/>
+                    <Star score={star} style={styles.starStyle}/>
                     <Text style = {{fontSize: 17, fontWeight: 'bold', color: '#62DDBD', marginBottom: 1}}>{props.item.soldNumber} Học viên</Text>
                     {checkPrice(props.item.price)}
                     </View>

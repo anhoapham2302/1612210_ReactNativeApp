@@ -1,10 +1,8 @@
 import React, { useContext, useState, useEffect } from "react";
 import { StyleSheet, ScrollView, ActivityIndicator, View } from "react-native";
-import VideoDescription from "./VideoDecsription/video-description";
 import { ThemeContext } from "../../provider/theme-provider";
 import { AuthContext } from "../../provider/auth-provider";
 import MainImage from "./MainImage/main-image";
-import { apiCourseDetails } from "../../core/services/course-service";
 import CourseAction from "./CourseAction/course-action";
 import CourseDesc from "./CourseDecs/course-desc";
 import TabViewCourse from "./TabViewCourse/tab-view-course";

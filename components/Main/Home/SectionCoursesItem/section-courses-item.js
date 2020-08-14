@@ -17,6 +17,16 @@ const SectionCoursesItem = (props) => {
   if (props.item.process !== undefined) {
     isProcessCourse = true;
   }
+ const star = Math.ceil(( (props.item.contentPoint +
+    props.item.formalityPoint +
+    props.item.presentationPoint) /
+  3));
+  let starShow = 0;
+  if(star < 6){
+    starShow = star
+  }else{
+    starShow = 5
+  }
   const checkName = () => {
     if (props.item.name) {
       return (
@@ -131,10 +141,7 @@ const SectionCoursesItem = (props) => {
             {checkName()}
             <Star
               score={
-                (props.item.contentPoint +
-                  props.item.formalityPoint +
-                  props.item.presentationPoint) /
-                3
+               starShow
               }
               style={styles.starStyle}
             />

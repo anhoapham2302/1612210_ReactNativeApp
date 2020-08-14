@@ -5,6 +5,18 @@ import { ThemeContext } from '../../../provider/theme-provider';
 
 export default function CourseDesc(props) {
     const {theme} = useContext(ThemeContext);
+    let star = 0;
+    if(Math.ceil((props.data.contentPoint +
+      props.data.formalityPoint +
+      props.data.presentationPoint) /
+    3) < 6){
+      star = Math.ceil((props.data.contentPoint +
+        props.data.formalityPoint +
+        props.data.presentationPoint) /
+      3);
+    }else{
+      star = 5;
+    }
     return (
           <View style={{ marginHorizontal: 17 }}>
             <Text style={[styles.title, { color: theme.foreground }]}>
@@ -16,10 +28,7 @@ export default function CourseDesc(props) {
               >{`${props.data.videoNumber} video(s) . ${props.data.totalHours} hours`}</Text>
               <Star
                 score={
-                  (props.data.contentPoint +
-                    props.data.formalityPoint +
-                    props.data.presentationPoint) /
-                  3
+                  star
                 }
                 style={styles.starStyle}
               />

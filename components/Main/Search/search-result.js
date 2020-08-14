@@ -15,6 +15,7 @@ import ListCourses from "../../Courses/ListCourses/list-courses";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { HistorySearchContext } from "../../../provider/history-search-provider";
 import { AuthContext } from "../../../provider/auth-provider";
+import AuthorListSearch from "../../Authors/AuthorListSearch/author-list-search";
 
 const initialLayout = { width: Dimensions.get("window").width };
 
@@ -29,26 +30,42 @@ export default function SearchResult(props) {
   const [index, setIndex] = useState(0);
   const [buttonPrevDisable, setButtonPrevDisable] = useState(false);
   const [buttonNextDisable, setButtonNextDisable] = useState(false);
+  const instructorsPageCount = Math.ceil(search_results.instructorsCount / 2);
+  const [pageInstructors, setPageInstructors] = useState(1);
+  const [buttonInsPrevDisable, setButtonInsPrevDisable] = useState(false);
+  const [buttonInsNextDisable, setButtonInsNextDisable] = useState(false);
 
   useEffect(() => {
-    if(search_results.coursesPage === 1)
-    {
+    if (search_results.coursesPage === 1) {
       setPage(1);
+      setPageInstructors(1);
     }
-  }, [search_results.coursesPage])
+  }, [search_results.coursesPage]);
   useEffect(() => {
-    if(page === 1){
+    if (page === 1) {
       setButtonPrevDisable(true);
-    }else{
+    } else {
       setButtonPrevDisable(false);
     }
-
-    if(page === pageCount){
+    if (page === pageCount) {
       setButtonNextDisable(true);
-    }else{
+    } else {
       setButtonNextDisable(false);
     }
-  }, [page])
+  }, [page]);
+
+  useEffect(() => {
+    if (pageInstructors === 1) {
+      setButtonInsPrevDisable(true);
+    } else {
+      setButtonInsPrevDisable(false);
+    }
+    if (pageInstructors === instructorsPageCount) {
+      setButtonInsNextDisable(true);
+    } else {
+      setButtonInsNextDisable(false);
+    }
+  }, [pageInstructors]);
 
   const onNextButton = () => {
     if (page < pageCount) {
@@ -76,84 +93,108 @@ export default function SearchResult(props) {
     }
   };
 
+  const onInsNextButton = () => {
+    if (pageInstructors < pageCount) {
+      searchContext.getCoursesSearch(
+        state.token,
+        historySearch.text,
+        2,
+        2 * pageInstructors,
+        pageInstructors + 1
+      );
+      setPageInstructors(pageInstructors + 1);
+    }
+  };
+
+  const onInsPrevButton = () => {
+    if (pageInstructors > 1) {
+      searchContext.getCoursesSearch(
+        state.token,
+        historySearch.text,
+        2,
+        2 * pageInstructors - 4,
+        pageInstructors - 1
+      );
+      setPageInstructors(pageInstructors - 1);
+    }
+  };
+
   const FirstRoute = () => (
-    <ScrollView style={{ backgroundColor: theme.background}}>
-    {search_results.coursesCount === 0 ? (
-      <Text style={[styles.text, { color: theme.foreground }]}>
-        Không tìm thấy kết quả.
-      </Text>
-    ) : search_results.isFirst ? (
-      <View></View>
-    ) : search_results.isLoading ? (
-      <ActivityIndicator />
-    ) : (
-      <View>
-        <ListCourses
-          item={search_results.courses}
-          navigation={props.navigation}
-        />
-        <View style={styles.pagination}>
-          <IconButton
-            icon='chevron-left'
-            color={theme.foreground}
-            size={25}
-            onPress={onPrevButton}
-            disabled={buttonPrevDisable}
+    <ScrollView style={{ backgroundColor: theme.background }}>
+      {search_results.coursesCount === 0 ? (
+        <Text style={[styles.text, { color: theme.foreground }]}>
+          Không tìm thấy kết quả.
+        </Text>
+      ) : search_results.isFirst ? (
+        <View></View>
+      ) : search_results.isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <View>
+          <ListCourses
+            item={search_results.courses}
+            navigation={props.navigation}
           />
-          <Text style = {[styles.page, {color: theme.foreground}]}>{page}</Text>
-          <IconButton
-            icon='chevron-right'
-            color={theme.foreground}
-            size={25}
-            onPress={onNextButton}
-            disabled={buttonNextDisable}
-          />
+          <View style={styles.pagination}>
+            {pageCount === null || pageCount === undefined ? (
+              <ActivityIndicator />
+            ) : (
+              <View  style={styles.pagination}>
+                <IconButton
+                  icon="chevron-left"
+                  color={theme.foreground}
+                  size={25}
+                  onPress={onPrevButton}
+                  disabled={buttonPrevDisable}
+                />
+                <Text style={[styles.page, { color: theme.foreground }]}>
+                  {page}
+                </Text>
+                <IconButton
+                  icon="chevron-right"
+                  color={theme.foreground}
+                  size={25}
+                  onPress={onNextButton}
+                  disabled={buttonNextDisable}
+                />
+              </View>
+            )}
+          </View>
         </View>
-      </View>
-    )}
-  </ScrollView>
- 
+      )}
+    </ScrollView>
   );
 
   const SecondRoute = () => (
-  //   <ScrollView style={{ backgroundColor: theme.background}}>
-  //   {search_results.instructorsCount === 0 ? (
-  //     <Text style={[styles.text, { color: theme.foreground }]}>
-  //       Không tìm thấy kết quả.
-  //     </Text>
-  //   ) : search_results.isFirst ? (
-  //     <View></View>
-  //   ) : search_results.isLoading ? (
-  //     <ActivityIndicator />
-  //   ) : (
-  //     <View>
-  //       <ListCourses
-  //         item={search_results.instructors}
-  //         navigation={props.navigation}
-  //       />
-  //       <View style={styles.pagination}>
-  //         <IconButton
-  //           icon='chevron-left'
-  //           color={theme.foreground}
-  //           size={25}
-  //           onPress={onPrevButton}
-  //           disabled={buttonPrevDisable}
-  //         />
-  //         <Text style = {[styles.page, {color: theme.foreground}]}>{page}</Text>
-  //         <IconButton
-  //           icon='chevron-right'
-  //           color={theme.foreground}
-  //           size={25}
-  //           onPress={onNextButton}
-  //           disabled={buttonNextDisable}
-  //         />
-  //       </View>
-  //     </View>
-  //   )}
-  // </ScrollView>
-  <View></View>
+    <View>
+      <AuthorListSearch navigation={props.navigation} />
+      <View style={styles.pagination}>
+        {pageCount === null || pageCount === undefined ? (
+          <ActivityIndicator />
+        ) : (
+          <View  style={styles.pagination}>
+            <IconButton
+              icon="chevron-left"
+              color={theme.foreground}
+              size={25}
+              onPress={onInsPrevButton}
+              disabled={buttonInsPrevDisable}
+            />
+            <Text style={[styles.page, { color: theme.foreground }]}>
+              {pageInstructors}
+            </Text>
+            <IconButton
+              icon="chevron-right"
+              color={theme.foreground}
+              size={25}
+              onPress={onInsNextButton}
+              disabled={buttonInsNextDisable}
+            />
+          </View>
+        )}
+      </View>
+    </View>
   );
-    
 
   const [routes] = useState([
     { key: "courses", title: "Khóa học" },
@@ -173,16 +214,16 @@ export default function SearchResult(props) {
     />
   );
   return (
-    <View style = {{flex: 1}}>
-    <TabView
-      style={{ marginTop: 5}}
-      navigationState={{ index, routes }}
-      renderScene={renderScene}
-      onIndexChange={setIndex}
-      initialLayout={initialLayout}
-      // renderTabBar={renderTabBar}
-    />
-  </View>
+    <View style={{ flex: 1 }}>
+      <TabView
+        style={{ marginTop: 5 }}
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        initialLayout={initialLayout}
+        // renderTabBar={renderTabBar}
+      />
+    </View>
   );
 }
 
@@ -198,7 +239,7 @@ const styles = StyleSheet.create({
   },
   page: {
     marginTop: 12,
-    fontWeight: 'bold',
-    fontSize: 17
-  }
+    fontWeight: "bold",
+    fontSize: 17,
+  },
 });

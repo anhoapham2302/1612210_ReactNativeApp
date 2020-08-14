@@ -32,15 +32,7 @@ const ListCourses = (props) => {
           <ListCoursesItem navigation={props.navigation} item={item} />
         )}
         ItemSeparatorComponent={renderSeparator}
-      />
-      {/* {state.isLoading && <ActivityIndicator/>} */}
-      {/* <View>
-            <Text style = {Styles.text}>{props.title}</Text>
-        </View> */}
-        {/* {isLoading ? <ActivityIndicator/> : (  */}
-        
-      {/* )} */}
-     
+      />   
     </View>
   );
 };

@@ -29,6 +29,7 @@ const Home = (props) => {
     useEffect(() => {    
         getAllCatAction(allCat);  
     },[])
+
     const {theme} = useContext(ThemeContext)
 
     const renderSectionCourse = (courses) => { 
