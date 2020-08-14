@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Text, ScrollView, StyleSheet, Image } from "react-native";
+import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from "react-native";
 import SectionCoursesItem from "../SectionCoursesItem/section-courses-item";
 import {
   apiCourses,
@@ -85,12 +85,15 @@ const SectionCourses = (props) => {
 
   return (
     <View style={styles.view}>
-      <View>
+      <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
         <Text
           style={{ fontWeight: "bold", fontSize: 20, color: theme.foreground }}
         >
           {props.title}
         </Text>
+        <TouchableOpacity>
+          <Text style = {{marginRight: 15, marginTop: 5, fontSize: 15, color: '#4DC4FF'}}>Xem thêm {'>>'}</Text>
+        </TouchableOpacity>
       </View>
       <ScrollView horizontal={true}>{renderListItems(data)}</ScrollView>
     </View>
