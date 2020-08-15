@@ -2,17 +2,15 @@ import React, { useState, useEffect, useContext } from "react";
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from "react-native";
 import SectionCoursesItem from "../SectionCoursesItem/section-courses-item";
 import {
-  apiCourses,
   renderTopSell,
   apiTopRated,
+  apiGetCoursesFromCat,
 } from "../../../../core/services/course-service";
 import { ThemeContext } from "../../../../provider/theme-provider";
 import { apiProcessCourses } from "../../../../core/services/account-service";
 import { AuthContext } from "../../../../provider/auth-provider";
-import { getCoursesFromCatAction } from "../../../../action/course-action";
 import { ImageButtonContext } from "../../../../provider/imageButton-provider";
 import { LanguageContext } from "../../../../provider/language-provider";
-import { languages } from "../../../../global/language";
 
 const SectionCourses = (props) => {
   const {language} = useContext(LanguageContext);
@@ -22,13 +20,13 @@ const SectionCourses = (props) => {
   const { state } = useContext(AuthContext);
   const [isLoading, setLoading] = useState(true);
   
-  const coursesFromCat = res => {
-    if(res !== undefined)
-    {
-      setData(res.payload.rows);
-      setLoading(false);
-    }
-  }
+  // const coursesFromCat = res => {
+  //   if(res !== undefined)
+  //   {
+  //     setData(res.payload.rows);
+  //     setLoading(false);
+  //   }
+  // }
 
   const onPressMore = () =>{
     setTitle(props.title)
@@ -63,12 +61,15 @@ const SectionCourses = (props) => {
               .catch((error) => console.error(error))
               .finally(() => setLoading(false));
           } else {
-            getCoursesFromCatAction([props.course_id], coursesFromCat);
+            apiGetCoursesFromCat([props.course_id])
+            .then((respone) => respone.json())
+            .then((res) => setData(res.payload.rows))
+            .finally(() => setLoading(false));
           }
         }
       }
     }
-  }, [isLoading]);
+  }, []);
 
   const renderListItems = (courses) => {
     if (courses.length === 0) {

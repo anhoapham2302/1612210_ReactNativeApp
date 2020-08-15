@@ -36,7 +36,7 @@ export default function CourseAction(props) {
             mode="outlined"
             color="red"
             style={{
-              width: 130,
+              width: 180,
               borderWidth: 2,
               borderRadius: 5,
               borderColor: "red",
@@ -56,7 +56,7 @@ export default function CourseAction(props) {
             mode="contained"
             color="red"
             style={{
-              width: 130,
+              width: 180,
               borderWidth: 2,
               borderRadius: 5,
               borderColor: "white",
@@ -111,7 +111,7 @@ export default function CourseAction(props) {
                 color="#3498DB"
                 labelStyle={{color: '#FFF'}}
                 style={{
-                  width: 130,
+                  width: 180,
                   borderWidth: 2,
                   borderRadius: 5,
                   borderColor: "white",

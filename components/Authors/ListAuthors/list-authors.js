@@ -8,13 +8,14 @@ import {
 } from "react-native";
 import ListAuthorsItem from "../ListAuthorsItem/list-authors-item";
 import Styles from "../../../global/style";
-import authors from "../../../global/authors";
 import { apiGetListAuthor } from "../../../core/services/author-service";
 import AuthorListSearch from "../AuthorListSearch/author-list-search";
 import { LanguageContext } from "../../../provider/language-provider";
+import { ThemeContext } from "../../../provider/theme-provider";
 
 const ListAuthor = (props) => {
   const {language} = useContext(LanguageContext);
+  const {theme} = useContext(ThemeContext);
   const [data, setData] = useState([]);
   useEffect(() => {
     apiGetListAuthor()
@@ -28,7 +29,7 @@ const onPressMore = () => {
   return (
     <View style={Styles.view}>
       <View style={{ flexDirection: "row" , justifyContent: "space-between"}}>
-        <Text style={[Styles.text, { fontSize: 20 }]}>{props.title}</Text>
+        <Text style={[Styles.text, { fontSize: 20, color: theme.foreground }]}>{props.title}</Text>
         <TouchableOpacity>
           <Text
             style={{

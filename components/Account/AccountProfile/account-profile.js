@@ -28,6 +28,7 @@ import {
 } from "../../../core/services/account-service";
 import Colors from "../../../global/color";
 import { LanguageContext } from "../../../provider/language-provider";
+import { languages } from "../../../global/language";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDO1f6iJGQ0V73vsQSUvFFARU3YKapq_4s",
@@ -41,7 +42,7 @@ const firebaseConfig = {
 };
 
 const AccountProfile = (props) => {
-  const {language} = useContext(LanguageContext);
+  const {language, setLanguage} = useContext(LanguageContext);
   const { theme, setTheme } = useContext(ThemeContext);
   const { state } = useContext(AuthContext);
   const [name, setName] = useState(state.userInfo.name);
@@ -229,16 +230,15 @@ const AccountProfile = (props) => {
         {language.changePassword}
       </Button>
       <Button
-        icon="theme-light-dark"
-        mode="contained"
-        color="red"
-        style={{ width: 190, margin: 15, marginTop: 0 }}
+        icon="account-arrow-left-outline"
+        mode="outlined"
+        color={Colors.login}
+        style={{ width: 190, margin: 15, marginTop: 0, borderColor: Colors.login, borderWidth: 1 }}
         onPress={() => {
-          if (theme === themes.light) setTheme(themes.dark);
-          else setTheme(themes.light);
+          props.navigation.navigate("Login");
         }}
       >
-        Change theme
+        {language.logOut}
       </Button>
     </ScrollView>
   );

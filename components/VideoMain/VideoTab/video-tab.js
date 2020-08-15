@@ -52,7 +52,7 @@ export default function VideoTab(props) {
       <ActivityIndicator />
     ) : data.exercises.length === 0 ? (
       <View>
-        <Text>{language.emptyLesson}</Text>
+        <Text style={{ color: theme.foreground, fontSize: 17 , marginLeft: 10, marginTop: 5}}>{language.emptyLesson}</Text>
       </View>
     ) : (
       <View>
@@ -69,12 +69,10 @@ export default function VideoTab(props) {
   const [routes] = useState([
     { key: "lesson", title: language.lesson },
     { key: "exercise", title: language.exercise },
-    // { key: "recommend", title: "Gợi ý" },
   ]);
   const renderScene = SceneMap({
     lesson: FirstRoute,
     exercise: SecondRoute,
-    // recommend: ThirdRoute,
   });
 
   const renderTabBar = (props) => (

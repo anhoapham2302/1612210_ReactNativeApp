@@ -12,6 +12,7 @@ import { ThemeContext } from "../../../provider/theme-provider";
 import { AuthContext } from "../../../provider/auth-provider";
 import { HistorySearchContext } from "../../../provider/history-search-provider";
 import { LanguageContext } from "../../../provider/language-provider";
+import { SearchInstructorsContext } from "../../../provider/search-instructors-provider";
 
 export default function SearchBarView(props) {
   const {language} = useContext(LanguageContext);
@@ -19,6 +20,7 @@ export default function SearchBarView(props) {
   const { theme } = useContext(ThemeContext);
   const { state } = useContext(AuthContext);
   const searchContext = useContext(SearchContext);
+  const searchInstructorsContext = useContext(SearchInstructorsContext);
   const { historySearch } = useContext(HistorySearchContext);
   const historySearchContext  = useContext(HistorySearchContext);
 
@@ -35,7 +37,6 @@ export default function SearchBarView(props) {
             historySearchContext.historySearchAction("COMPLETE_SEARCH")
           }
         }}
-        defaultValue={historySearch.text}
         placeholder={language.searchInput}
       />
       <TouchableOpacity
@@ -46,6 +47,7 @@ export default function SearchBarView(props) {
               createAlert();
             } else {
               searchContext.getCoursesSearch(state.token, text, 2, 0, 1);
+              searchInstructorsContext.getInstructorsSearch(state.token, text, 2, 0, 1);
               historySearchContext.historySearchAction("SELECT_RESULT", text)
             }
           }

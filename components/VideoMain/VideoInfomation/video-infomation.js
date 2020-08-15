@@ -37,8 +37,8 @@ export default function VideoInfomation(props) {
                 <View style = {styles.view}>
                 <Text style = {{fontSize: 20, color: theme.foreground}}>{data.name}</Text>
             <Text style = {{fontSize: 14, color: 'darkgrey'}}>{language.time}: {data.hours} {language.hour}</Text>
-                <TouchableOpacity onPress={onBackButton}>
-            <Text>{language.backCourse}</Text>
+                <TouchableOpacity onPress={onBackButton} style={{backgroundColor: '#ec5564', width: 150, padding: 5, borderRadius: 10}}>
+             <Text style={{marginLeft: 5, fontSize: 17, color: 'white'}}>{language.backCourse}</Text>
                 </TouchableOpacity>
             </View>
             )}

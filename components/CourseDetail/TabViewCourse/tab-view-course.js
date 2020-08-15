@@ -21,11 +21,10 @@ import { Button } from "react-native-paper";
 import { LessonContext } from "../../../provider/lesson-provider";
 import ListCourses from "../../Courses/ListCourses/list-courses";
 import {
-  getCoursesFromCatAction,
   getRatingAction,
 } from "../../../action/course-action";
-import { apiGetVideoData } from "../../../core/services/video-service";
 import { LanguageContext } from "../../../provider/language-provider";
+import { apiGetCoursesFromCat } from "../../../core/services/course-service";
 
 const initialLayout = { width: Dimensions.get("window").width };
 
@@ -46,15 +45,11 @@ export default function TabViewCourse(props) {
   const [ratingLoading, setRatingLoading] = useState(true);
   const [rating, setRating] = useState([]);
 
-  const coursesFromCat = (res) => {
-    if (res !== undefined) {
-      setData(res.payload.rows);
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    getCoursesFromCatAction(props.data.categoryIds, coursesFromCat);
+    apiGetCoursesFromCat(props.data.categoryIds)
+    .then((respone) => respone.json())
+    .then((res) => setData(res.payload.rows))
+    .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {

@@ -18,14 +18,14 @@ export const getAllCatAction = (callback) => {
     .catch((err) => console.log(err));
 }
 
-export const getCoursesFromCatAction = (cat_id, callback) => {
-    apiGetCoursesFromCat(cat_id)
-    .then((respone) => respone.json())
-    .then((res) => {
-        callback(res)
-    }) 
-    .catch((err) => console.log(err));
-}
+// export const getCoursesFromCatAction = (cat_id, callback) => {
+//     apiGetCoursesFromCat(cat_id)
+//     .then((respone) => respone.json())
+//     .then((res) => {
+//         callback(res)
+//     }) 
+//     .catch((err) => console.log(err));
+// }
 
 export const getRatingAction = (token, course_id, callback) => {
     apiGetRating(token, course_id, null)

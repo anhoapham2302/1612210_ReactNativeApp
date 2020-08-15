@@ -17,13 +17,16 @@ import { HistorySearchContext } from "../../../provider/history-search-provider"
 import { AuthContext } from "../../../provider/auth-provider";
 import AuthorListSearch from "../../Authors/AuthorListSearch/author-list-search";
 import { LanguageContext } from "../../../provider/language-provider";
+import { SearchInstructorsContext } from "../../../provider/search-instructors-provider";
 
 const initialLayout = { width: Dimensions.get("window").width };
 
 export default function SearchResult(props) {
-  const {language} = useContext(LanguageContext);
+  const { language } = useContext(LanguageContext);
   const { search_results } = useContext(SearchContext);
   const { historySearch } = useContext(HistorySearchContext);
+  const { search_instructors_results } = useContext(SearchInstructorsContext);
+  const searchInstructorsContext = useContext(SearchInstructorsContext);
   const searchContext = useContext(SearchContext);
   const { theme } = useContext(ThemeContext);
   const { state } = useContext(AuthContext);
@@ -32,7 +35,9 @@ export default function SearchResult(props) {
   const [index, setIndex] = useState(0);
   const [buttonPrevDisable, setButtonPrevDisable] = useState(false);
   const [buttonNextDisable, setButtonNextDisable] = useState(false);
-  const instructorsPageCount = Math.ceil(search_results.instructorsCount / 2);
+  const instructorsPageCount = Math.ceil(
+    search_instructors_results.instructorsCount / 2
+  );
   const [pageInstructors, setPageInstructors] = useState(1);
   const [buttonInsPrevDisable, setButtonInsPrevDisable] = useState(false);
   const [buttonInsNextDisable, setButtonInsNextDisable] = useState(false);
@@ -40,16 +45,22 @@ export default function SearchResult(props) {
   useEffect(() => {
     if (search_results.coursesPage === 1) {
       setPage(1);
-      setPageInstructors(1);
     }
   }, [search_results.coursesPage]);
+
+  useEffect(() => {
+    if (search_instructors_results.instructorsPage === 1) {
+      setPageInstructors(1);
+    }
+  }, [search_instructors_results.instructorsPage]);
+
   useEffect(() => {
     if (page === 1) {
       setButtonPrevDisable(true);
     } else {
       setButtonPrevDisable(false);
     }
-    if (page === pageCount) {
+    if (page === pageCount || pageCount === 1) {
       setButtonNextDisable(true);
     } else {
       setButtonNextDisable(false);
@@ -62,7 +73,10 @@ export default function SearchResult(props) {
     } else {
       setButtonInsPrevDisable(false);
     }
-    if (pageInstructors === instructorsPageCount) {
+    if (
+      pageInstructors === instructorsPageCount ||
+      instructorsPageCount === 1
+    ) {
       setButtonInsNextDisable(true);
     } else {
       setButtonInsNextDisable(false);
@@ -96,12 +110,12 @@ export default function SearchResult(props) {
   };
 
   const onInsNextButton = () => {
-    if (pageInstructors < pageCount) {
-      searchContext.getCoursesSearch(
+    if (pageInstructors < instructorsPageCount) {
+      searchInstructorsContext.getInstructorsSearch(
         state.token,
         historySearch.text,
         2,
-        2 * pageInstructors,
+        pageInstructors * 2,
         pageInstructors + 1
       );
       setPageInstructors(pageInstructors + 1);
@@ -110,7 +124,7 @@ export default function SearchResult(props) {
 
   const onInsPrevButton = () => {
     if (pageInstructors > 1) {
-      searchContext.getCoursesSearch(
+      searchInstructorsContext.getInstructorsSearch(
         state.token,
         historySearch.text,
         2,
@@ -121,8 +135,11 @@ export default function SearchResult(props) {
     }
   };
 
-  const FirstRoute = () => (
-    <ScrollView style={{ backgroundColor: theme.background }}>
+  const CourseRoute = () => (
+    <View style={{ backgroundColor: theme.background }}>
+      <Text style={{ marginLeft: 15, marginTop: 5, color: "red" }}>
+        {language.searchResult} '{historySearch.text}'
+      </Text>
       {search_results.coursesCount === 0 ? (
         <Text style={[styles.text, { color: theme.foreground }]}>
           {language.emptySearch}
@@ -138,10 +155,10 @@ export default function SearchResult(props) {
             navigation={props.navigation}
           />
           <View style={styles.pagination}>
-            {pageCount === null || pageCount === undefined ? (
+            {pageCount === 0 ? (
               <ActivityIndicator />
             ) : (
-              <View  style={styles.pagination}>
+              <View style={styles.pagination}>
                 <IconButton
                   icon="chevron-left"
                   color={theme.foreground}
@@ -164,34 +181,154 @@ export default function SearchResult(props) {
           </View>
         </View>
       )}
-    </ScrollView>
+    </View>
   );
 
-  const SecondRoute = () => (
+  const InstructorRoute = () => (
     <View>
-      <AuthorListSearch navigation={props.navigation} />
-      <View style={styles.pagination}>
-        {pageCount === null || pageCount === undefined ? (
+      <Text style={{ marginLeft: 15, marginTop: 5, color: "red" }}>
+        {language.searchResult} '{historySearch.text}'
+      </Text>
+      {search_instructors_results.instructorsCount === 0 ? (
+        <Text style={[styles.text, { color: theme.foreground }]}>
+          {language.emptySearch}
+        </Text>
+      ) : (
+        <View>
+          <AuthorListSearch navigation={props.navigation} />
+          <View style={styles.pagination}>
+            {instructorsPageCount === 0 ? (
+              <ActivityIndicator />
+            ) : (
+              <View style={styles.pagination}>
+                <IconButton
+                  icon="chevron-left"
+                  color={theme.foreground}
+                  size={25}
+                  onPress={onInsPrevButton}
+                  disabled={buttonInsPrevDisable}
+                />
+                <Text style={[styles.page, { color: theme.foreground }]}>
+                  {pageInstructors}
+                </Text>
+                <IconButton
+                  icon="chevron-right"
+                  color={theme.foreground}
+                  size={25}
+                  onPress={onInsNextButton}
+                  disabled={buttonInsNextDisable}
+                />
+              </View>
+            )}
+          </View>
+        </View>
+      )}
+    </View>
+  );
+
+  const AllRoute = () => (
+    <View>
+      <Text style={{ marginLeft: 15, marginTop: 5, color: "red" }}>
+        {language.searchResult} '{historySearch.text}'
+      </Text>
+      <View style={{ backgroundColor: theme.background, marginBottom: 15 }}>
+        {search_results.coursesCount === 0 ? (
+          <Text style={[styles.text, { color: theme.foreground }]}>
+            {language.emptySearch}
+          </Text>
+        ) : search_results.isFirst ? (
+          <View></View>
+        ) : search_results.isLoading ? (
           <ActivityIndicator />
         ) : (
-          <View  style={styles.pagination}>
-            <IconButton
-              icon="chevron-left"
-              color={theme.foreground}
-              size={25}
-              onPress={onInsPrevButton}
-              disabled={buttonInsPrevDisable}
-            />
-            <Text style={[styles.page, { color: theme.foreground }]}>
-              {pageInstructors}
+          <View>
+            <Text
+              style={{
+                color: theme.foreground,
+                fontSize: 20,
+                paddingLeft: 15,
+                marginTop: 5,
+                width: "100%",
+              }}
+            >
+              {language.course}
             </Text>
-            <IconButton
-              icon="chevron-right"
-              color={theme.foreground}
-              size={25}
-              onPress={onInsNextButton}
-              disabled={buttonInsNextDisable}
+            <ListCourses
+              item={search_results.courses}
+              navigation={props.navigation}
             />
+            <View style={styles.pagination}>
+              {pageCount === 0 ? (
+                <ActivityIndicator />
+              ) : (
+                <View style={styles.pagination}>
+                  <IconButton
+                    icon="chevron-left"
+                    color={theme.foreground}
+                    size={25}
+                    onPress={onPrevButton}
+                    disabled={buttonPrevDisable}
+                  />
+                  <Text style={[styles.page, { color: theme.foreground }]}>
+                    {page}
+                  </Text>
+                  <IconButton
+                    icon="chevron-right"
+                    color={theme.foreground}
+                    size={25}
+                    onPress={onNextButton}
+                    disabled={buttonNextDisable}
+                  />
+                </View>
+              )}
+            </View>
+          </View>
+        )}
+      </View>
+      <View>
+        {search_instructors_results.instructorsCount === 0 ? (
+          <Text style={[styles.text, { color: theme.foreground }]}>
+            {language.emptySearch}
+          </Text>
+        ) : (
+          <View>
+            <Text
+              style={{
+                color: theme.foreground,
+                fontSize: 20,
+                paddingLeft: 15,
+                marginTop: 5,
+                width: "100%",
+              }}
+            >
+              {language.instructor}
+            </Text>
+            <AuthorListSearch navigation={props.navigation} />
+            <View style={styles.pagination}>
+              {instructorsPageCount === 0 ? (
+                <ActivityIndicator />
+              ) : (
+                <View style={styles.pagination}>
+                  <IconButton
+                    icon="chevron-left"
+                    color={theme.foreground}
+                    size={25}
+                    onPress={onInsPrevButton}
+                    disabled={buttonInsPrevDisable}
+                  />
+                  <Text style={[styles.page, { color: theme.foreground }]}>
+                    {pageInstructors}
+                  </Text>
+                  <IconButton
+                    icon="chevron-right"
+                    color={theme.foreground}
+                    size={25}
+                    onPress={onInsNextButton}
+                    disabled={buttonInsNextDisable}
+                  />
+                </View>
+              )}
+            </View>
           </View>
         )}
       </View>
@@ -199,12 +336,14 @@ export default function SearchResult(props) {
   );
 
   const [routes] = useState([
+    { key: "all", title: language.all },
     { key: "courses", title: language.course },
     { key: "instructors", title: language.instructor },
   ]);
   const renderScene = SceneMap({
-    courses: FirstRoute,
-    instructors: SecondRoute,
+    all: AllRoute,
+    courses: CourseRoute,
+    instructors: InstructorRoute,
   });
 
   const renderTabBar = (props) => (

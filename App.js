@@ -39,6 +39,8 @@ import { apiGetInfo } from "./core/services/account-service";
 import { HistorySearchProvider } from "./provider/history-search-provider";
 import { LanguageContext, LanguageProvider } from "./provider/language-provider";
 import { languages } from "./global/language";
+import { SearchInstructorsProvider } from "./provider/search-instructors-provider";
+import Setting from "./components/Setting/setting";
 const Tab = createBottomTabNavigator();
 const MainNavigationStack = createStackNavigator();
 const HomeNavigationStack = createStackNavigator();
@@ -56,9 +58,13 @@ const HomeStack = (props) => {
   const { title } = useContext(ImageButtonContext);
 
 
-  const onPressListItem = () => {
+  const onPressProfile = () => {
     props.navigation.navigate("AccountProfile");
   };
+
+  const onPressSetting = () => {
+    props.navigation.navigate("Setting");
+  }
 
   useEffect(() => {
     apiGetInfo(state.token)
@@ -134,13 +140,17 @@ const HomeStack = (props) => {
                     <TouchableOpacity
                       style={{ marginTop: 0 }}
                       onPress={() => {
-                        onPressListItem();
+                        onPressProfile();
                         setVisible(false);
                       }}
                     >
                       <Text style={[styles.text]}>{language.profile}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ marginTop: 10 }}>
+                    <TouchableOpacity style={{ marginTop: 10 }} 
+                     onPress={() => {
+                      onPressSetting();
+                      setVisible(false);
+                    }}>
                       <Text style={[styles.text]}>{language.setting}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -164,6 +174,28 @@ const HomeStack = (props) => {
         name="AccountProfile"
         component={AccountProfile}
         options={{ cardStyle: { backgroundColor: "#fff" }, headerShown: false }}
+      />
+       <HomeNavigationStack.Screen
+        name="Setting"
+        component={Setting}
+        options={{
+          cardStyle: { backgroundColor: theme.background },
+          headerStyle: {
+            backgroundColor: theme.background,
+          },
+          headerLeft: null,
+          headerTitle: () => (
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: "bold",
+                color: theme.foreground,
+              }}
+            >
+              {language.setting}
+            </Text>
+          ),        
+        }}
       />
       <HomeNavigationStack.Screen
         name="CourseDetail"
@@ -218,9 +250,14 @@ const DownloadsStack = (props) => {
   const { state } = useContext(AuthContext);
   const [visible, setVisible] = useState(false);
 
-  const onPressListItem = () => {
+ 
+  const onPressProfile = () => {
     props.navigation.navigate("AccountProfile");
   };
+
+  const onPressSetting = () => {
+    props.navigation.navigate("Setting");
+  }
   return (
     <DownloadNavigationStack.Navigator initialRouteName="Favorites">
       <DownloadNavigationStack.Screen
@@ -287,13 +324,16 @@ const DownloadsStack = (props) => {
                     <TouchableOpacity
                       style={{ marginTop: 0 }}
                       onPress={() => {
-                        onPressListItem();
+                        onPressProfile();
                         setVisible(false);
                       }}
                     >
                       <Text style={[styles.text]}>{language.profile}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ marginTop: 10 }}>
+                    <TouchableOpacity style={{ marginTop: 10 }} onPress={() => {
+                        onPressSetting();
+                        setVisible(false);
+                      }}>
                       <Text style={[styles.text]}>{language.setting}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -317,6 +357,28 @@ const DownloadsStack = (props) => {
         name="AccountProfile"
         component={AccountProfile}
         options={{ cardStyle: { backgroundColor: "#fff" }, headerShown: false }}
+      />
+       <DownloadNavigationStack.Screen
+        name="Setting"
+        component={Setting}
+        options={{
+          cardStyle: { backgroundColor: theme.background },
+          headerStyle: {
+            backgroundColor: theme.background,
+          },
+          headerLeft: null,
+          headerTitle: () => (
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: "bold",
+                color: theme.foreground,
+              }}
+            >
+              {language.setting}
+            </Text>
+          ),        
+        }}
       />
       <DownloadNavigationStack.Screen
         name="CourseDetail"
@@ -349,9 +411,13 @@ const BrowseStack = (props) => {
   const { title } = useContext(ImageButtonContext);
   const [visible, setVisible] = useState(false);
 
-  const onPressListItem = () => {
+  const onPressProfile = () => {
     props.navigation.navigate("AccountProfile");
   };
+
+  const onPressSetting = () => {
+    props.navigation.navigate("Setting");
+  }
   return (
     <BrowseNavigationStack.Navigator initialRouteName="Browse">
       <BrowseNavigationStack.Screen
@@ -418,14 +484,17 @@ const BrowseStack = (props) => {
                     <TouchableOpacity
                       style={{ marginTop: 0 }}
                       onPress={() => {
-                        onPressListItem();
+                        onPressProfile();
                         setVisible(false);
                       }}
                     >
-                      <Text style={[styles.text]}>Quản lý tài khoản</Text>
+                      <Text style={[styles.text]}>{language.profile}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={{ marginTop: 10 }}>
-                      <Text style={[styles.text]}>Cấu hình ứng dụng</Text>
+                    <Text style={[styles.text]}   onPress={() => {
+                        onPressSetting();
+                        setVisible(false);
+                      }}>{language.setting}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={{ marginTop: 10 }}
@@ -434,7 +503,7 @@ const BrowseStack = (props) => {
                       }}
                     >
                       <Text style={[styles.text, { color: "#E74C3C" }]}>
-                        Đăng xuất
+                        {language.logOut}
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -447,7 +516,29 @@ const BrowseStack = (props) => {
       <BrowseNavigationStack.Screen
         name="AccountProfile"
         component={AccountProfile}
-        options={{ cardStyle: { backgroundColor: "#fff" }, headerShown: false }}
+        options={{ cardStyle: { backgroundColor: theme.background }, headerShown: false }}
+      />
+      <BrowseNavigationStack.Screen
+        name="Setting"
+        component={Setting}
+        options={{
+          cardStyle: { backgroundColor: theme.background },
+          headerStyle: {
+            backgroundColor: theme.background,
+          },
+          headerLeft: null,
+          headerTitle: () => (
+            <Text
+              style={{
+                fontSize: 20,
+                fontWeight: "bold",
+                color: theme.foreground,
+              }}
+            >
+              {language.setting}
+            </Text>
+          ),        
+        }}
       />
       <BrowseNavigationStack.Screen
         name="CourseDetail"
@@ -606,23 +697,25 @@ const MainNavigation = () => {
 export default function App() {
   return (
     <AuthProvider>
-      <LanguageProvider>
       <CoursesProvider>
         <LessonProvider>
           <SearchProvider>
+            <SearchInstructorsProvider>
             <HistorySearchProvider>
             <NavigationContainer>
+              <LanguageProvider>
               <ThemeProvider>
                 <ImageButtonProvider>
                   <MainNavigation />
                 </ImageButtonProvider>
-              </ThemeProvider>
+                </ThemeProvider>
+                </LanguageProvider>
             </NavigationContainer>
             </HistorySearchProvider>
+            </SearchInstructorsProvider>
           </SearchProvider>
         </LessonProvider>
       </CoursesProvider>
-      </LanguageProvider>
     </AuthProvider>
   );
 }

@@ -1,18 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { StyleSheet, Text, View, FlatList } from 'react-native'
-import { SearchContext } from '../../../provider/search-provider'
 import Styles from '../../../global/style'
 import AuthorListSearchItem from '../AuthorListSearchItem/author-list-search-item';
+import { SearchInstructorsContext } from '../../../provider/search-instructors-provider';
 
 export default function AuthorListSearch(props) {
-    const {search_results} = useContext(SearchContext);
+    const {search_instructors_results} = useContext(SearchInstructorsContext);
     const [data, setData] = useState([]);
     
     useEffect(() => {
         if(props.com === "ListAuthor"){
             setData(props.data)
         }else{
-            setData(search_results.instructors)
+            setData(search_instructors_results.instructors)
         }
     }, [])
     
