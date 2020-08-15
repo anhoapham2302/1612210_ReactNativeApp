@@ -21,6 +21,7 @@ const VideoPlayer = (props) => {
     console.log(isFocused);
     if (isFocused === false) {
       if (props.video_id[0] === "") {
+       
         playerRef.current.getCurrentTime().then((data) => {
           apiUpdateCurrentTime(state.token, props.lesson_id, data)
         });

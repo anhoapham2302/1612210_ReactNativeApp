@@ -12,7 +12,6 @@ import { ThemeContext } from "../../../provider/theme-provider";
 import { AuthContext } from "../../../provider/auth-provider";
 import { LessonContext } from "../../../provider/lesson-provider";
 import { getExerciseAction } from "../../../action/lesson-action";
-import { indexOf } from "../../../global/authors";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { LanguageContext } from "../../../provider/language-provider";
 

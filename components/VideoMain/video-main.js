@@ -33,7 +33,7 @@ export default function VideoMain(props) {
       ) : (
         <View>
           <VideoPlayer
-            lesson_id={props.route.params.item.id}
+            lesson_id={props.route.params.item.id || ele.item.lessonId}
             current = {data.currentTime}
             video_id={video_id}
             navigation={props.navigation}
