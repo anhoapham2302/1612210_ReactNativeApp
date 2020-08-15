@@ -94,6 +94,13 @@ export const languages = {
       address: 'Địa chỉ',
       mainAddress: '227 Đ. Nguyễn Văn Cừ, Phường 4, Quận 5, Thành phố Hồ Chí Minh',
       openMap: 'nhấn để xem bản đồ',
+      sendRate: 'Gửi đánh giá',
+      formalityPoint: 'Điểm hình thức',
+      contentPoint: 'Điểm nội dung',
+      presentationPoint: 'Điểm trình bày',
+      comment: 'Bình luận',
+      ratingSuccess: 'Đánh giá thành công',
+      ratingFail: 'Đánh giá thất bại'
     },
     en: {
       haveAcc: 'Already have account',
@@ -190,7 +197,13 @@ export const languages = {
         address: 'Address',
         openMap: 'press to view the map',
         mainAddress: '227 Đ. Nguyen Van Cu, Ward 4, District 5, Ho Chi Minh City ',
-
+        sendRate: 'Submit reviews',
+        formalityPoint: 'Formality point',
+        contentPoint: 'Content point',
+        presentationPoint: 'Presentation point',
+        comment: 'Comment',
+        ratingSuccess: 'Success',
+        ratingFail: 'Rating failed'
     },
   };
   

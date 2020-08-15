@@ -55,7 +55,7 @@ export default function ListCoursesPage(props) {
     }
   }
   return (
-    <ScrollView>
+    <View>
       {loading ? (
         <ActivityIndicator />
       ) : (
@@ -66,7 +66,7 @@ export default function ListCoursesPage(props) {
           navigation={props.navigation}
         />
       )}
-    </ScrollView>
+    </View>
   );
 }
 

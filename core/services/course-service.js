@@ -176,3 +176,21 @@ export const apiGetRating = (token, course_id, id) => {
         },
       });
 }
+
+export const apiSendRate = (token, course_id, formalityPoint, contentPoint, presentationPoint, content) => {
+    return fetch('https://api.itedu.me/course/rating-course', {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+        body: JSON.stringify({
+            courseId: course_id,
+            formalityPoint: formalityPoint,
+            contentPoint: contentPoint,
+            presentationPoint: presentationPoint,
+            content: content
+        })
+      });
+}

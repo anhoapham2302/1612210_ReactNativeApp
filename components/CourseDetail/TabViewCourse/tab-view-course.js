@@ -8,6 +8,8 @@ import {
   Dimensions,
   TouchableOpacity,
   ActivityIndicator,
+  Alert,
+  TextInput
 } from "react-native";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import ListLessons from "../../Courses/ListLessons/list_lessons";
@@ -17,14 +19,12 @@ import {
   apiCheckOwnCourse,
   apiGetFreeCourse,
 } from "../../../core/services/account-service";
-import { Button } from "react-native-paper";
+import { Button, RadioButton } from "react-native-paper";
 import { LessonContext } from "../../../provider/lesson-provider";
 import ListCourses from "../../Courses/ListCourses/list-courses";
-import {
-  getRatingAction,
-} from "../../../action/course-action";
+import { getRatingAction } from "../../../action/course-action";
 import { LanguageContext } from "../../../provider/language-provider";
-import { apiGetCoursesFromCat } from "../../../core/services/course-service";
+import { apiGetCoursesFromCat, apiSendRate } from "../../../core/services/course-service";
 import Star from "react-native-star-view/lib/Star";
 
 const initialLayout = { width: Dimensions.get("window").width };
@@ -48,9 +48,9 @@ export default function TabViewCourse(props) {
 
   useEffect(() => {
     apiGetCoursesFromCat(props.data.categoryIds)
-    .then((respone) => respone.json())
-    .then((res) => setData(res.payload.rows))
-    .finally(() => setLoading(false));
+      .then((respone) => respone.json())
+      .then((res) => setData(res.payload.rows))
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -209,43 +209,88 @@ export default function TabViewCourse(props) {
       setRatingLoading(false);
     }
   };
-
+  const onShowModelRate = () => {
+    setRateModelVisible(true);
+  }
   useEffect(() => {
     getRatingAction(state.token, props.data.id, getRating);
   }, []);
   const FourthRoute = () => (
     <View>
+       <Button
+                onPress={onShowModelRate}
+                icon="send"
+                mode="contained"
+                color="#fecd57"
+                labelStyle={{color: '#FFF'}}
+                style={{
+                  width: 180,
+                  borderWidth: 2,
+                  borderRadius: 5,
+                  borderColor: "white",
+                  marginTop: 10,
+                  marginLeft: 20
+                }}
+              >
+            {language.sendRate}
+              </Button>      
       {ratingLoading ? (
         <ActivityIndicator />
       ) : (
         rating.map((item) => {
           return (
             <View>
-            <View
-              style={{ flexDirection: "row", marginTop: 10, marginLeft: 20 }}
-            >
-              <Text
-                style={[
-                  styles.comment,
-                  { fontWeight: "bold", color: theme.foreground },
-                ]}
+              <View
+                style={{ flexDirection: "row", marginTop: 10, marginLeft: 20 }}
               >
-                {item.user.name}:{" "}
+                <Text
+                  style={[
+                    styles.comment,
+                    { fontWeight: "bold", color: theme.foreground },
+                  ]}
+                >
+                  {item.user.name}:{" "}
+                </Text>
+                <Star score={item.averagePoint} style={styles.starStyle} />
+              </View>
+              <Text style={{ color: theme.foreground, marginLeft: 20 }}>
+                {item.content}
               </Text>
-              <Star
-                score={
-                  item.averagePoint
-                }
-                style={styles.starStyle}
-              />
-            </View>
-            <Text style={{ color: theme.foreground, marginLeft: 20,}}>{item.content}</Text>
             </View>
           );
         })
       )}
     </View>
   );
+  const [comment, setComment] = useState("");
+  const [formalityPoint, setFormalityPoint] = useState(1);
+  const [contentPoint, setContentPoint] = useState(1);
+  const [presentationPoint, setPresentationPoint] = useState(1);
+  const [statusRate, setStatusRate] = useState(0);
+  const [rateModelVisible, setRateModelVisible] = useState(false);
+
+  const onPressSendRate = () => {
+    setStatusRate(0);
+    setRateModelVisible(false);
+    apiSendRate(state.token, props.data.id, formalityPoint, contentPoint, presentationPoint, comment)
+    .then((respone) => setStatusRate(respone.status))
+    .catch((err) => console.log(err))
+  }
+
+  const onCancel = () => {
+    setRateModelVisible(false);
+  }
+
+  useEffect(() => {
+      if(statusRate !== 0){
+        if(statusRate === 200){
+          Alert.alert(language.ratingSuccess);
+          getRatingAction(state.token, props.data.id, getRating);
+        }else{
+          Alert.alert(language.ratingFail)
+        }
+      }
+  }, [statusRate])
 
   const [routes] = useState([
     { key: "lesson", title: language.lesson },
@@ -282,7 +327,7 @@ export default function TabViewCourse(props) {
       {/* Model */}
       <Modal animationType="fade" transparent={true} visible={modalVisible}>
         <View style={styles.centeredView}>
-          <View style={styles.modalView}>
+        <View style={[styles.modalView,  {backgroundColor: theme.background}]}>
             <Text style={styles.text}>{language.buyCofirm}</Text>
             <View style={{ flexDirection: "row", marginTop: 20 }}>
               <TouchableOpacity
@@ -295,6 +340,283 @@ export default function TabViewCourse(props) {
                 <Text style={styles.text}>{language.ok}</Text>
               </TouchableOpacity>
             </View>
+          </View>
+        </View>
+      </Modal>
+      {/* Model */}
+       {/* Model */}
+       <Modal animationType="fade" transparent={true} visible={rateModelVisible}>
+        <View style={styles.centeredView}>
+          <View style={[styles.modalView,  {backgroundColor: theme.background}]}>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', color: theme.foreground }}>
+        {language.sendRate}
+      </Text>
+          <View style={{ marginLeft: 20, marginTop: 20 }}>
+      <Text style={{ fontSize: 17, color: theme.foreground }}>
+        {language.comment}:
+      </Text>
+      <TextInput
+      onChangeText={(comment) => setComment(comment)}
+      multiline={true}
+      numberOfLines={3}
+        style={{
+          borderWidth: 0.5,
+          borderColor: theme.foreground,
+          marginRight: 20,
+          fontSize: 17,
+          color: theme.foreground,
+        }}
+      />
+      {/* Điểm hình thức */}
+      <View style={{ flexDirection: "row", justifyContent: 'space-between'}}>
+        <Text style={{ fontSize: 17, color: theme.foreground, marginTop: 27 }}>
+          {language.formalityPoint}:
+        </Text>
+        <RadioButton.Group onValueChange={value => setFormalityPoint(value)} value={formalityPoint}>
+          <View style={{ flexDirection: "row", marginRight: 50 }}>
+            <View>
+              <Text
+                style={{
+                  color: theme.foreground,
+                  fontSize: 17,
+                  marginLeft: 10,
+                }}
+              >
+                1
+              </Text>
+              <RadioButton value={1} />
+            </View>
+            <View>
+              <Text
+                style={{
+                  color: theme.foreground,
+                  fontSize: 17,
+                  marginLeft: 10,
+                }}
+              >
+                2
+              </Text>
+              <RadioButton value={2} />
+            </View>
+            <View>
+              <Text
+                style={{
+                  color: theme.foreground,
+                  fontSize: 17,
+                  marginLeft: 10,
+                }}
+              >
+                3
+              </Text>
+              <RadioButton value={3} />
+            </View>
+            <View>
+              <Text
+                style={{
+                  color: theme.foreground,
+                  fontSize: 17,
+                  marginLeft: 10,
+                }}
+              >
+                4
+              </Text>
+              <RadioButton value={4} />
+            </View>
+            <View>
+              <Text
+                style={{
+                  color: theme.foreground,
+                  fontSize: 17,
+                  marginLeft: 10,
+                }}
+              >
+                5
+              </Text>
+              <RadioButton value={5} />
+            </View>
+          </View>
+        </RadioButton.Group>
+      </View>
+      {/* Điểm hình thức */}
+       {/* Điểm nội dung */}
+       <View style={{ flexDirection: "row" , justifyContent: 'space-between'}}>
+        <Text style={{ fontSize: 17, color: theme.foreground, marginTop: 27 }}>
+          {language.contentPoint}:
+        </Text>
+        <RadioButton.Group onValueChange={value => setContentPoint(value)} value={contentPoint}>
+          <View style={{ flexDirection: "row", marginRight: 50 }}>
+            <View>
+              <Text
+                style={{
+                  color: theme.foreground,
+                  fontSize: 17,
+                  marginLeft: 10,
+                }}
+              >
+                1
+              </Text>
+              <RadioButton value={1} />
+            </View>
+            <View>
+              <Text
+                style={{
+                  color: theme.foreground,
+                  fontSize: 17,
+                  marginLeft: 10,
+                }}
+              >
+                2
+              </Text>
+              <RadioButton value={2} />
+            </View>
+            <View>
+              <Text
+                style={{
+                  color: theme.foreground,
+                  fontSize: 17,
+                  marginLeft: 10,
+                }}
+              >
+                3
+              </Text>
+              <RadioButton value={3} />
+            </View>
+            <View>
+              <Text
+                style={{
+                  color: theme.foreground,
+                  fontSize: 17,
+                  marginLeft: 10,
+                }}
+              >
+                4
+              </Text>
+              <RadioButton value={4} />
+            </View>
+            <View>
+              <Text
+                style={{
+                  color: theme.foreground,
+                  fontSize: 17,
+                  marginLeft: 10,
+                }}
+              >
+                5
+              </Text>
+              <RadioButton value={5} />
+            </View>
+          </View>
+        </RadioButton.Group>
+      </View>
+      {/* Điểm nội dung */}
+       {/* Điểm thuyết trình */}
+       <View style={{ flexDirection: "row", justifyContent: 'space-between'}}>
+        <Text style={{ fontSize: 17, color: theme.foreground, marginTop: 27 }}>
+          {language.presentationPoint}:
+        </Text>
+        <RadioButton.Group onValueChange={value => setPresentationPoint(value)} value={presentationPoint}>
+          <View style={{ flexDirection: "row", marginRight: 50 }}>
+            <View>
+              <Text
+                style={{
+                  color: theme.foreground,
+                  fontSize: 17,
+                  marginLeft: 10,
+                }}
+              >
+                1
+              </Text>
+              <RadioButton value={1} />
+            </View>
+            <View>
+              <Text
+                style={{
+                  color: theme.foreground,
+                  fontSize: 17,
+                  marginLeft: 10,
+                }}
+              >
+                2
+              </Text>
+              <RadioButton value={2} />
+            </View>
+            <View>
+              <Text
+                style={{
+                  color: theme.foreground,
+                  fontSize: 17,
+                  marginLeft: 10,
+                }}
+              >
+                3
+              </Text>
+              <RadioButton value={3} />
+            </View>
+            <View>
+              <Text
+                style={{
+                  color: theme.foreground,
+                  fontSize: 17,
+                  marginLeft: 10,
+                }}
+              >
+                4
+              </Text>
+              <RadioButton value={4} />
+            </View>
+            <View>
+              <Text
+                style={{
+                  color: theme.foreground,
+                  fontSize: 17,
+                  marginLeft: 10,
+                }}
+              >
+                5
+              </Text>
+              <RadioButton value={5} />
+            </View>
+          </View>
+        </RadioButton.Group>
+      </View>
+      {/* Điểm thuyết trình */}
+      <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
+      <Button
+                onPress={onPressSendRate}
+                icon="send"
+                mode="contained"
+                color="#fecd57"
+                labelStyle={{color: '#FFF'}}
+                style={{
+                  width: 180,
+                  borderWidth: 2,
+                  borderRadius: 5,
+                  borderColor: "white",
+                  marginTop: 20
+                }}
+              >
+            {language.sendRate}
+              </Button>      
+              <Button
+                onPress={onCancel}
+                icon="cancel"
+                mode="contained"
+                color="red"
+                labelStyle={{color: '#FFF'}}
+                style={{
+                  width: 120,
+                  borderWidth: 2,
+                  borderRadius: 5,
+                  borderColor: "white",
+                  marginTop: 20,
+                  marginRight: 20
+                }}
+              >
+            {language.cancel}
+              </Button>      
+      </View>
+    
+    </View>
           </View>
         </View>
       </Modal>
@@ -312,7 +634,6 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
     borderRadius: 20,
     padding: 30,
     alignItems: "center",
