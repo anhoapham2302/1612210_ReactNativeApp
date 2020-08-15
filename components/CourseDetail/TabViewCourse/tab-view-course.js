@@ -25,6 +25,7 @@ import {
 } from "../../../action/course-action";
 import { LanguageContext } from "../../../provider/language-provider";
 import { apiGetCoursesFromCat } from "../../../core/services/course-service";
+import Star from "react-native-star-view/lib/Star";
 
 const initialLayout = { width: Dimensions.get("window").width };
 
@@ -219,6 +220,7 @@ export default function TabViewCourse(props) {
       ) : (
         rating.map((item) => {
           return (
+            <View>
             <View
               style={{ flexDirection: "row", marginTop: 10, marginLeft: 20 }}
             >
@@ -230,7 +232,14 @@ export default function TabViewCourse(props) {
               >
                 {item.user.name}:{" "}
               </Text>
-              <Text style={{ color: theme.foreground }}>{item.content}</Text>
+              <Star
+                score={
+                  item.averagePoint
+                }
+                style={styles.starStyle}
+              />
+            </View>
+            <Text style={{ color: theme.foreground, marginLeft: 20,}}>{item.content}</Text>
             </View>
           );
         })
@@ -315,6 +324,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  starStyle: {
+    marginLeft: 5,
+    width: 80,
+    height: 17,
   },
   comment: {},
 });
