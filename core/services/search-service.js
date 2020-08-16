@@ -1,44 +1,37 @@
-import courses from '../../global/courses'
-export const searchCourse = (title) => {
-    const results = []
-    for (let i = 0; i < courses.length; i++){
-        var low_title = courses[i].title.toLowerCase()
-        var tmp = low_title.includes(title.toLowerCase())
-        if(tmp === true){
-            results.push(courses[i])
-        }
-    }
-    if(results.length === 0)
-    {
-        return {course: results, status: 404}
-    }
-    return {course: results, status: 200}
+export const apiSearchCourses = (token, text, limit, offset) => {
+  return fetch("https://api.itedu.me/course/searchV2", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      token: token,
+      keyword: text,
+      limit: limit,
+      offset: offset,
+    }),
+  });
+};
+
+export const apiGetHistorySearch = (token) => {
+    return fetch("https://api.itedu.me/course/search-history", {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
+        },
+    })
 }
 
-export const searchCourseOfAuthor = (author) => {
-    const results = []
-    for (let i = 0; i < courses.length; i++){
-        if(courses[i].author === author){
-            results.push(courses[i])
-        }
-    }
-    if(results.length === 0)
-    {
-        return {course: results, status: 404}
-    }
-    return {course: results, status: 200}
-}
-
-export const searchCourseOfRecommend = (path, cat, author, id) => {
-    const results = []
-    for (let i = 0; i < courses.length; i++){
-        if((courses[i].path === path || courses[i].cat === cat || courses[i].author === author) && courses[i].id !== id){
-            results.push(courses[i])
-        }
-    }
-    if(results.length === 0)
-    {
-        return {course: results, status: 404}
-    }
-    return {course: results, status: 200}
+export const apiDelHistorySearch = (token, id) => {
+  return fetch(`https://api.itedu.me/course/delete-search-history/${id}`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+})
 }

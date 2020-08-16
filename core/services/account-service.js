@@ -37,17 +37,14 @@ export const apiRecommendCourses = (id, limit, offset) => {
 };
 
 export const apiProcessCourses = (token) => {
-  return fetch(
-    `https://api.itedu.me/user/get-process-courses`,
-    {
-      method: "GET",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    }
-  );
+  return fetch(`https://api.itedu.me/user/get-process-courses`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  });
 };
 
 export const apiCheckOwnCourse = (token, id) => {
@@ -72,8 +69,8 @@ export const apiChecLikeCourse = (token, id) => {
   });
 };
 
-export const apiUpdateName = (token, name, avatar, phone) => {
-  return fetch('https://api.itedu.me/user/update-profile', {
+export const apiUpdateProfile = (token, name, avatar, phone) => {
+  return fetch("https://api.itedu.me/user/update-profile", {
     method: "PUT",
     headers: {
       Accept: "application/json",
@@ -83,19 +80,32 @@ export const apiUpdateName = (token, name, avatar, phone) => {
     body: JSON.stringify({
       name: name,
       avatar: avatar,
-      phone: phone
-    })
+      phone: phone,
+    }),
   });
 };
 
-
 export const apiGetInfo = (token) => {
-  return fetch('https://api.itedu.me/user/me', {
+  return fetch("https://api.itedu.me/user/me", {
     method: "GET",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
     },
-     });
+  });
+};
+
+export const apiGetFreeCourse = (token, course_id) => {
+  return fetch("https://api.itedu.me/payment/get-free-courses", {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: JSON.stringify({
+      courseId: course_id,
+    }),
+  });
 };

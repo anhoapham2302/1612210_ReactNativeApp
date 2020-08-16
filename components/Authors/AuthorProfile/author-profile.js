@@ -10,8 +10,10 @@ import {
 import ListCourses from "../../Courses/ListCourses/list-courses";
 import { ThemeContext } from "../../../provider/theme-provider";
 import SectionCourses from "../../Main/Home/SectionCourses/section-courses";
+import { LanguageContext } from "../../../provider/language-provider";
 
 const AuthorProfile = (props) => {
+  const {language} = useContext(LanguageContext);
   const { theme } = useContext(ThemeContext);
   return (
     <ScrollView style={{ backgroundColor: theme.background }}>
@@ -28,20 +30,20 @@ const AuthorProfile = (props) => {
               Email: {props.route.params.item.email}
             </Text>
             <Text style={styles.info}>
-              Số điện thoại: {props.route.params.item.phone}
+              {language.phone}: {props.route.params.item.phone}
             </Text>
             <Text style={styles.info}>
-              Lĩnh vực chính: {props.route.params.item.major}
+              {language.field}: {props.route.params.item.major}
             </Text>
             <View style={{ flexDirection: "row" }}>
-              <Text style={styles.info}>Kỹ năng: </Text>
+              <Text style={styles.info}>{language.skill}: </Text>
 
               {props.route.params.item.skills.map((skill) => (
                 <Text style={styles.info}>{skill}, </Text>
               ))}
             </View>
           </View> 
-          <SectionCourses title = 'Courses Of Author' item = {props.route.params.item.courses} author = {props.route.params.item.name} navigation ={props.navigation}/>        
+          <SectionCourses title = {language.courseInstructor} item = {props.route.params.item.courses} author = {props.route.params.item.name} navigation ={props.navigation}/>        
           </View>
       </View>
     </ScrollView>

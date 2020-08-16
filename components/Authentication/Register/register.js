@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { Text, View, TextInput, TouchableOpacity, Alert } from "react-native";
-import Icon from "react-native-vector-icons/FontAwesome";
+import React, { useState, useEffect, useContext } from "react";
+import { Text, View, TextInput, TouchableOpacity, Alert, ActivityIndicator } from "react-native";
 import Styles from "../../../global/style";
-import { apiRegister } from "../../../core/services/auth-service";
+import Colors from "../../../global/color";
+import { register } from "../../../action/auth-action";
+import { LanguageContext } from "../../../provider/language-provider";
 const Register = (props) => {
   const onPressSignUp = () => {
     props.navigation.navigate("Main");
@@ -10,37 +11,46 @@ const Register = (props) => {
   const onPressSignIn = () => {
     props.navigation.navigate("Login");
   };
+  const {language} = useContext(LanguageContext);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [cpassword, setcPassword] = useState("");
+  const [cpassword, setcPassword] = useState(""); 
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState();
+  const [registerProcess, setRegisterProcess] = useState(false);
+
+  const checkLoading = res => {
+    if(res !== undefined)
+    {
+      setStatus(res);
+      setLoading(false);
+    }
+  }
 
   const checkInputRequired = () => {
     if (name === "") {
-      Alert.alert("Please Enter Name");
+      Alert.alert(language.pleaseName);
     } else {
       if (email === "") {
-        Alert.alert("Please Enter Email");
+        Alert.alert(language.pleaseEmail);
       } else {
         if (phone === "") {
-          Alert.alert("Please Enter Phone Number");
+          Alert.alert(language.pleasePhone);
         } else {
           if (password === "") {
-            Alert.alert("Please Enter Password");
+            Alert.alert(language.pleasePass);
           } else {
             if (cpassword === "") {
-              Alert.alert("Please Enter Confirm Password");
+              Alert.alert(language.pleaseCPass);
             } else {
                 if(password !== cpassword){
-                    Alert.alert("Password And Confirm Password Are Not Match")
+                    Alert.alert(language.notMatched)
                 }else{
-                    console.log(email);
-                    apiRegister(name, email, phone, password)
-                    .then((respone) => respone.json())
-                    .then((res) => Alert.alert(res.message))
-                    .catch((err) => console.log(err))
-                    // props.navigation.navigate("Main");
+                    setLoading(true)
+                    setRegisterProcess(true)
+                    register(name, email, phone, password, checkLoading)
                 }
             }
           }
@@ -48,42 +58,61 @@ const Register = (props) => {
       }
     }
   };
+  useEffect(() => {
+    if(loading === false && registerProcess === true){
+      setRegisterProcess(false)
+      if(status === 400){
+        Alert.alert(language.emailExisted);
+      }else{
+        if(status === 200){
+          Alert.alert(language.checkEmail);
+          props.navigation.navigate("Login");
+        }else{
+          Alert.alert(language.serverError);
+        }
+      }
+     
+    }
+  }, [loading])
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <ActivityIndicator animating={loading}/>
+  <Text style = {[Styles.title, {color: Colors.register}]}>{language.register}</Text>
+
       <TextInput
-        style={Styles.text_input}
+        style={[Styles.text_input, {borderColor: Colors.register}]}
         onChangeText={(name) => setName(name)}
-        placeholder="Name"
+        placeholder={language.name}
       />
       <TextInput
-        style={Styles.text_input}
+        style={[Styles.text_input, {borderColor: Colors.register}]}
         onChangeText={(email) => setEmail(email)}
         placeholder="Email"
       />
       <TextInput
-        style={Styles.text_input}
+        style={[Styles.text_input, {borderColor: Colors.register}]}
         onChangeText={(phone) => setPhone(phone)}
         keyboardType="number-pad"
-        placeholder="Phone number"
+        placeholder={language.phone}
       />
       <TextInput
-        style={Styles.text_input}
+        style={[Styles.text_input, {borderColor: Colors.register}]}
         onChangeText={(password) => setPassword(password)}
         secureTextEntry       
-        placeholder="Password"
+        placeholder={language.password}
       />
       <TextInput
-        style={Styles.text_input}
+        style={[Styles.text_input, {borderColor: Colors.register}]}
         onChangeText={(cpassword) => setcPassword(cpassword)}
         secureTextEntry       
-        placeholder="Confirm password"
+        placeholder={language.cpassword}
       />
       <TouchableOpacity style={Styles.button_reg} onPress={checkInputRequired}>
-        <Text style={Styles.button_text}>Sign Up</Text>
+  <Text style={Styles.button_text}>{language.register}</Text>
       </TouchableOpacity>
       <TouchableOpacity style={{ marginTop: 10 }} onPress={onPressSignIn}>
-        <Text style={{ color: "darkgrey" }}>Already have account?</Text>
+  <Text style={{ color: "darkgrey" }}>{language.haveAcc}?</Text>
       </TouchableOpacity>
     </View>
   );

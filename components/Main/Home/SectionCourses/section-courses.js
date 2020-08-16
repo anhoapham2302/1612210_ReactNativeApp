@@ -1,50 +1,65 @@
 import React, { useState, useEffect, useContext } from "react";
-import { View, Text, ScrollView, StyleSheet, Image } from "react-native";
+import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from "react-native";
 import SectionCoursesItem from "../SectionCoursesItem/section-courses-item";
 import {
-  apiCourses,
   renderTopSell,
   apiTopRated,
+  apiGetCoursesFromCat,
 } from "../../../../core/services/course-service";
 import { ThemeContext } from "../../../../provider/theme-provider";
 import { apiProcessCourses } from "../../../../core/services/account-service";
 import { AuthContext } from "../../../../provider/auth-provider";
+import { ImageButtonContext } from "../../../../provider/imageButton-provider";
+import { LanguageContext } from "../../../../provider/language-provider";
 
 const SectionCourses = (props) => {
+  const {language} = useContext(LanguageContext);
+  const {setTitle} = useContext(ImageButtonContext);
   const { theme } = useContext(ThemeContext);
   const [data, setData] = useState([]);
   const { state } = useContext(AuthContext);
+  const [isLoading, setLoading] = useState(true);
+
+
+  const onPressMore = () =>{
+    setTitle(props.title)
+    props.navigation.navigate("ListCoursesPage", {title: props.title, com: "Any", data: data})
+  }
 
   useEffect(() => {
-    if (props.title === "Top Sell") {
+    if (props.title === language.topSell) {
+      setLoading(true);
       renderTopSell()
         .then((response) => response.json())
         .then((data) => setData(data.payload))
-        .catch((error) => console.error(error));
+        .catch((error) => console.error(error))
+        .finally(() => setLoading(false));
     } else {
-      if (props.title === "Top Rate") {
+      if (props.title === language.topRate) {
+        setLoading(true);
         apiTopRated()
           .then((response) => response.json())
           .then((data) => setData(data.payload))
-          .catch((error) => console.error(error));
+          .catch((error) => console.error(error))
+          .finally(() => setLoading(false));
       } else {
-        if (props.title === "Courses Of Author") {
+        if (props.title === language.courseInstructor) {
           setData(props.item);
         } else {
-          if (props.title === "Your Courses") {
+          if (props.title === language.yourCourse) {
+            setLoading(true);
             apiProcessCourses(state.token)
               .then((response) => response.json())
-              .then((data) => 
-              {console.log(data);
+              .then((data) =>{
                 setData(data.payload)
-            }
-              )
-              .catch((error) => console.error(error));
+              } )
+              .catch((error) => console.error(error))
+              .finally(() => setLoading(false));
           } else {
-            apiCourses(props.course_id)
-              .then((response) => response.json())
-              .then((data) => setData(data.payload.rows))
-              .catch((error) => console.error(error));
+            apiGetCoursesFromCat([props.course_id])
+            .then((respone) => respone.json())
+            .then((res) => setData(res.payload.rows))
+            .finally(() => setLoading(false));
           }
         }
       }
@@ -65,8 +80,9 @@ const SectionCourses = (props) => {
         </View>
       );
     }
-    return courses.map((item) => (
+    return courses.slice(0, 5).map((item) => (
       <SectionCoursesItem
+        key={item.id.toString()}
         navigation={props.navigation}
         item={item}
         author={props.author}
@@ -76,12 +92,15 @@ const SectionCourses = (props) => {
 
   return (
     <View style={styles.view}>
-      <View>
+      <View style = {{flexDirection: 'row', justifyContent: 'space-between'}}>
         <Text
           style={{ fontWeight: "bold", fontSize: 20, color: theme.foreground }}
         >
           {props.title}
         </Text>
+        <TouchableOpacity onPress={onPressMore}>
+          <Text style = {{marginRight: 15, marginTop: 5, fontSize: 15, color: '#4DC4FF'}}>{language.more} {'>>'}</Text>
+        </TouchableOpacity>
       </View>
       <ScrollView horizontal={true}>{renderListItems(data)}</ScrollView>
     </View>

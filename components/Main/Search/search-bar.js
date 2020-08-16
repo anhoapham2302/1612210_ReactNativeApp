@@ -9,20 +9,35 @@ import {
 } from "react-native";
 import { SearchContext } from "../../../provider/search-provider";
 import { ThemeContext } from "../../../provider/theme-provider";
+import { AuthContext } from "../../../provider/auth-provider";
+import { HistorySearchContext } from "../../../provider/history-search-provider";
+import { LanguageContext } from "../../../provider/language-provider";
+import { SearchInstructorsContext } from "../../../provider/search-instructors-provider";
 
 export default function SearchBarView(props) {
+  const {language} = useContext(LanguageContext);
   const [text, setText] = useState("");
   const { theme } = useContext(ThemeContext);
+  const { state } = useContext(AuthContext);
   const searchContext = useContext(SearchContext);
+  const searchInstructorsContext = useContext(SearchInstructorsContext);
+  const { historySearch } = useContext(HistorySearchContext);
+  const historySearchContext  = useContext(HistorySearchContext);
+
   const createAlert = () => {
     Alert.alert("Text input is required.");
   };
   return (
-    <View style={{ flexDirection: "row", marginTop: 70, marginHorizontal: 17 }}>
+    <View style={{ flexDirection: "row", marginTop: 70, marginHorizontal: 15 }}>
       <TextInput
-        style={[styles.search, { color: theme.foreground }]}
-        onChangeText={(input_text) => setText(input_text)}
-        placeholder="Search input..."
+        style={[styles.search, { color: theme.foreground, borderBottomColor: theme.foreground}]}
+        onChangeText={(input_text) => {
+          setText(input_text);
+          if (input_text === "") {
+            historySearchContext.historySearchAction("COMPLETE_SEARCH")
+          }
+        }}
+        placeholder={language.searchInput}
       />
       <TouchableOpacity
         style={styles.button}
@@ -31,12 +46,14 @@ export default function SearchBarView(props) {
             if (text === "") {
               createAlert();
             } else {
-              searchContext.getCoursesSearch(text);
+              searchContext.getCoursesSearch(state.token, text, 2, 0, 1);
+              searchInstructorsContext.getInstructorsSearch(state.token, text, 2, 0, 1);
+              historySearchContext.historySearchAction("SELECT_RESULT", text)
             }
           }
         }}
       >
-        <Text style={[styles.text, { color: theme.foreground }]}>Search</Text>
+        <Text style={[styles.text, { color: theme.foreground }]}>{language.search}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -49,7 +66,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
   },
   button: {
-    width: 70,
+    width: 100,
     height: 35,
   },
   text: {

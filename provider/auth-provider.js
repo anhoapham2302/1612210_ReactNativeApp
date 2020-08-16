@@ -1,8 +1,9 @@
 import React, {useReducer} from 'react'
-import {authReducer} from '../reducer/auth-reducer'
-import { login } from '../action/auth-action'
+import {loginReducer} from '../reducer/auth-reducer'
+import { login, loginGoogle } from '../action/auth-action'
 const AuthContext = React.createContext()
 
+//login
 const initialState = {
     isAuthenticating: true,
     isAuthenticated: false,
@@ -11,8 +12,8 @@ const initialState = {
 }
 
 const AuthProvider = (props) => {
-    const [state, dispatch] = useReducer(authReducer, initialState)
-    return <AuthContext.Provider value = {{state, login: login(dispatch)}}>
+    const [state, dispatch] = useReducer(loginReducer, initialState)
+    return <AuthContext.Provider value = {{state, login: login(dispatch), loginGoogle: loginGoogle(dispatch)}}>
         {props.children}
     </AuthContext.Provider>
 }
