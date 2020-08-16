@@ -23,11 +23,11 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.hcmus.OLearning",
+      "bundleIdentifier": "com.hcmus.itedu",
       "buildNumber": "1.0.0"
     },
     "android": {
-      "package": "com.hcmus.OLearning",
+      "package": "com.hcmus.itedu",
       "versionCode": 1
     }
   }
