@@ -1,5 +1,3 @@
-import courses from "../../global/courses";
-
 export const apiGetFavoriteCourses = (token) => {
   return fetch("https://api.itedu.me/user/get-favorite-courses", {
     method: "GET",

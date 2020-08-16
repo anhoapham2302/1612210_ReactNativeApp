@@ -4,7 +4,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { ThemeContext } from "../../../provider/theme-provider";
 import { LanguageContext } from "../../../provider/language-provider";
 import { languages } from "../../../global/language";
-import { themes } from "../../../global/theme";
 
 export default function ChangeLanguage() {
   const { theme } = useContext(ThemeContext);

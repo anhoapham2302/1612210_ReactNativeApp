@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useReducer } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -21,7 +21,6 @@ import Downloads from "./components/Main/Downloads/downloads";
 import AccountProfile from "./components/Account/AccountProfile/account-profile";
 import AuthorProfile from "./components/Authors/AuthorProfile/author-profile";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import Paths from "./components/Paths/paths";
 import ChangePassword from "./components/Authentication/ChangePassword/change-password";
 import { AuthProvider, AuthContext } from "./provider/auth-provider";
 import { ThemeProvider } from "./provider/theme-provider";
@@ -38,7 +37,6 @@ import VideoMain from "./components/VideoMain/video-main";
 import { apiGetInfo } from "./core/services/account-service";
 import { HistorySearchProvider } from "./provider/history-search-provider";
 import { LanguageContext, LanguageProvider } from "./provider/language-provider";
-import { languages } from "./global/language";
 import { SearchInstructorsProvider } from "./provider/search-instructors-provider";
 import Setting from "./components/Setting/setting";
 const Tab = createBottomTabNavigator();
@@ -212,11 +210,6 @@ const HomeStack = (props) => {
         component={AuthorProfile}
         options={{ cardStyle: { backgroundColor: "#fff" }, headerShown: false }}
       />
-      <HomeNavigationStack.Screen
-        name="Paths"
-        component={Paths}
-        options={{ cardStyle: { backgroundColor: "#fff" }, headerShown: false }}
-      />
         <HomeNavigationStack.Screen
         name="ListCoursesPage"
         component={ListCoursesPage}
@@ -249,7 +242,13 @@ const DownloadsStack = (props) => {
   const { theme } = useContext(ThemeContext);
   const { state } = useContext(AuthContext);
   const [visible, setVisible] = useState(false);
-
+  useEffect(() => {
+    apiGetInfo(state.token)
+      .then((respone) => respone.json())
+      .then((res) => setData(res.payload))
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
+  }, [useIsFocused()]);
  
   const onPressProfile = () => {
     props.navigation.navigate("AccountProfile");
@@ -395,11 +394,6 @@ const DownloadsStack = (props) => {
         component={AuthorProfile}
         options={{ cardStyle: { backgroundColor: "#fff" }, headerShown: false }}
       />
-      <DownloadNavigationStack.Screen
-        name="Paths"
-        component={Paths}
-        options={{ cardStyle: { backgroundColor: "#fff" }, headerShown: false }}
-      />
     </DownloadNavigationStack.Navigator>
   );
 };
@@ -410,7 +404,13 @@ const BrowseStack = (props) => {
   const { state } = useContext(AuthContext);
   const { title } = useContext(ImageButtonContext);
   const [visible, setVisible] = useState(false);
-
+  useEffect(() => {
+    apiGetInfo(state.token)
+      .then((respone) => respone.json())
+      .then((res) => setData(res.payload))
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
+  }, [useIsFocused()]);
   const onPressProfile = () => {
     props.navigation.navigate("AccountProfile");
   };
@@ -578,11 +578,6 @@ const BrowseStack = (props) => {
           ),
         }}
       />
-      <BrowseNavigationStack.Screen
-        name="Paths"
-        component={Paths}
-        options={{ cardStyle: { backgroundColor: "#fff" }, headerShown: false }}
-      />
     </BrowseNavigationStack.Navigator>
   );
 };
@@ -616,11 +611,6 @@ const SearchStack = () => {
       <SearchNavigationStack.Screen
         name="AuthorProfile"
         component={AuthorProfile}
-        options={{ cardStyle: { backgroundColor: "#fff" }, headerShown: false }}
-      />
-      <SearchNavigationStack.Screen
-        name="Paths"
-        component={Paths}
         options={{ cardStyle: { backgroundColor: "#fff" }, headerShown: false }}
       />
     </SearchNavigationStack.Navigator>

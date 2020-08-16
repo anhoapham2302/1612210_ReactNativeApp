@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, TouchableOpacity, Image, ActivityIndicator } fr
 import Star from 'react-native-star-view';
 import { ThemeContext } from '../../../provider/theme-provider';
 import { apiAuthorDetail } from '../../../core/services/author-service';
-import { apiGetLastWatchedLesson } from '../../../core/services/course-service';
+import { apiGetLastWatchedLesson, apiCourseDetails } from '../../../core/services/course-service';
 import { AuthContext } from '../../../provider/auth-provider';
 import { ScrollView } from 'react-native-gesture-handler';
 import { LanguageContext } from '../../../provider/language-provider';
@@ -16,7 +16,40 @@ const ListCoursesItem = (props) => {
     const {state} = useContext(AuthContext);
     const [getLessonProcess, setGetLessonProcess] = useState(true);
     const [data, setData] = useState(null);
-    let star = 0;
+    const [course, setCourse] = useState([]);
+    const [starCourse, setStarCourse] = useState(0);
+    const [loadingStar, setLoadingStar] = useState(true);
+    var star = 0;
+    useEffect(() => {
+        if(props.item.process !== undefined){
+            apiCourseDetails(props.item.id)
+            .then((respone) => respone.json())
+            .then((res) => {setCourse(res.payload)}
+            )
+            .catch((err) => console.log(err))
+            .finally(() => setLoading(false))
+        }
+    }, [])
+
+    useEffect(() => {
+        if(props.item.process !== undefined && loading === false){
+            setLoadingStar(true);
+            const star_course =   Math.round(( (course.contentPoint +
+                course.formalityPoint +
+                course.presentationPoint) /
+              3)) 
+              if(star_course < 6 && star_course > 0){
+                setStarCourse(star_course);
+            }else{
+                if(star_course > 5){
+                    setStarCourse(5);
+                }else{
+                    setStarCourse(0);
+                }
+        }
+        setLoadingStar(false);
+    }
+    }, [loading])
 
     useEffect(() => {
         if(props.item.name === undefined & props.item['instructor.user.name'] === undefined){
@@ -78,7 +111,11 @@ const ListCoursesItem = (props) => {
             if(props.item.courseAveragePoint < 6 && props.item.courseAveragePoint > 0){
                 star= props.item.courseAveragePoint;
             }else{
-                star = 5;
+                if(props.item.courseAveragePoint > 5){
+                    star = 5;
+                }else{
+                    star = 0
+                }
             }
             return (<TouchableOpacity style = {styles.item}  onPress={onPressListItem}>
                 <Image source={{uri: props.item.courseImage}} style = {styles.image} />
@@ -113,7 +150,27 @@ const ListCoursesItem = (props) => {
     }
 return (
     <ScrollView>
-        {loading ? <ActivityIndicator/> : checkType()}
+        {loading ? <ActivityIndicator/> : 
+        props.item.process !== undefined  ?  loadingStar ? <ActivityIndicator/> : (<View>
+            <TouchableOpacity style = {styles.item}  onPress={onPressListItem}>
+                    <Image source={{uri: course.imageUrl}} style = {styles.image} />
+                    <View style={styles.view}>
+                    <Text numberOfLines = {1} style = {{fontSize: 17, fontWeight: 'bold', marginBottom: 1, color: theme.foreground}}>{course.title}</Text>
+                    <Text
+           style={{ fontSize: 14, color: "darkgrey" }}
+         >{props.item.instructorName}</Text>
+           <Star
+             score={
+            starCourse
+             }
+             style={styles.starStyle}
+           />
+                    <Text style = {{fontSize: 17, fontWeight: 'bold', color: '#62DDBD', marginBottom: 1}}>{course.soldNumber} {language.student}</Text>
+                    {checkPrice(course.price)}
+                    </View>
+                </TouchableOpacity>
+        </View>) :  checkType()
+       }
     </ScrollView>
     )
 }

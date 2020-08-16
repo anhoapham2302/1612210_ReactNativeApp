@@ -3,9 +3,7 @@ import { View, StyleSheet, Image, Text, TouchableOpacity } from "react-native";
 import Star from "react-native-star-view";
 import { ThemeContext } from "../../../../provider/theme-provider";
 import { AuthContext } from "../../../../provider/auth-provider";
-import { apiGetLastWatchedLesson } from "../../../../core/services/course-service";
-import { LessonContext } from "../../../../provider/lesson-provider";
-import { apiGetVideoData } from "../../../../core/services/video-service";
+import { apiGetLastWatchedLesson, apiCourseDetails } from "../../../../core/services/course-service";
 import { LanguageContext } from "../../../../provider/language-provider";
 
 const SectionCoursesItem = (props) => {
@@ -14,12 +12,43 @@ const SectionCoursesItem = (props) => {
   const {state} = useContext(AuthContext);
   const [getLessonProcess, setGetLessonProcess] = useState(true);
   const [data, setData] = useState(null);
+  const [course, setCourse] = useState(null)
+  const [starCourse, setStarCourse] = useState(0);
+  const [loadingStar, setLoadingStar] = useState(true);
 
-  let isProcessCourse = false;
-  if (props.item.process !== undefined) {
-    isProcessCourse = true;
-  }
- const star = Math.ceil(( (props.item.contentPoint +
+  const [isProcessCourse, setProcessCourse] = useState(false)
+  useEffect(() => {
+    if (props.item.process !== undefined) {
+      apiCourseDetails(props.item.id)
+      .then((respone) => respone.json())
+      .then((res) => {setCourse(res.payload)}
+      )
+      .catch((err) => console.log(err))
+      .finally(() => setProcessCourse(true))
+    }
+  }, [])
+
+  useEffect(() => {
+    if (props.item.process !== undefined && isProcessCourse === true) {
+      setLoadingStar(true);
+            const star_course =   Math.round(( (course.contentPoint +
+                course.formalityPoint +
+                course.presentationPoint) /
+              3)) 
+              if(star_course < 6 && star_course > 0){
+                setStarCourse(star_course);
+            }else{
+                if(star_course > 5){
+                    setStarCourse(5);
+                }else{
+                    setStarCourse(0);
+                }
+        }
+        setLoadingStar(false);
+    }
+  }, [isProcessCourse])
+  
+ const star = Math.round(( (props.item.contentPoint +
     props.item.formalityPoint +
     props.item.presentationPoint) /
   3));
@@ -27,7 +56,11 @@ const SectionCoursesItem = (props) => {
   if(star < 6 && star > 0){
     starShow = star
   }else{
-    starShow = 5
+    if(star > 5){
+      starShow = 5
+    }else{
+      starShow = 0
+    }
   }
   const checkName = () => {
     if (props.item.name) {
@@ -103,28 +136,49 @@ const SectionCoursesItem = (props) => {
       onPress={onPressListItem}
     >
       {isProcessCourse ? (
-        <View>
-          <Image
-            source={{ uri: props.item.courseImage }}
-            style={styles.image}
-          />
-          <View style={styles.view}>
-            <Text
-              numberOfLines={1}
-              style={{
-                fontSize: 17,
-                fontWeight: "bold",
-                marginBottom: 1,
-                color: theme.foreground,
-              }}
-            >
-              {props.item.courseTitle}
-            </Text>
-            <Text style={{ fontSize: 14, color: "darkgrey" }}>
-              {props.item.instructorName}
-            </Text>
-          </View>
-        </View>
+         <View>
+         <Image source={{ uri: course.imageUrl }} style={styles.image} />
+         <View style={styles.view}>
+           <Text
+             numberOfLines={1}
+             style={{
+               fontSize: 17,
+               fontWeight: "bold",
+               marginBottom: 1,
+               color: theme.foreground,
+             }}
+           >
+             {course.title}
+           </Text>
+           <Text
+           style={{ fontSize: 14, color: "darkgrey" }}
+         >{props.item.instructorName}</Text>
+           <Star
+             score={
+             starCourse
+             }
+             style={styles.starStyle}
+           />
+           <View
+             style={{
+               flexDirection: "row",
+               justifyContent: "space-between",
+               marginRight: 5,
+             }}
+           >
+             <Text
+               style={{
+                 fontSize: 17,
+                 fontWeight: "bold",
+                 color: "#62DDBD",
+               }}
+             >
+               {course.soldNumber} {language.student}
+             </Text>
+             {checkPrice(course.price)}
+           </View>
+         </View>
+       </View>
       ) : (
         <View>
           <Image source={{ uri: props.item.imageUrl }} style={styles.image} />
@@ -143,7 +197,7 @@ const SectionCoursesItem = (props) => {
             {checkName()}
             <Star
               score={
-               starShow
+              starShow
               }
               style={styles.starStyle}
             />

@@ -50,7 +50,7 @@ export const languages = {
       serverError: 'Hệ thống bị lỗi, thử lại',
       buyCofirm: 'Bạn muốn tham gia khóa học?',
       cancel: 'Hủy',
-      ok: 'Chập nhận',
+      ok: 'Chấp nhận',
       profile: 'Quản lý tài khoản',
       setting: 'Cấu hình ứng dụng',
       logOut: 'Đăng xuất',

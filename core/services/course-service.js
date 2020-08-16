@@ -1,7 +1,3 @@
-import courses from "../../global/courses"
-import { useContext, useState, useEffect} from "react"
-import { BookmarkContext } from "../../provider/bookmark-provider"
-
 export const apiGetAllCat = () => {
     return fetch('https://api.itedu.me/category/all', {
         method: 'GET',

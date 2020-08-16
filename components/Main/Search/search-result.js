@@ -3,7 +3,6 @@ import {
   StyleSheet,
   Text,
   View,
-  ScrollView,
   ActivityIndicator,
   Dimensions,
 } from "react-native";
@@ -12,7 +11,6 @@ import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import { SearchContext } from "../../../provider/search-provider";
 import { ThemeContext } from "../../../provider/theme-provider";
 import ListCourses from "../../Courses/ListCourses/list-courses";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { HistorySearchContext } from "../../../provider/history-search-provider";
 import { AuthContext } from "../../../provider/auth-provider";
 import AuthorListSearch from "../../Authors/AuthorListSearch/author-list-search";

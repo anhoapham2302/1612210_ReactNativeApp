@@ -10,7 +10,6 @@ import ListCourses from "../ListCourses/list-courses";
 import { apiNewRelease } from "../../../core/services/course-service";
 import { apiRecommendCourses } from "../../../core/services/account-service";
 import { AuthContext } from "../../../provider/auth-provider";
-import courses from "../../../global/courses";
 import { LanguageContext } from "../../../provider/language-provider";
 
 export default function ListCoursesPage(props) {

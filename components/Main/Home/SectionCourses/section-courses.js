@@ -19,14 +19,7 @@ const SectionCourses = (props) => {
   const [data, setData] = useState([]);
   const { state } = useContext(AuthContext);
   const [isLoading, setLoading] = useState(true);
-  
-  // const coursesFromCat = res => {
-  //   if(res !== undefined)
-  //   {
-  //     setData(res.payload.rows);
-  //     setLoading(false);
-  //   }
-  // }
+
 
   const onPressMore = () =>{
     setTitle(props.title)
@@ -57,7 +50,9 @@ const SectionCourses = (props) => {
             setLoading(true);
             apiProcessCourses(state.token)
               .then((response) => response.json())
-              .then((data) => setData(data.payload))
+              .then((data) =>{
+                setData(data.payload)
+              } )
               .catch((error) => console.error(error))
               .finally(() => setLoading(false));
           } else {

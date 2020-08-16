@@ -215,7 +215,6 @@ const AccountProfile = (props) => {
               {language.update}
              </Button>
               </View>             
-          <SectionCourses title={language.yourCourse} navigation={props.navigation} />
         </View>
       </View>
       <Button

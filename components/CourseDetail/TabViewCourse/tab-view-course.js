@@ -30,6 +30,8 @@ import {
 } from "../../../core/services/course-service";
 import Star from "react-native-star-view/lib/Star";
 import { apiGetVideoData } from "../../../core/services/video-service";
+import { color } from "react-native-reanimated";
+import { themes } from "../../../global/theme";
 
 const initialLayout = { width: Dimensions.get("window").width };
 
@@ -375,16 +377,16 @@ export default function TabViewCourse(props) {
           <View
             style={[styles.modalView, { backgroundColor: theme.background }]}
           >
-            <Text style={styles.text}>{language.buyCofirm}</Text>
+            <Text style={[styles.text, {color: theme.foreground}]}>{language.buyCofirm}</Text>
             <View style={{ flexDirection: "row", marginTop: 20 }}>
               <TouchableOpacity
                 onPress={() => setModelVisible(false)}
                 style={{ marginRight: 25 }}
               >
-                <Text style={styles.text}>{language.cancel}</Text>
+                <Text style={[styles.text, {color: theme.foreground}]}>{language.cancel}</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={getFreeCourse}>
-                <Text style={styles.text}>{language.ok}</Text>
+                <Text style={[styles.text, {color: theme.foreground}]}>{language.ok}</Text>
               </TouchableOpacity>
             </View>
           </View>
