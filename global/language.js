@@ -100,7 +100,8 @@ export const languages = {
       presentationPoint: 'Điểm trình bày',
       comment: 'Bình luận',
       ratingSuccess: 'Đánh giá thành công',
-      ratingFail: 'Đánh giá thất bại'
+      ratingFail: 'Đánh giá thất bại',
+      timeLearn: 'Số giờ đã học',
     },
     en: {
       haveAcc: 'Already have account',
@@ -203,7 +204,8 @@ export const languages = {
         presentationPoint: 'Presentation point',
         comment: 'Comment',
         ratingSuccess: 'Success',
-        ratingFail: 'Rating failed'
+        ratingFail: 'Rating failed',
+        timeLearn: 'Hours learn',
     },
   };
   

@@ -231,18 +231,7 @@ export default function SearchResult(props) {
       <Text style={{ marginLeft: 15, marginTop: 5, color: "red" }}>
         {language.searchResult} '{historySearch.text}'
       </Text>
-      <View style={{ backgroundColor: theme.background, marginBottom: 15 }}>
-        {search_results.coursesCount === 0 ? (
-          <Text style={[styles.text, { color: theme.foreground }]}>
-            {language.emptySearch}
-          </Text>
-        ) : search_results.isFirst ? (
-          <View></View>
-        ) : search_results.isLoading ? (
-          <ActivityIndicator />
-        ) : (
-          <View>
-            <Text
+      <Text
               style={{
                 color: theme.foreground,
                 fontSize: 20,
@@ -253,6 +242,17 @@ export default function SearchResult(props) {
             >
               {language.course}
             </Text>
+      <View style={{ backgroundColor: theme.background, marginBottom: 15 }}>
+        {search_results.coursesCount === 0 ? (
+          <Text style={[styles.text, { color: theme.foreground }]}>
+            {language.emptySearch}
+          </Text>
+        ) : search_results.isFirst ? (
+            <Text></Text>
+        ) : search_results.isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <View>
             <ListCourses
               item={search_results.courses}
               navigation={props.navigation}
@@ -286,13 +286,7 @@ export default function SearchResult(props) {
         )}
       </View>
       <View>
-        {search_instructors_results.instructorsCount === 0 ? (
-          <Text style={[styles.text, { color: theme.foreground }]}>
-            {language.emptySearch}
-          </Text>
-        ) : (
-          <View>
-            <Text
+      <Text
               style={{
                 color: theme.foreground,
                 fontSize: 20,
@@ -303,6 +297,13 @@ export default function SearchResult(props) {
             >
               {language.instructor}
             </Text>
+        {search_instructors_results.instructorsCount === 0 ? (
+          <Text style={[styles.text, { color: theme.foreground }]}>
+            {language.emptySearch}
+          </Text>
+        ) : (
+          <View>
+        
             <AuthorListSearch navigation={props.navigation} />
             <View style={styles.pagination}>
               {instructorsPageCount === 0 ? (
