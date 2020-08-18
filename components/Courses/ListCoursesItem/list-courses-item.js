@@ -123,7 +123,7 @@ const ListCoursesItem = (props) => {
                 <Text numberOfLines = {1} style = {{fontSize: 17, fontWeight: 'bold', marginBottom: 1, color: theme.foreground}}>{props.item.courseTitle}</Text>
                 <Text style = {{fontSize:14, color: 'darkgrey', marginBottom: 1}}>{`${props.item.instructorName}`}</Text>
                 <Star score={star} style={styles.starStyle}/>    
-            <Text style = {{fontSize: 17, fontWeight: 'bold', color: '#62DDBD', marginBottom: 1}}>{props.item.courseSoldNumber}{language.student}</Text>
+            <Text style = {{fontSize: 17, fontWeight: 'bold', color: '#62DDBD', marginBottom: 1}}>{props.item.courseSoldNumber} {language.student}</Text>
                 {checkPrice(props.item.coursePrice)}
                 </View>
             </TouchableOpacity>)

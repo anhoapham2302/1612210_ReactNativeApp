@@ -185,7 +185,7 @@ export default function TabViewCourse(props) {
             {calTime ? (
               <ActivityIndicator />
             ) : (
-              <Text style={{ marginLeft: 10, marginTop: 5, fontSize: 17 }}>
+              <Text style={{ marginLeft: 10, marginTop: 5, fontSize: 17, color: theme.foreground}}>
                 {language.timeLearn}: {Math.ceil(time * 100)/100}/{props.data.totalHours} {language.hour}
               </Text>
             )}

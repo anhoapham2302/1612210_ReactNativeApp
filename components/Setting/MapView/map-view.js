@@ -10,16 +10,16 @@ export default function Map() {
   const { theme } = useContext(ThemeContext);
   const { language } = useContext(LanguageContext);
   const [mapVisible, setMapVisible] = useState(false);
-  const onPressButton = () => {
-      if(mapVisible === true){
-          setMapVisible(false)
-      }else{
-          setMapVisible(true)
-      }
-  };
+  // const onPressButton = () => {
+  //     if(mapVisible === true){
+  //         setMapVisible(false)
+  //     }else{
+  //         setMapVisible(true)
+  //     }
+  // };
   return (
     <View style={{ marginBottom: 10 }}>
-      <TouchableOpacity onPress={onPressButton}
+      <TouchableOpacity
         style={{ borderBottomWidth: 0.5, borderBottomColor: theme.foreground }}
       >
         <Text
@@ -41,7 +41,6 @@ export default function Map() {
           </Text>
         </View>
       </TouchableOpacity>
-      {mapVisible ? <MapView style={styles.mapStyle} /> : <View></View>}
     </View>
   );
 }
