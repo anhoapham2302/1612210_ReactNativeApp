@@ -24,17 +24,11 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.hcmus.itedu",
-      "buildNumber": "1.0.0",
-      "config": {
-        "googleSignIn": {
-          "reservedClientId": "1066996670312-cb0e4det3crugln5i3gksvnj7b1k0lnf.apps.googleusercontent.com"
-        }
-      }
+      "buildNumber": "1.0.0"
     },
     "android": {
       "package": "com.hcmus.itedu",
-      "versionCode": 1,
-      "googleServicesFile": "./android_googleService.json"
+      "versionCode": 1
     }
   }
 }
