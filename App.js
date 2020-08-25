@@ -53,9 +53,7 @@ const HomeStack = (props) => {
   const { state } = useContext(AuthContext);
   const [visible, setVisible] = useState(false);
   const { title } = useContext(ImageButtonContext);
-  const [data, setData] = useState();
-  const [loading, setLoading] = useState(true);
-
+ 
   const onPressProfile = () => {
     props.navigation.navigate("AccountProfile");
   };
@@ -64,13 +62,20 @@ const HomeStack = (props) => {
     props.navigation.navigate("Setting");
   }
 
+  const [data, setData] = useState();
+  const [loading, setLoading] = useState(true);
+
+  var isFocus = useIsFocused();
   useEffect(() => {
-    apiGetInfo(state.token)
-      .then((respone) => respone.json())
-      .then((res) => setData(res.payload))
-      .catch((err) => console.log(err))
-      .finally(() => setLoading(false));
-  }, [useIsFocused()]);
+    if(isFocus === true){
+      setLoading(true);
+      apiGetInfo(state.token)
+        .then((respone) => respone.json())
+        .then((res) => setData(res.payload))
+        .catch((err) => console.log(err))
+        .finally(() => setLoading(false));
+    }
+  }, [isFocus]);
 
   return (
     <HomeNavigationStack.Navigator initialRouteName="Home">
@@ -247,13 +252,21 @@ const DownloadsStack = (props) => {
   const { theme } = useContext(ThemeContext);
   const { state } = useContext(AuthContext);
   const [visible, setVisible] = useState(false);
+  const [data, setData] = useState();
+  const [loading, setLoading] = useState(true);
+
+  var isFocus = useIsFocused();
   useEffect(() => {
-    apiGetInfo(state.token)
-      .then((respone) => respone.json())
-      .then((res) => setData(res.payload))
-      .catch((err) => console.log(err))
-      .finally(() => setLoading(false));
-  }, [useIsFocused()]);
+    if(isFocus === true){
+      setLoading(true);
+      apiGetInfo(state.token)
+        .then((respone) => respone.json())
+        .then((res) => setData(res.payload))
+        .catch((err) => console.log(err))
+        .finally(() => setLoading(false));
+    }
+  }, [isFocus]);
+
  
   const onPressProfile = () => {
     props.navigation.navigate("AccountProfile");
@@ -286,17 +299,18 @@ const DownloadsStack = (props) => {
           ),
           headerRight: () => (
             <View>
-              <TouchableOpacity
-                onPress={() => {
-                  setVisible(true);
-                }}
-                style={{ marginRight: 20 }}
-              >
-                <Image
-                  source={{ uri: state.userInfo.avatar }}
-                  style={styles.image}
-                />
-              </TouchableOpacity>
+              {loading ? (
+                <ActivityIndicator />
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                    setVisible(true);
+                  }}
+                  style={{ marginRight: 20 }}
+                >
+                  <Image source={{ uri: data.avatar }} style={styles.image} />
+                </TouchableOpacity>
+              )}
 
               <Modal animationType="fade" transparent={true} visible={visible}>
                 <View
@@ -306,16 +320,21 @@ const DownloadsStack = (props) => {
                     marginRight: 20,
                   }}
                 >
-                  <TouchableOpacity
-                    onPress={() => {
-                      setVisible(false);
-                    }}
-                  >
-                    <Image
-                      source={{ uri: state.userInfo.avatar }}
-                      style={styles.image}
-                    />
-                  </TouchableOpacity>
+                  
+                  {loading ? (
+                <ActivityIndicator />
+              ) : (
+                <TouchableOpacity
+                onPress={() => {
+                  setVisible(false);
+                }}
+              >
+                <Image
+                  source={{ uri: data.avatar }}
+                  style={styles.image}
+                />
+              </TouchableOpacity>
+              )}
                   <View
                     style={[
                       styles.box,
@@ -334,10 +353,11 @@ const DownloadsStack = (props) => {
                     >
                       <Text style={[styles.text]}>{language.profile}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ marginTop: 10 }} onPress={() => {
-                        onPressSetting();
-                        setVisible(false);
-                      }}>
+                    <TouchableOpacity style={{ marginTop: 10 }} 
+                     onPress={() => {
+                      onPressSetting();
+                      setVisible(false);
+                    }}>
                       <Text style={[styles.text]}>{language.setting}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
@@ -347,7 +367,7 @@ const DownloadsStack = (props) => {
                       }}
                     >
                       <Text style={[styles.text, { color: "#E74C3C" }]}>
-                       {language.logOut}
+                        {language.logOut}
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -409,13 +429,21 @@ const BrowseStack = (props) => {
   const { state } = useContext(AuthContext);
   const { title } = useContext(ImageButtonContext);
   const [visible, setVisible] = useState(false);
+  const [data, setData] = useState();
+  const [loading, setLoading] = useState(true);
+
+  var isFocus = useIsFocused();
   useEffect(() => {
-    apiGetInfo(state.token)
-      .then((respone) => respone.json())
-      .then((res) => setData(res.payload))
-      .catch((err) => console.log(err))
-      .finally(() => setLoading(false));
-  }, [useIsFocused()]);
+    if(isFocus === true){
+      setLoading(true);
+      apiGetInfo(state.token)
+        .then((respone) => respone.json())
+        .then((res) => setData(res.payload))
+        .catch((err) => console.log(err))
+        .finally(() => setLoading(false));
+    }
+  }, [isFocus]);
+
   const onPressProfile = () => {
     props.navigation.navigate("AccountProfile");
   };
@@ -447,17 +475,18 @@ const BrowseStack = (props) => {
           ),
           headerRight: () => (
             <View>
-              <TouchableOpacity
-                onPress={() => {
-                  setVisible(true);
-                }}
-                style={{ marginRight: 20 }}
-              >
-                <Image
-                  source={{ uri: state.userInfo.avatar }}
-                  style={styles.image}
-                />
-              </TouchableOpacity>
+              {loading ? (
+                <ActivityIndicator />
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                    setVisible(true);
+                  }}
+                  style={{ marginRight: 20 }}
+                >
+                  <Image source={{ uri: data.avatar }} style={styles.image} />
+                </TouchableOpacity>
+              )}
 
               <Modal animationType="fade" transparent={true} visible={visible}>
                 <View
@@ -467,16 +496,21 @@ const BrowseStack = (props) => {
                     marginRight: 20,
                   }}
                 >
-                  <TouchableOpacity
-                    onPress={() => {
-                      setVisible(false);
-                    }}
-                  >
-                    <Image
-                      source={{ uri: state.userInfo.avatar }}
-                      style={styles.image}
-                    />
-                  </TouchableOpacity>
+                  
+                  {loading ? (
+                <ActivityIndicator />
+              ) : (
+                <TouchableOpacity
+                onPress={() => {
+                  setVisible(false);
+                }}
+              >
+                <Image
+                  source={{ uri: data.avatar }}
+                  style={styles.image}
+                />
+              </TouchableOpacity>
+              )}
                   <View
                     style={[
                       styles.box,
@@ -495,11 +529,12 @@ const BrowseStack = (props) => {
                     >
                       <Text style={[styles.text]}>{language.profile}</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{ marginTop: 10 }}>
-                    <Text style={[styles.text]}   onPress={() => {
-                        onPressSetting();
-                        setVisible(false);
-                      }}>{language.setting}</Text>
+                    <TouchableOpacity style={{ marginTop: 10 }} 
+                     onPress={() => {
+                      onPressSetting();
+                      setVisible(false);
+                    }}>
+                      <Text style={[styles.text]}>{language.setting}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                       style={{ marginTop: 10 }}
