@@ -9,6 +9,7 @@ Hướng dẫn chạy và cài đặt ứng dụng:
 - Bước 3.1: Nếu lỗi version mismatch thì sử dụng lệnh "yarn cache clean" sau đó "yarn install" rồi thực iện lại bước 2.
 - Bước 4: Dùng ứng dụng expo trên điện thoại android để quét QR code của expo được hiển thị trên trình duyệt sau bước 2.
 - Bước 5: Xem video demo ứng dụng tại link bên dưới.
+
 Lưu ý: Trong code thì component home.js là "danh mục" còn browse.js là "trang chủ" vì do sự thay đổi về yêu cầu giao diện.
 ------------------------------------------------------
 Deadline 1: Mock-up UI/UX cho toàn bộ ứng dụng
