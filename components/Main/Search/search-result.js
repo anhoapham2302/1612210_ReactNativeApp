@@ -22,26 +22,35 @@ export default function SearchResult(props) {
   const { search_results } = useContext(SearchContext);
   const { historySearch } = useContext(HistorySearchContext);
   const { theme } = useContext(ThemeContext);
-  const pageCount = Math.ceil(search_results.coursesCount / 2);
   const [page, setPage] = useState(1);
   const [index, setIndex] = useState(0);
   const [buttonPrevDisable, setButtonPrevDisable] = useState(false);
   const [buttonNextDisable, setButtonNextDisable] = useState(false);
-  const instructorsPageCount = Math.ceil(search_results.instructorsCount / 2);
   const [pageInstructors, setPageInstructors] = useState(1);
   const [buttonInsPrevDisable, setButtonInsPrevDisable] = useState(false);
   const [buttonInsNextDisable, setButtonInsNextDisable] = useState(false);
   const [courses, setCourses] = useState([]);
   const [instructors, setInstructors] = useState([]);
 
-  useEffect(() => {
-    console.log(search_results);
-    setPage(1);
-    setCourses(search_results.courses.slice(0, 2));
+  const [pageCount, setPageCount] = useState();
+  const [instructorsPageCount, setInstructorsPageCount] = useState();
 
-    setPageInstructors(1);
-    setInstructors(search_results.instructors.slice(0, 2));
-  }, []);
+  useEffect(() => {
+    if(search_results.isLoading === true){
+      setCourses([]);
+      setInstructors([]);
+      setPageCount(0)
+      setInstructorsPageCount(0);
+    }else{
+      setPage(1);
+      setCourses(search_results.courses.slice(0, 2));
+      setPageCount(Math.ceil(search_results.coursesCount / 2))
+
+      setPageInstructors(1);
+      setInstructors(search_results.instructors.slice(0, 2));
+      setInstructorsPageCount(Math.ceil(search_results.instructorsCount / 2));
+    }
+  }, [search_results.isLoading])
 
   useEffect(() => {
     if (page === 1) {
@@ -49,12 +58,25 @@ export default function SearchResult(props) {
     } else {
       setButtonPrevDisable(false);
     }
-    if (page === pageCount || pageCount === 1) {
+    if (page === pageCount) {
       setButtonNextDisable(true);
     } else {
       setButtonNextDisable(false);
     }
   }, [page]);
+
+  useEffect(() => {
+    if (page === 1) {
+      setButtonPrevDisable(true);
+    } else {
+      setButtonPrevDisable(false);
+    }
+    if (page === pageCount) {
+      setButtonNextDisable(true);
+    } else {
+      setButtonNextDisable(false);
+    }
+  }, [pageCount])
 
   useEffect(() => {
     if (pageInstructors === 1) {
@@ -63,14 +85,27 @@ export default function SearchResult(props) {
       setButtonInsPrevDisable(false);
     }
     if (
-      pageInstructors === instructorsPageCount ||
-      instructorsPageCount === 1
-    ) {
+      pageInstructors === instructorsPageCount) {
       setButtonInsNextDisable(true);
     } else {
       setButtonInsNextDisable(false);
     }
   }, [pageInstructors]);
+
+  useEffect(() => {
+    if (pageInstructors === 1) {
+      setButtonInsPrevDisable(true);
+    } else {
+      setButtonInsPrevDisable(false);
+    }
+    if (
+      pageInstructors === instructorsPageCount) {
+      setButtonInsNextDisable(true);
+    } else {
+      setButtonInsNextDisable(false);
+    }
+  }, [instructorsPageCount]);
+
 
   const onNextButton = () => {
     if (page < pageCount) {
@@ -173,11 +208,7 @@ export default function SearchResult(props) {
           ) : (
             <ListCourses item={courses} navigation={props.navigation} />
           )}
-
           <View style={styles.pagination}>
-            {pageCount === 0 ? (
-              <ActivityIndicator />
-            ) : (
               <View style={styles.pagination}>
                 <IconButton
                   icon="chevron-left"
@@ -197,7 +228,6 @@ export default function SearchResult(props) {
                   disabled={buttonNextDisable}
                 />
               </View>
-            )}
           </View>
         </View>
       )}
@@ -242,7 +272,7 @@ export default function SearchResult(props) {
             />
           )}
           <View style={styles.pagination}>
-            {instructorsPageCount === 0 ? (
+            {instructorsPageCount === -0 ? (
               <ActivityIndicator />
             ) : (
               <View style={styles.pagination}>
@@ -298,7 +328,7 @@ export default function SearchResult(props) {
           </Text>
         ) : (
           <View>
-            {courses.length === 0 ? (
+            {courses.length === -0 ? (
               <ListCourses
                 item={search_results.courses.slice(0, 2)}
                 navigation={props.navigation}
@@ -352,7 +382,7 @@ export default function SearchResult(props) {
             <View></View>
           ) : search_results.isLoading ? (
             <ActivityIndicator />
-          ) : search_results.instructorsCount === 0 ? (
+          ) : search_results.instructorsCount === -0 ? (
             <Text style={[styles.text, { color: theme.foreground }]}>
               {language.emptySearch}
             </Text>

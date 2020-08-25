@@ -1,6 +1,7 @@
 import { apiSearchCourses } from "../core/services/search-service";
 
 export const getCoursesSearch = (dispatch) => (token, input_text, limit, offset, coursesPage) => {
+  dispatch({type: "SEARCH_REQUEST"})
   apiSearchCourses(token, input_text, limit, offset)
     .then((response) => response.json())
     .then((data) => {

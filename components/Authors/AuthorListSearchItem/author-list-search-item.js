@@ -36,7 +36,7 @@ export default function AuthorListSearchItem(props) {
             <Image source={{ uri: data.avatar }} style={styles.image} />
             <View style={{flexDirection: 'column', marginTop: 15, marginLeft: 5}}>
             <Text style = {{fontSize: 17, color: theme.foreground, fontWeight: 'bold'}}>{data.name}</Text>
-            <Text style = {{color: 'darkgrey'}}>{language.course} {data.totalCourse}</Text>
+            <Text style = {{color: 'darkgrey'}}>{language.course}: {data.totalCourse}</Text>
             </View>
             </View>
 
