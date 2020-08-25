@@ -5,15 +5,10 @@ import AuthorListSearchItem from '../AuthorListSearchItem/author-list-search-ite
 import { SearchInstructorsContext } from '../../../provider/search-instructors-provider';
 
 export default function AuthorListSearch(props) {
-    const {search_instructors_results} = useContext(SearchInstructorsContext);
     const [data, setData] = useState([]);
     
     useEffect(() => {
-        if(props.com === "ListAuthor"){
-            setData(props.data)
-        }else{
-            setData(search_instructors_results.instructors)
-        }
+        setData(props.data)
     }, [])
     
     const renderSeparator = () => {

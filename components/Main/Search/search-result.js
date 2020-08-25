@@ -12,10 +12,8 @@ import { SearchContext } from "../../../provider/search-provider";
 import { ThemeContext } from "../../../provider/theme-provider";
 import ListCourses from "../../Courses/ListCourses/list-courses";
 import { HistorySearchContext } from "../../../provider/history-search-provider";
-import { AuthContext } from "../../../provider/auth-provider";
 import AuthorListSearch from "../../Authors/AuthorListSearch/author-list-search";
 import { LanguageContext } from "../../../provider/language-provider";
-import { SearchInstructorsContext } from "../../../provider/search-instructors-provider";
 
 const initialLayout = { width: Dimensions.get("window").width };
 
@@ -23,34 +21,27 @@ export default function SearchResult(props) {
   const { language } = useContext(LanguageContext);
   const { search_results } = useContext(SearchContext);
   const { historySearch } = useContext(HistorySearchContext);
-  const { search_instructors_results } = useContext(SearchInstructorsContext);
-  const searchInstructorsContext = useContext(SearchInstructorsContext);
-  const searchContext = useContext(SearchContext);
   const { theme } = useContext(ThemeContext);
-  const { state } = useContext(AuthContext);
   const pageCount = Math.ceil(search_results.coursesCount / 2);
   const [page, setPage] = useState(1);
   const [index, setIndex] = useState(0);
   const [buttonPrevDisable, setButtonPrevDisable] = useState(false);
   const [buttonNextDisable, setButtonNextDisable] = useState(false);
-  const instructorsPageCount = Math.ceil(
-    search_instructors_results.instructorsCount / 2
-  );
+  const instructorsPageCount = Math.ceil(search_results.instructorsCount / 2);
   const [pageInstructors, setPageInstructors] = useState(1);
   const [buttonInsPrevDisable, setButtonInsPrevDisable] = useState(false);
   const [buttonInsNextDisable, setButtonInsNextDisable] = useState(false);
+  const [courses, setCourses] = useState([]);
+  const [instructors, setInstructors] = useState([]);
 
   useEffect(() => {
-    if (search_results.coursesPage === 1) {
-      setPage(1);
-    }
-  }, [search_results.coursesPage]);
+    console.log(search_results);
+    setPage(1);
+    setCourses(search_results.courses.slice(0, 2));
 
-  useEffect(() => {
-    if (search_instructors_results.instructorsPage === 1) {
-      setPageInstructors(1);
-    }
-  }, [search_instructors_results.instructorsPage]);
+    setPageInstructors(1);
+    setInstructors(search_results.instructors.slice(0, 2));
+  }, []);
 
   useEffect(() => {
     if (page === 1) {
@@ -83,38 +74,46 @@ export default function SearchResult(props) {
 
   const onNextButton = () => {
     if (page < pageCount) {
-      searchContext.getCoursesSearch(
-        state.token,
-        historySearch.text,
-        2,
-        2 * page,
-        page + 1
-      );
+      // searchContext.getCoursesSearch(
+      //   state.token,
+      //   historySearch.text,
+      //   2,
+      //   2 * page,
+      //   page + 1
+      // );
+      setCourses(search_results.courses.slice(page * 2, page * 2 + 2));
       setPage(page + 1);
     }
   };
 
   const onPrevButton = () => {
     if (page > 1) {
-      searchContext.getCoursesSearch(
-        state.token,
-        historySearch.text,
-        2,
-        2 * page - 4,
-        page - 1
-      );
+      // searchContext.getCoursesSearch(
+      //   state.token,
+      //   historySearch.text,
+      //   2,
+      //   2 * page - 4,
+      //   page - 1
+      // );
+      setCourses(search_results.courses.slice(page * 2 - 4, page * 2 - 2));
       setPage(page - 1);
     }
   };
 
   const onInsNextButton = () => {
     if (pageInstructors < instructorsPageCount) {
-      searchInstructorsContext.getInstructorsSearch(
-        state.token,
-        historySearch.text,
-        2,
-        pageInstructors * 2,
-        pageInstructors + 1
+      // searchInstructorsContext.getInstructorsSearch(
+      //   state.token,
+      //   historySearch.text,
+      //   2,
+      //   pageInstructors * 2,
+      //   pageInstructors + 1
+      // );
+      setInstructors(
+        search_results.instructors.slice(
+          pageInstructors * 2,
+          pageInstructors * 2 + 2
+        )
       );
       setPageInstructors(pageInstructors + 1);
     }
@@ -122,12 +121,19 @@ export default function SearchResult(props) {
 
   const onInsPrevButton = () => {
     if (pageInstructors > 1) {
-      searchInstructorsContext.getInstructorsSearch(
-        state.token,
-        historySearch.text,
-        2,
-        2 * pageInstructors - 4,
-        pageInstructors - 1
+      // searchInstructorsContext.getInstructorsSearch(
+      //   state.token,
+      //   historySearch.text,
+      //   2,
+      //   2 * pageInstructors - 4,
+      //   pageInstructors - 1
+      // );
+
+      setInstructors(
+        search_results.instructors.slice(
+          pageInstructors * 2 - 4,
+          pageInstructors * 2 - 2
+        )
       );
       setPageInstructors(pageInstructors - 1);
     }
@@ -138,20 +144,36 @@ export default function SearchResult(props) {
       <Text style={{ marginLeft: 15, marginTop: 5, color: "red" }}>
         {language.searchResult} '{historySearch.text}'
       </Text>
-      {search_results.coursesCount === 0 ? (
-        <Text style={[styles.text, { color: theme.foreground }]}>
-          {language.emptySearch}
-        </Text>
-      ) : search_results.isFirst ? (
+      <Text
+        style={{
+          color: theme.foreground,
+          fontSize: 20,
+          paddingLeft: 15,
+          marginTop: 5,
+          width: "100%",
+        }}
+      >
+        {language.course} ({search_results.coursesCount})
+      </Text>
+      {search_results.isFirst ? (
         <View></View>
       ) : search_results.isLoading ? (
         <ActivityIndicator />
+      ) : search_results.coursesCount === 0 ? (
+        <Text style={[styles.text, { color: theme.foreground }]}>
+          {language.emptySearch}
+        </Text>
       ) : (
         <View>
-          <ListCourses
-            item={search_results.courses}
-            navigation={props.navigation}
-          />
+          {courses.length === 0 ? (
+            <ListCourses
+              item={search_results.courses.slice(0, 2)}
+              navigation={props.navigation}
+            />
+          ) : (
+            <ListCourses item={courses} navigation={props.navigation} />
+          )}
+
           <View style={styles.pagination}>
             {pageCount === 0 ? (
               <ActivityIndicator />
@@ -187,13 +209,38 @@ export default function SearchResult(props) {
       <Text style={{ marginLeft: 15, marginTop: 5, color: "red" }}>
         {language.searchResult} '{historySearch.text}'
       </Text>
-      {search_instructors_results.instructorsCount === 0 ? (
+      <Text
+        style={{
+          color: theme.foreground,
+          fontSize: 20,
+          paddingLeft: 15,
+          marginTop: 5,
+          width: "100%",
+        }}
+      >
+        {language.instructor} ({search_results.instructorsCount})
+      </Text>
+      {search_results.isFirst ? (
+        <View></View>
+      ) : search_results.isLoading ? (
+        <ActivityIndicator />
+      ) : search_results.instructorsCount === 0 ? (
         <Text style={[styles.text, { color: theme.foreground }]}>
           {language.emptySearch}
         </Text>
       ) : (
         <View>
-          <AuthorListSearch navigation={props.navigation} />
+          {courses.length === 0 ? (
+            <AuthorListSearch
+              data={search_results.instructors.slice(0, 2)}
+              navigation={props.navigation}
+            />
+          ) : (
+            <AuthorListSearch
+              data={instructors}
+              navigation={props.navigation}
+            />
+          )}
           <View style={styles.pagination}>
             {instructorsPageCount === 0 ? (
               <ActivityIndicator />
@@ -230,31 +277,36 @@ export default function SearchResult(props) {
         {language.searchResult} '{historySearch.text}'
       </Text>
       <Text
-              style={{
-                color: theme.foreground,
-                fontSize: 20,
-                paddingLeft: 15,
-                marginTop: 5,
-                width: "100%",
-              }}
-            >
-              {language.course}
-            </Text>
-      <View style={{ backgroundColor: theme.background, marginBottom: 15 }}>
-        {search_results.coursesCount === 0 ? (
+        style={{
+          color: theme.foreground,
+          fontSize: 20,
+          paddingLeft: 15,
+          marginTop: 5,
+          width: "100%",
+        }}
+      >
+        {language.course} ({search_results.coursesCount})
+      </Text>
+      <View style={{ backgroundColor: theme.background }}>
+        {search_results.isFirst ? (
+          <View></View>
+        ) : search_results.isLoading ? (
+          <ActivityIndicator />
+        ) : search_results.coursesCount === 0 ? (
           <Text style={[styles.text, { color: theme.foreground }]}>
             {language.emptySearch}
           </Text>
-        ) : search_results.isFirst ? (
-            <Text></Text>
-        ) : search_results.isLoading ? (
-          <ActivityIndicator />
         ) : (
           <View>
-            <ListCourses
-              item={search_results.courses}
-              navigation={props.navigation}
-            />
+            {courses.length === 0 ? (
+              <ListCourses
+                item={search_results.courses.slice(0, 2)}
+                navigation={props.navigation}
+              />
+            ) : (
+              <ListCourses item={courses} navigation={props.navigation} />
+            )}
+
             <View style={styles.pagination}>
               {pageCount === 0 ? (
                 <ActivityIndicator />
@@ -284,52 +336,67 @@ export default function SearchResult(props) {
         )}
       </View>
       <View>
-      <Text
-              style={{
-                color: theme.foreground,
-                fontSize: 20,
-                paddingLeft: 15,
-                marginTop: 5,
-                width: "100%",
-              }}
-            >
-              {language.instructor}
+        <Text
+          style={{
+            color: theme.foreground,
+            fontSize: 20,
+            paddingLeft: 15,
+            marginTop: 5,
+            width: "100%",
+          }}
+        >
+          {language.instructor} ({search_results.instructorsCount})
+        </Text>
+        <View>
+          {search_results.isFirst ? (
+            <View></View>
+          ) : search_results.isLoading ? (
+            <ActivityIndicator />
+          ) : search_results.instructorsCount === 0 ? (
+            <Text style={[styles.text, { color: theme.foreground }]}>
+              {language.emptySearch}
             </Text>
-        {search_instructors_results.instructorsCount === 0 ? (
-          <Text style={[styles.text, { color: theme.foreground }]}>
-            {language.emptySearch}
-          </Text>
-        ) : (
-          <View>
-        
-            <AuthorListSearch navigation={props.navigation} />
-            <View style={styles.pagination}>
-              {instructorsPageCount === 0 ? (
-                <ActivityIndicator />
+          ) : (
+            <View>
+              {courses.length === 0 ? (
+                <AuthorListSearch
+                  data={search_results.instructors.slice(0, 2)}
+                  navigation={props.navigation}
+                />
               ) : (
-                <View style={styles.pagination}>
-                  <IconButton
-                    icon="chevron-left"
-                    color={theme.foreground}
-                    size={25}
-                    onPress={onInsPrevButton}
-                    disabled={buttonInsPrevDisable}
-                  />
-                  <Text style={[styles.page, { color: theme.foreground }]}>
-                    {pageInstructors}
-                  </Text>
-                  <IconButton
-                    icon="chevron-right"
-                    color={theme.foreground}
-                    size={25}
-                    onPress={onInsNextButton}
-                    disabled={buttonInsNextDisable}
-                  />
-                </View>
+                <AuthorListSearch
+                  data={instructors}
+                  navigation={props.navigation}
+                />
               )}
+              <View style={styles.pagination}>
+                {instructorsPageCount === 0 ? (
+                  <ActivityIndicator />
+                ) : (
+                  <View style={styles.pagination}>
+                    <IconButton
+                      icon="chevron-left"
+                      color={theme.foreground}
+                      size={25}
+                      onPress={onInsPrevButton}
+                      disabled={buttonInsPrevDisable}
+                    />
+                    <Text style={[styles.page, { color: theme.foreground }]}>
+                      {pageInstructors}
+                    </Text>
+                    <IconButton
+                      icon="chevron-right"
+                      color={theme.foreground}
+                      size={25}
+                      onPress={onInsNextButton}
+                      disabled={buttonInsNextDisable}
+                    />
+                  </View>
+                )}
+              </View>
             </View>
-          </View>
-        )}
+          )}
+        </View>
       </View>
     </View>
   );

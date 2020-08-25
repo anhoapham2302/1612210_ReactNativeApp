@@ -14,7 +14,6 @@ import { SearchContext } from "../../../provider/search-provider";
 import { HistorySearchContext } from "../../../provider/history-search-provider";
 import { ThemeContext } from "../../../provider/theme-provider";
 import { LanguageContext } from "../../../provider/language-provider";
-import { SearchInstructorsContext } from "../../../provider/search-instructors-provider";
 
 export default function HistorySearch() {
   const {language} = useContext(LanguageContext);
@@ -24,7 +23,6 @@ export default function HistorySearch() {
   const [loading, setLoading] = useState(true);
   const { state } = useContext(AuthContext);
   const searchContext = useContext(SearchContext);
-  const searchIntructorsContext = useContext(SearchInstructorsContext);
   const [item, setItem] = useState(null);
   const historySearchContext = useContext(HistorySearchContext);
 
@@ -40,8 +38,7 @@ export default function HistorySearch() {
 
   useEffect(() => {
     if (item !== null) {
-      searchContext.getCoursesSearch(state.token, item, 2, 0, 1);
-      searchIntructorsContext.getInstructorsSearch(state.token, item, 2, 0, 1)
+      searchContext.getCoursesSearch(state.token, item, null, 0, 1);
       historySearchContext.historySearchAction("SELECT_RESULT", item)
     }
   }, [item]);
