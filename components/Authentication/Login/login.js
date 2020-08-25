@@ -8,20 +8,14 @@ import {
   ActivityIndicator,
 } from "react-native";
 import * as Google from "expo-google-app-auth";
+
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Button } from "react-native-paper";
-import Icon from "react-native-vector-icons/FontAwesome";
 import { LanguageContext } from "../../../provider/language-provider";
 import Styles from "../../../global/style";
 import Colors from "../../../global/color";
 import { AuthContext } from "../../../provider/auth-provider";
 import { CoursesContext } from "../../../provider/course-provider";
-import { apiGoogleLogin } from "../../../core/services/auth-service";
-
-const config = {
-  iosClientId: `1066996670312-cb0e4det3crugln5i3gksvnj7b1k0lnf.apps.googleusercontent.com`,
-  androidClientId: `1066996670312-lrk75b7kn3kut9rlbn1kid4r8mghb4f4.apps.googleusercontent.com`,
-};
 
 const Login = (props) => {
   const { language } = useContext(LanguageContext);
@@ -66,9 +60,9 @@ const Login = (props) => {
     }
   };
 
-  async function signInWithGoogleAsync() {
+  const signInWithGoogleAsync = () => {
     try {
-      const result = await Google.logInAsync({
+      const result = Google.logInAsync({
         iosClientId: `1066996670312-cb0e4det3crugln5i3gksvnj7b1k0lnf.apps.googleusercontent.com`,
         androidClientId: `1066996670312-lrk75b7kn3kut9rlbn1kid4r8mghb4f4.apps.googleusercontent.com`,
         webClientId: `1066996670312-lrk75b7kn3kut9rlbn1kid4r8mghb4f4.apps.googleusercontent.com`,

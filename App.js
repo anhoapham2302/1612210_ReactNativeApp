@@ -6,6 +6,7 @@ import {
   Image,
   Text,
   Modal,
+  ActivityIndicator,
 } from "react-native";
 import Home from "./components/Main/Home/home";
 import Browse from "./components/Main/Browse/browse";
@@ -51,10 +52,9 @@ const HomeStack = (props) => {
   const { theme } = useContext(ThemeContext);
   const { state } = useContext(AuthContext);
   const [visible, setVisible] = useState(false);
+  const { title } = useContext(ImageButtonContext);
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
-  const { title } = useContext(ImageButtonContext);
-
 
   const onPressProfile = () => {
     props.navigation.navigate("AccountProfile");
@@ -96,7 +96,7 @@ const HomeStack = (props) => {
           headerRight: () => (
             <View>
               {loading ? (
-                <View></View>
+                <ActivityIndicator />
               ) : (
                 <TouchableOpacity
                   onPress={() => {
@@ -116,16 +116,21 @@ const HomeStack = (props) => {
                     marginRight: 20,
                   }}
                 >
-                  <TouchableOpacity
-                    onPress={() => {
-                      setVisible(false);
-                    }}
-                  >
-                    <Image
-                      source={{ uri: state.userInfo.avatar }}
-                      style={styles.image}
-                    />
-                  </TouchableOpacity>
+                  
+                  {loading ? (
+                <ActivityIndicator />
+              ) : (
+                <TouchableOpacity
+                onPress={() => {
+                  setVisible(false);
+                }}
+              >
+                <Image
+                  source={{ uri: data.avatar }}
+                  style={styles.image}
+                />
+              </TouchableOpacity>
+              )}
                   <View
                     style={[
                       styles.box,
