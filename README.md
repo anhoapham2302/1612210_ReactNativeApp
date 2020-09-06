@@ -1,6 +1,7 @@
 ---------------------------------------------------
 Phạm Ân Hòa
 1612210
+
 Link cài đặt (.apk): https://drive.google.com/file/d/1sTmfjBaewb31ReaQOChcZ56IMw8Q2L8F/view?usp=sharing
 
 Hướng dẫn chạy và cài đặt ứng dụng:
